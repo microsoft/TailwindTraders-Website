@@ -1,0 +1,83 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Suggested Products List page
+// -----------------------------------------------------------------------------
+
+.suggestedproductslist {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: $grid-gap-m;
+    grid-row-gap: 3rem;
+    grid-template-rows: 20rem;
+    grid-auto-rows: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 4rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    @media (min-width: 30em) {
+        grid-row-gap: 5rem;
+    }
+
+    @media (min-width: 34.25em) {
+        grid-row-gap: 6rem;
+    }
+
+    @media (min-width: $mq-m) {
+        max-width: $grid-max-width-m;
+        grid-row-gap: 6.5rem;
+    }
+
+    @media (min-width: $mq-l) {
+        max-width: $grid-max-width-l;
+    }
+
+    .card__item {
+        grid-column: span 12;
+        margin-bottom: 0;
+
+        @media (min-width: 30em) {
+            grid-column: span 6;
+        }
+
+        @media (min-width: $mq-m) {
+            &:last-of-type {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 68.75rem) {
+            grid-column: span 4;
+        }
+    }
+
+    .card__photo {
+        height: 12rem;
+        margin-top: -2.125rem;
+        width: 12rem;
+
+        @media (min-width: 34.25em) {
+            height: 14rem;
+            width: 14rem;
+        }
+    }
+
+    .btn {
+        box-shadow: $box-shadow-l;
+        margin-bottom: -2rem;
+        margin-left: auto;
+        margin-right: auto;
+
+        @media (min-width: 34.25em) {
+            margin-bottom: 0;
+        }
+
+        @media (min-width: $mq-m) {
+            margin-bottom: 0.375rem;
+        }
+
+        @media (min-width: $mq-l) {
+            margin-bottom: 1.875rem;
+        }
+    }
+}

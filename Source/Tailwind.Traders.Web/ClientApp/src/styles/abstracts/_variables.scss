@@ -1,0 +1,205 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+//
+// #Colors
+//
+// #Base-Color
+$color-base: #000000;
+$color-base-darker: lighten($color-base, 20);
+$color-base-dark: lighten($color-base, 40);
+$color-base-light: lighten($color-base, 60);
+$color-base-lighter: lighten($color-base, 80);
+
+// #Brand-Palette
+$color-primary: #2f4b66;
+$color-secondary: #36644a;
+$color-tertiary: #b4c8bd;
+
+// #Accents
+$color-accent-primary: #60524d;
+$color-accent-secondary: #f9ceb7;
+$color-accent-tertiary: #673c4f;
+$color-accent-tertiary-hover: #612c43;
+
+// #Alerts
+$color-warning: #8a001f;
+$color-success: #27ae60;
+
+// #Absolute-colors to avoid linting alerts on hardcoded values
+$color-white: #ffffff;
+$color-grey: #b2bac1;
+$color-grey-dark: #b4b4b4;
+$color-black: #000000;
+
+$color-background-light: $color-white;
+$color-background-medium: $color-grey;
+$color-background-primary: $color-primary;
+$color-background-secondary: $color-secondary;
+$color-background-tertiary: $color-tertiary;
+$color-background-accent-primary: $color-accent-primary;
+$color-background-accent-secondary: $color-accent-secondary;
+$color-background-accent-tertiary: $color-accent-tertiary;
+$color-background-accent-tertiary-hover: $color-accent-tertiary-hover;
+$color-background-warning-altert: $color-warning;
+$color-background-success-altert: $color-success;
+$color-background-overlay: rgba($color-black, .3);
+
+$color-link: $color-secondary;
+
+$color-text-light: $color-white;
+$color-text-medium: $color-grey;
+$color-text-primary: $color-primary;
+$color-text-secondary: $color-secondary;
+$color-text-tertiary: $color-tertiary;
+$color-text-accent-tertiary: $color-accent-tertiary;
+
+$color-svg-primary: $color-primary;
+$color-svg-tertiary: $color-tertiary;
+
+$color-border: $color-primary;
+
+$color-element-hover: #4778d9;
+
+$box-shadow-xs: 2px 4px 10px 0 rgba($color-base, 0.6);
+$box-shadow-s: 4px 9px 20px 4px rgba($color-base, 0.6);
+$box-shadow-m: 8px 8px 26px 2px rgba($color-base, 0.6);
+$box-shadow-l: 10px 10px 52px 0 rgba($color-base, 0.2);
+$box-shadow-xl: 16px 16px 84px 0 rgba($color-base, 0.12);
+
+$border-radius: 1rem;
+
+$linear-gradient-base: linear-gradient(to bottom, #f5f5f5, #f5f5f5);
+
+//
+// #Animations
+//
+$animation-speed-slow: 0.35s;
+$animation-speed-regular: 0.25s;
+$animation-speed-fast: 0.15s;
+$animation-type-regular: ease-in;
+
+//
+// #Fonts
+//
+
+// #Font-Family
+$font-family-body:
+    "brandon-grotesque",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+
+$font-family-heading:
+    "gin",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+
+//
+// #Font-Weight
+//
+$font-weight-light: 300;
+$font-weight-medium: 500;
+
+//
+// #Font-Size
+//
+$font-base: 1rem;
+
+// #Font-Variables
+$font-ratio: 1.15;
+$base-size: 16;
+$line-height: 24;
+
+//
+// #Spacing
+//
+$grid-gap-m: 1.5rem;
+$grid-gap-l: 2rem;
+$grid-item-min-size: 20.5rem;
+$grid-item-max-size: 24.5rem;
+$grid-max-width-s: $grid-item-min-size;
+$grid-max-width-m: 50.5rem;
+$grid-max-width-l: 76.625rem;
+$grid-max-width-xl: 87.5rem;
+
+$checkbox-size: 1.5rem;
+$container-width-xl: 76.5rem;
+
+$space-default: $font-base; // Is dependant on $font-base and should be 1em;
+$space-xxs: $space-default / 8; // 2px
+$space-xs: $space-default / 4; // 4px
+$space-s: $space-default / 2; // 8px
+$space-m: $space-default; // 16px
+$space-l: $space-default * 2; // 32px
+$space-xl: $space-default * 4; // 64px
+$space-xxl: $space-default * 6; // 96px
+
+// #Padding
+$padding-xxs: $space-xxs; // 2px
+$padding-xs: $space-xs; // 4px
+$padding-s: $space-s; // 8px
+$padding-m: $space-m; // 16px
+$padding-l: $space-l; // 32px
+$padding-xl: $space-xl; // 64px
+$history-padding: 4.875rem;
+
+// #Margin
+$margin-xxs: $space-xxs; // 2px
+$margin-xs: $space-xs; // 4px
+$margin-s: $space-s; // 8px
+$margin-m: $space-m; // 16px
+$margin-l: $space-l; // 32px
+$margin-xl: $space-xl; // 64px
+$margin-xxl: $space-xxl; // 96px
+
+// #Icon
+$icon-xxs: $space-xxs; // 2px
+$icon-xs: $space-xs; // 4px
+$icon-s: $space-s; // 8px
+$icon-m: $space-m; // 16px
+$icon-l: 1.75rem; // 28px
+$icon-xl: $space-xl; // 64px
+
+//
+// $Media-Queries
+//
+$mq-s: 23.4375em; // 375px
+$mq-m: 48em; // 768px
+$mq-r: 80em; // 1280px
+$mq-l: 85.375em; // 1366px
+$mq-xl: 120em; // 1920px
+
+//
+// $Z-Index
+//
+$z-index-s: 1;
+$z-index-m: 2;
+$z-index-l: 3;
+$z-index-xl: 4;
+
+//
+// #Loader
+//
+$loader-color: $color-background-accent-tertiary !default;
+$loader-size: $icon-xl !default;
+$loader-height: 1.25rem !default;
+$loader-border-size: 0.5rem !default;
+$loader-gap: 0.75rem !default;
+$loader-animation-duration: 1s !default;

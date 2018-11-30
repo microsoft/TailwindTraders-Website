@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "CosmosConnectionString": "AccountEndpoint=https://ttwebbasket-dev.documents.azure.com:443/;AccountKey=Plzf9tHGzSyYsbInrvYUVb1BbBKVwyZ1X5b8s8PTPcyKqR4nuqATGGLvGIt5lL7SgxDYcBS7InvDDI21I1XuUA==;",
+    "CosmosCartDatabase": "ShoppingCart",
+    "CosmosCartCollection": "Products",
+    "LeasePrefix": "v1",
+    "CosmosRecomendationsDatabase": "ShoppingCart",
+    "CosmosRecommendationsCollection": "recommendations",
+    "SqlServerConnectionString": "Server=tcp:tailwindtradersserver-dev.database.windows.net;Database=Microsoft.Tailwind.Products-dev;User ID=tailwindtraders@tailwindtradersserver-dev;Password=Backend@1234;Trusted_Connection=False;Encrypt=True;",
+    "SqlServerDatabase": "Microsoft.Tailwind.Products-dev"
+  }
+}

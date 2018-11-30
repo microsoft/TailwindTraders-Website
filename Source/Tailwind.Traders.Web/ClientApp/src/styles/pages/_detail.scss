@@ -1,0 +1,157 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the Detail Products page.
+// -----------------------------------------------------------------------------
+.detail {
+    &__wrapper {
+        background-color: $color-background-light;
+        margin-bottom: 3rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: $padding-m;
+        padding-right: $padding-m;
+        width: 100%;
+
+        @media (min-width: 36em) {
+            max-width: 46rem;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        @media (min-width: $mq-r) {
+            display: flex;
+            max-width: 76.75rem;
+            padding-top: 2.5rem;
+        }
+
+        @media (min-width: $mq-l) {
+            padding-top: 2.5rem;
+        }
+
+        @media (min-width: $mq-xl) {
+            max-width: 87.5rem;
+        }
+    }
+
+    &__image {
+        background-position: center;
+        background-size: cover;
+        height: 14rem;
+        width: 100%;
+
+        @media (min-width: $mq-r) {
+            flex: 0 0 50%;
+            height: 45.5rem;
+            margin-top: 3.75rem;
+        }
+    }
+
+    &__info {
+        background: $color-background-light;
+        padding-left: $padding-s;
+        padding-right: $padding-s;
+
+        @media (min-width: $mq-r) {
+            box-shadow: $box-shadow-l;
+            flex: 0 0 50%;
+            margin-left: -5rem;
+            min-height: 53.125rem;
+            padding-bottom: $padding-l;
+            padding-left: $padding-l;
+            padding-right: $padding-l;
+        }
+    }
+
+    &__label {
+        color: $color-text-primary;
+        font-weight: $font-weight-medium;
+
+        @include text-s;
+    }
+
+    &__data {
+        margin-bottom: 2rem;
+    }
+
+    &__title {
+        color: $color-text-primary;
+        font-weight: $font-weight-medium;
+        margin-right: $margin-m;
+
+        @include text-l;
+    }
+
+    &__tag {
+        background: #f2f2f2;
+        border-radius: $border-radius;
+        color: $color-text-primary;
+        font-size: 1rem;
+        font-weight: $font-weight-medium;
+        padding-left: $padding-m;
+        padding-right: $padding-m;
+        white-space: nowrap;
+
+        @media (min-width: $mq-m) {
+            font-size: 1.25rem;
+        }
+
+        &:not(:last-of-type) {
+            margin-right: 0.625rem;
+        }
+
+        &:nth-child(3),
+        &:nth-child(4) {
+            background-color: $color-background-primary;
+            color: $color-text-light;
+            font-weight: $font-weight-light;
+        }
+    }
+
+    &__data-price {
+        @include text-l-price;
+    }
+
+    .detail__buttons {
+        display: flex;
+    }
+
+    .btn--primary {
+        margin-right: $margin-m;
+        max-width: 20rem;
+        width: 100%;
+
+        &.btn--cart:active {
+            background-color: $color-background-success-altert;
+        }
+    }
+
+    .btn--secondary {
+        border: 2px solid currentColor;
+        padding: calc(#{$padding-m} - 4px);
+        box-shadow: initial;
+    }
+
+    &__description {
+        @media (max-width: $mq-r) {
+            display: none;
+        }
+    }
+
+    &__feature {
+        color: $color-text-primary;
+        font-size: 1rem;
+        margin-bottom: $margin-m;
+
+        &-title {
+            font-weight: $font-weight-medium;
+            margin-right: $margin-s;
+        }
+
+        &-description {
+            font-weight: $font-weight-light;
+        }
+
+        @media (min-width: $mq-m) {
+            font-size: 1.25rem;
+        }
+    }
+}

@@ -1,0 +1,75 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the coupon component of the site/application.
+// -----------------------------------------------------------------------------
+.coupon {
+    box-shadow: $box-shadow-l;
+    color: $color-text-primary;
+    display: grid;
+    grid-column: span 4;
+    grid-column-gap: $grid-gap-m;
+    grid-template-columns: repeat(6, 1fr);
+    overflow: hidden;
+
+    @media (min-width: $mq-l) {
+        grid-column: span 6;
+    }
+
+    &__img-wrapper {
+        grid-column: span 2;
+        position: relative;
+        height: 100%;
+        margin-top: -1px;
+        overflow: hidden;
+
+        &:after {
+            content: url("./assets/images/icon-rim.svg");
+            height: 16rem;
+            position: absolute;
+            right: -2.6rem;
+            top: 0;
+            width: 3.25rem;
+        }
+    }
+
+    &__img {
+        background-color: $color-background-accent-tertiary;
+        background-position: center;
+        grid-column: span 2;
+        height: 100%;
+        background-size: cover;
+    }
+
+    &__content {
+        grid-column: span 4;
+        z-index: $z-index-s;
+    }
+
+    &__price {
+        @include text-xxl();
+        color: inherit;
+        margin-bottom: $margin-m;
+        margin-top: $margin-l;
+    }
+
+    &__title,
+    &__description,
+    &__until {
+        color: inherit;
+        margin-top: 0;
+        margin-bottom: $margin-m;
+    }
+    &__title {
+        @include text-m();
+        font-weight: $font-weight-medium;
+    }
+
+    &__description {
+        @include text-s();
+    }
+
+    &__until {
+        @include text-xs();
+        color: $color-text-accent-tertiary;
+        text-transform: uppercase;
+    }
+}

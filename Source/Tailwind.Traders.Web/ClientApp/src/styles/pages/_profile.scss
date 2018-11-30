@@ -1,0 +1,285 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the User Profile page.
+// -----------------------------------------------------------------------------
+.profile {
+    margin-bottom: 11.375rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 87.5rem;
+
+    .grid-container {
+        grid-template-columns: 1fr;
+
+        @media (min-width: $mq-m) {
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            grid-template-rows: 25rem;
+            grid-auto-rows: auto;
+            grid-column-gap: 1.5rem;
+            grid-row-gap: 5rem;
+            grid-template-areas: "profile-card aside" "history aside";
+
+            .profile-card {
+                grid-area: profile-card;
+            }
+
+            .history {
+                grid-area: history;
+            }
+
+            .aside {
+                grid-area: aside;
+            }
+        }
+    }
+
+    &__heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .btn {
+            padding-left: $padding-m;
+            padding-right: $padding-m;
+            margin-right: $margin-m;
+
+            @media (min-width: $mq-s) {
+                padding-left: $padding-l;
+                padding-right: $padding-l;
+            }
+        }
+
+        &-title {
+            @include text-xl;
+
+            color: $color-text-primary;
+            text-align: center;
+            margin-top: 2.5rem;
+            margin-bottom: 2.5rem;
+            margin-left: $margin-l;
+
+            @media (min-width: $mq-s) {
+                text-align: left;
+            }
+        }
+
+        &-history {
+            margin-left: -4rem;
+            padding-left: $padding-m;
+        }
+
+        &-recommended {
+            margin-bottom: 5rem;
+
+            @media (min-width: $mq-m) {
+                margin-bottom: 5.25rem;
+            }
+        }
+    }
+
+    &-wapper {
+        margin: $margin-m;
+        box-shadow: $box-shadow-l;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-bottom: 1.5rem;
+
+        @media (min-width: $mq-m) {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-top: 1.5rem;
+        }
+    }
+
+    &__image {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: $padding-l;
+        padding-bottom: $padding-m;
+
+        @media (min-width: $mq-s) {
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 2.5rem;
+        }
+
+        img {
+            max-width: 12.5rem;
+            border-radius: 50%;
+        }
+    }
+
+    &__info {
+        color: $color-text-primary;
+        font-size: 1.125rem;
+    }
+
+    &__title {
+        margin-top: 0;
+        margin-bottom: .5rem;
+        font-weight: $font-weight-light;
+    }
+
+    &__subtitle {
+        margin: 0;
+        margin-bottom: $margin-m;
+    }
+
+    .mycoupons {
+        &__grid {
+            max-width: 100%;
+            margin-left: $margin-m;
+            margin-right: $margin-m;
+
+            .coupon {
+                grid-column: span 12;
+
+                &__img {
+                    background-size: cover;
+                    background-position: center;
+                }
+            }
+        }
+    }
+
+    .history {
+        padding-left: 4rem;
+        padding-right: $padding-m;
+
+        @media (min-width: $mq-s) {
+            padding-left: 6rem;
+        }
+
+        &__data {
+            display: flex;
+            align-items: center;
+            margin-left: -2.875rem;
+
+            @media (min-width: $mq-s) {
+                margin-left: -4.875rem;
+            }
+        }
+
+        &__item {
+            background: #fff;
+            box-shadow: $box-shadow-l;
+            width: 100%;
+            margin-bottom: $margin-m;
+        }
+
+        &__image {
+            border-radius: 4.875rem;
+            width: 6rem;
+            height: 6rem;
+            z-index: 1;
+
+            @media (min-width: $mq-s) {
+                width: 9.75rem;
+                height: 9.75rem;
+            }
+        }
+
+        &__info {
+            @include text-m;
+
+            font-weight: $font-weight-medium;
+            color: $color-text-primary;
+            min-height: 6.875rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 2rem;
+            margin-left: $margin-m;
+
+            @media (min-width: $mq-s) {
+                height: 9.5rem;
+                margin-left: 0;
+                padding-left: $padding-m;
+                font-size: 1.5rem;
+            }
+
+            &-name {
+                margin: 0;
+
+                @media (min-width: $mq-s) {
+                    margin-bottom: .5rem;
+                }
+            }
+
+            &-price {
+                margin: 0;
+            }
+        }
+    }
+
+    .cards {
+        margin-bottom: 0;
+
+        @media (min-width: $mq-m) {
+            margin-bottom: 5rem;
+        }
+
+        .btn {
+            box-shadow: 10px 10px 52px 0 rgba(0, 0, 0, 0.2);
+            display: block;
+            margin-bottom: -1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            &__description {
+                max-width: 11.25rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                @media (min-width: $mq-s) {
+                    max-width: 11.25rem;
+                    line-height: 2rem;
+                }
+            }
+        }
+    }
+
+    .favorite {
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: $mq-s) {
+            flex-direction: row;
+        }
+
+        &__item {
+            background-size: cover;
+            background-repeat: no-repeat;
+            align-items: center;
+            display: flex;
+            grid-column-end: span 4;
+            justify-content: center;
+            min-height: 14.5rem; // 232px
+            background-position: center;
+            margin-bottom: $margin-m;
+            margin-left: $margin-m;
+            margin-right: $margin-m;
+
+            @media (min-width: $mq-s) {
+                width: 100%;
+
+                &:last-child {
+                    display: none;
+                }
+            }
+
+            @media (min-width: $mq-m) {
+                &:last-child {
+                    display: flex;
+                }
+            }
+        }
+    }
+}

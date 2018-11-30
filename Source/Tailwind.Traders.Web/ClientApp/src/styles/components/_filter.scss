@@ -1,0 +1,84 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Filter component of the site/application.
+// -----------------------------------------------------------------------------
+.filter {
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+
+    &__title {
+        @include text-s();
+        margin-bottom: $margin-l;
+    }
+
+    &__item {
+        font-weight: $font-weight-light;
+        margin-bottom: $margin-m;
+
+        // Base for label styling
+        [type="checkbox"]:not(:checked),
+        [type="checkbox"]:checked {
+            left: -99999px;
+            position: absolute;
+        }
+        [type="checkbox"]:not(:checked) + label,
+        [type="checkbox"]:checked + label {
+            cursor: pointer;
+            padding-left: 2.2rem;
+            position: relative;
+        }
+
+        // Checkbox aspect
+        [type="checkbox"]:not(:checked) + label:before,
+        [type="checkbox"]:checked + label:before {
+            background: $color-background-medium;
+            border-radius: 2px;
+            content: "";
+            height: $checkbox-size;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: $checkbox-size;
+        }
+
+        [type="checkbox"]:checked + label:before {
+            background: $color-background-primary;
+        }
+
+        // Checked mark aspect
+        [type="checkbox"]:not(:checked) + label:after,
+        [type="checkbox"]:checked + label:after {
+            color: $color-text-medium;
+            content: "✓";
+            left: 0.22rem;
+            position: absolute;
+            top: 0.15rem;
+        }
+
+        // Checked mark aspect changes
+        [type="checkbox"]:not(:checked) + label:after {
+            opacity: 0;
+            transform: scale(0) translateZ(0);
+        }
+
+        [type="checkbox"]:checked + label:after {
+            opacity: 1;
+            padding-left: 0.12rem;
+            transform: scale(1) translateZ(0);
+        }
+
+        // Accessibility
+        [type="checkbox"]:checked:focus + label:before,
+        [type="checkbox"]:not(:checked):focus + label:before,
+        label:hover:before {
+            border: 2px solid $color-element-hover;
+        }
+    }
+
+    &__more {
+        @include text-xs();
+        color: $color-text-secondary;
+        font-weight: $font-weight-medium;
+        margin-bottom: 3rem;
+        margin-top: 1.5rem;
+    }
+}

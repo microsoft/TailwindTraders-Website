@@ -1,0 +1,61 @@
+.upload {
+    display: block;
+    max-width: 18.5rem;
+
+    &__input {
+        display: none;
+    }
+
+    &__input + &__label {
+        background-color: $color-background-light;
+        border-radius: $padding-m * 2;
+        box-shadow: $box-shadow-s;
+        color: $color-text-primary;
+        height: 4rem;
+        padding-left: $padding-l;
+        padding-right: $padding-l;
+        text-align: center;
+        white-space: nowrap;
+
+        &:hover {
+            color: $color-text-tertiary;
+            cursor: pointer;
+        }
+
+        &:active {
+            box-shadow: $box-shadow-xs;
+            color: $color-text-secondary;
+        }
+    }
+
+    &__label {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__img {
+        display: none;
+        fill: $color-svg-primary;
+        margin-right: 1rem;
+
+        @media (min-width: 24.375em) {
+            display: block;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__title {
+        @include text-s();
+        font-weight: $font-weight-medium;
+    }
+
+    &__subtitle {
+        @include text-xs();
+        font-weight: $font-weight-light;
+    }
+}

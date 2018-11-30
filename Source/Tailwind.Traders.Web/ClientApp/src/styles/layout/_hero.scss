@@ -1,0 +1,103 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the hero component of the site/application.
+// -----------------------------------------------------------------------------
+.hero {
+    position: relative;
+
+    svg {
+        fill: $color-svg-tertiary;
+    }
+
+    &__banner {
+        align-items: center;
+        background-color: $color-background-primary;
+        box-shadow: $box-shadow-m;
+        color: $color-text-tertiary;
+        display: flex;
+        height: 3rem;
+        justify-content: center;
+        left: 50%;
+        margin-top: -$margin-s;
+        position: absolute;
+        top: -$margin-s;
+        transform: translateX(-50%) translateZ(0);
+        width: 100%;
+        z-index: $z-index-s;
+
+        @media (min-width: $mq-s) {
+            width: 22.5rem;
+        }
+
+        @media (min-width: $mq-m) {
+            height: 4rem;
+            width: 63.5rem;
+        }
+
+        @media (min-width: $mq-m) {
+            width: 94%;
+        }
+
+        @media (min-width: $mq-l) {
+            width: 80%;
+        }
+    }
+
+    &__inner {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        width: 16rem;
+
+        @media (min-width: $mq-s) {
+            width: 17.8125rem;
+        }
+
+        @media (min-width: $mq-m) {
+            width: 18rem;
+        }
+
+        @media (min-width: $mq-l) {
+            width: 22rem;
+        }
+
+        & svg:nth-child(1) {
+            display: none;
+
+            @media (min-width: 23.625em) {
+                display: block;
+            }
+        }
+    }
+
+    &__text {
+        white-space: nowrap;
+
+        &--strong {
+            @include text-s();
+            font-weight: $font-weight-medium;
+        }
+
+        &--light {
+            @include text-xs();
+            font-weight: $font-weight-light;
+        }
+    }
+    &__image-wrapper {
+        background-color: $color-background-primary;
+    }
+
+    &__image {
+        height: 20rem;
+        background-size: cover;
+        opacity: 0;
+        transition: opacity $animation-speed-regular $animation-type-regular;
+
+        @media (min-width: $mq-m) {
+            height: 38.5rem;
+        }
+    }
+
+    .u-fade-in {
+        opacity: 1;
+    }
+}

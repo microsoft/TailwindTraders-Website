@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Loading Spinner component of the site/application.
+// -----------------------------------------------------------------------------
+.loader-wrapper {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+
+.loader {
+    @include loader();
+}

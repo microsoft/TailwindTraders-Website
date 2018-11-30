@@ -1,0 +1,41 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@azure/cosmos": "^2.0.5",
+    "axios": "^0.18.0",
+    "dotenv": "^6.1.0",
+    "i18next": "^12.0.0",
+    "node-sass": "^4.9.4",
+    "prop-types": "^15.6.2",
+    "qs": "^6.5.2",
+    "react": "^16.5.2",
+    "react-a11y-dialog": "^4.1.0",
+    "react-dom": "^16.5.2",
+    "react-i18next": "^8.1.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-s-alert": "^1.4.1",
+    "react-scripts": "2.0.5",
+    "react-scroll": "^1.7.10"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "babel-plugin-macros": "^2.4.2"
+  }
+}

@@ -1,0 +1,108 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the Products List pages.
+// -----------------------------------------------------------------------------
+.list {
+    &__content {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-column-gap: $grid-gap-m;
+        margin-bottom: 4rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: $container-width-xl;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    &__aside {
+        grid-column-end: span 3;
+    }
+
+    &__panel {
+        background-color: $color-background-light;
+        top: -100vh;
+        height: 100vh;
+        left: 0;
+        padding: $padding-xl;
+        position: absolute;
+        transition: top $animation-speed-regular $animation-type-regular;
+        width: 100%;
+        will-change: top;
+
+        @media (min-width: $mq-m) {
+            top: auto;
+            padding: 0;
+            position: relative;
+        }
+
+        &.is-opened {
+            top: 0;
+            padding: $padding-xl;
+            z-index: $z-index-l;
+        }
+
+        .btn--primary {
+            bottom: $space-l;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+
+            @media (min-width: $mq-m) {
+                display: none;
+            }
+        }
+    }
+
+    .btn__reset {
+        border: 0;
+        background-color: transparent;
+    }
+
+    @media (min-width: $mq-m) {
+        .btn--float {
+            display: none;
+        }
+    }
+
+    .list-grid {
+        display: grid;
+        grid-column-gap: $grid-gap-m;
+        grid-template-columns: repeat(12, 1fr);
+        grid-column-end: span 12;
+
+        @media (min-width: $mq-m) {
+            grid-column-end: span 9;
+            grid-row-gap: 5rem;
+        }
+
+        .card__item {
+            grid-column: span 12;
+
+            @media (min-width: 30rem) {
+                grid-column: span 6;
+            }
+
+            @media (min-width: 68.75rem) {
+                grid-column: span 4;
+            }
+        }
+
+        .card__photo {
+            height: 12rem;
+            margin-top: -2.125rem;
+            width: 12rem;
+
+            @media (min-width: 34.25em) {
+                height: 14rem;
+                width: 14rem;
+            }
+        }
+
+        .btn {
+            box-shadow: $box-shadow-l;
+            margin-bottom: -$margin-m;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}

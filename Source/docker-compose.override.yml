@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  web:
+    environment:
+      - Auth=JohnDoe@email.com
+      - ApiUrl=http://81649b4bff174fb6b0d3.westus2.aksapp.io/webbff
+    ports:
+      - "5100:80"   

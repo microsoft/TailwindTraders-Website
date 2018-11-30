@@ -1,0 +1,51 @@
+// 1. Configuration and helpers
+@import
+    'styles/abstracts/variables',
+    'styles/abstracts/mixins/ellipsis',
+    'styles/abstracts/mixins/fonts',
+    'styles/abstracts/mixins/font-scale',
+    'styles/abstracts/mixins/font-placeholders',
+    'styles/abstracts/mixins/loader';
+
+// 2. Vendors
+@import
+    'styles/vendor/normalize';
+
+// 3. Base stuff
+@import
+    'styles/base/base',
+    'styles/base/fonts',
+    'styles/base/typography',
+    'styles/base/utilities';
+
+// 4. Layout-related sections
+@import
+    'styles/layout/header',
+    'styles/layout/hero',
+    'styles/layout/recommend',
+    'styles/layout/getapp',
+    'styles/layout/featured',
+    'styles/layout/footer';
+
+
+// 5. Components
+@import
+    'styles/components/loading-spinner',
+    'styles/components/btn',
+    'styles/components/cards',
+    'styles/components/banner',
+    'styles/components/filter',
+    'styles/components/coupon',
+    'styles/components/upload-input',
+    'styles/components/alert',
+    'styles/components/manager';
+
+// 6. Page-specific styles
+@import
+    'styles/pages/list',
+    'styles/pages/suggestedproductslist',
+    'styles/pages/home',
+    'styles/pages/mycoupons',
+    'styles/pages/detail',
+    'styles/pages/profile',
+    'styles/pages/shoppingcart';
