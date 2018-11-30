@@ -1,0 +1,69 @@
+{
+    "en": {
+        "translation": {
+            "home.hero.shiping": "Free Shiping",
+            "home.hero.orders": "For $100 or more orders",
+
+            "home.recommended.recommended": "Recommended",
+            "home.recommended.uploadPhotoTitle": "By uploading a photo",
+            "home.recommended.uploadPhotoSubtitle": "start smart shopping",
+
+            "home.popular.products": "Popular Products",
+            "home.getapp.title": "Get your mobile App",
+            "home.getapp.subtitle": "Try our smart shopping app for easy planning",
+            "home.getapp.appStoreImg": "Download Tailwind Traders on App Store",
+            "home.getapp.googlePlayImg": "Download Tailwind Traders on Google Play",
+
+            "mycoupons.title": "My coupons",
+            "mycoupons.subtitle": "Personalized coupons for you based on your purchase history and interest",
+            "mycoupons.smallcoupons.until": "Until",
+            "mycoupons.RecentSearchedProducts.title": "Based on your recent searches",
+
+            "list.aside.tools": "Cordless Power Tools",
+            "list.aside.brands": "Brands",
+            "list.aside.price": "Price",
+            "list.aside.rating": "Rating",
+            "list.aside.more": "Show more",
+            "list.aside.close": "Close",
+            "list.aside.filtersTitle": "Filters",
+
+            "shared.header.homeAppliances": "Home Appliances",
+            "shared.header.sink": "Sink",
+            "shared.header.home": "Home",
+            "shared.header.gardening": "Gardening",
+            "shared.header.decor": "Decor",
+            "shared.header.kitchen": "Kitchen Accessories",
+            "shared.header.diytools": "DIY Tools",
+            "shared.header.profile": "Profile",
+            "shared.header.logout": "Logout",
+
+            "shared.banner.uploadPhotoTitle": "upload new photo",
+            "shared.banner.disclaimer": "Based on your photo we found these products for you",
+            "shared.banner.info": "Not what you are looking for?",
+
+            "shared.footer.link": "Link Name",
+
+            "shared.addToList": "Add to list",
+            "shared.seeMyCoupons": "See my coupons",
+
+            "detail.addToCart": "Add to Cart",
+            "detail.inStock": "In Stock",
+            "detail.tagName1": "Asile 12",
+            "detail.tagName2": "Bin 5",
+            "detail.shoppingCart": "Shopping Cart",
+
+            "profile.name": "Name",
+            "profile.address": "Addres",
+            "profile.phoneNumber": "Phone number",
+            "profile.email": "Email adress",
+            "profile.customer.title": "Customer Information",
+            "profile.cupons.title": "My Coupons",
+            "profile.cupons.seeAll": "See All",
+            "profile.history.title": "My Purchase History",
+            "profile.recommended.title": "Recommended For You",
+            "profile.favorite.title": "Favorite Categories",
+
+            "shoppingCart.title": "Your shopping cart"
+        }
+    }
+}

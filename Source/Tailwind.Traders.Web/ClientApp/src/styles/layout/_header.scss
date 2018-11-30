@@ -1,0 +1,161 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+.header {
+    align-items: center;
+    display: flex;
+    height: 6.5rem;
+    justify-content: space-between;
+    padding-left: 5%;
+    padding-right: 5%;
+    overflow: hidden;
+
+    svg {
+        fill: $color-primary;
+        height: $icon-l;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    > svg {
+        // Logo
+        height: 2.35625rem;
+        width: 10.875rem;
+        min-width: 10.875rem;
+    }
+}
+
+.main-nav {
+    align-items: center;
+    background-color: $color-background-primary;
+    display: flex;
+    height: 100vh;
+    order: 2;
+    overflow: hidden;
+    padding: $space-m;
+    position: fixed;
+    right: -100vw;
+    text-align: center;
+    text-transform: uppercase;
+    top: 0;
+    transition: right $animation-speed-regular $animation-type-regular;
+    width: 100%;
+    will-change: right;
+    z-index: $z-index-l;
+
+    @media (min-width: $mq-r) {
+        background-color: transparent;
+        height: auto;
+        justify-content: space-around;
+        order: 0;
+        position: relative;
+        right: auto;
+        top: auto;
+
+        &__actions {
+            display: none;
+        }
+
+        button:last-child {
+            display: none;
+        }
+    }
+
+    &:not(.is-opened) .main-nav__item {
+        color: $color-text-primary;
+    }
+
+    &.is-opened {
+        flex-direction: column;
+        padding-top: $padding-xl;
+        overflow: hidden;
+        right: 0;
+
+        .main-nav__item {
+            display: block;
+            color: $color-text-tertiary;
+            font-weight: $font-weight-medium;
+            margin-bottom: $margin-m;
+
+            &:nth-child(7) {
+                margin-bottom: $margin-xl;
+            }
+        }
+
+        button.main-nav__item {
+            background-color: transparent;
+            border: 0;
+        }
+
+        svg:last-of-type {
+            display: block;
+            fill: $color-svg-tertiary;
+            position: absolute;
+            right: 2rem;
+            top: 1.5rem;
+        }
+    }
+
+    &__item {
+        @include text-xxs();
+        color: $color-link;
+        display: block;
+        text-decoration: none;
+        text-transform: uppercase;
+        white-space: nowrap;
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}
+
+.secondary-nav {
+    display: flex;
+    justify-content: space-between;
+    min-width: 8.625rem;
+    width: 9.75rem;
+
+    svg:nth-child(2) {
+        display: none;
+    }
+
+    @media (min-width: $mq-r) {
+        svg:nth-child(2) {
+            display: inline;
+        }
+
+        button:last-child {
+            display: none;
+        }
+    }
+
+    &__cart {
+        position: relative;
+
+        &-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 1.25rem;
+            height: 1.25rem;
+            font-size: 0.5rem;
+            border-radius: 50%;
+            background-color: $color-background-light;
+            border: 1px solid currentColor;
+            top: -.5rem;
+            right: -.5rem;
+            color: $color-text-primary;
+        }
+    }
+
+    .portrait {
+        width: 1.875rem;
+        height: 1.875rem;
+        border-radius: 50%;
+    }
+}

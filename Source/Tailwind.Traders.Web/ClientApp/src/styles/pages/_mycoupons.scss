@@ -1,0 +1,115 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the Coupons page.
+// -----------------------------------------------------------------------------
+.mycoupons {
+    color: $color-text-primary;
+    padding-left: $padding-m;
+    padding-right: $padding-m;
+
+    &__container {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: $grid-max-width-s;
+
+        @media (min-width: $mq-m) {
+            max-width: $grid-max-width-m;
+        }
+
+        @media (min-width: $mq-l) {
+            max-width: $grid-max-width-l;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 16rem);
+        grid-auto-rows: 16rem;
+        grid-column-gap: $grid-gap-m;
+        grid-row-gap: $grid-gap-l;
+        margin-bottom: 1.5rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: $grid-max-width-s;
+
+        @media (min-width: $mq-m) {
+            grid-template-columns: repeat(8, 1fr);
+            margin-bottom: 2.5rem;
+            max-width: $grid-max-width-m;
+        }
+
+        @media (min-width: $mq-l) {
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(2, 16rem);
+            margin-bottom: 3.5rem;
+            max-width: $grid-max-width-l;
+        }
+    }
+
+    &__title,
+    &__subtitle {
+        color: inherit;
+    }
+
+    &__title {
+        @include text-xl();
+        margin-bottom: $margin-m;
+        margin-top: 3.5rem;
+    }
+
+    &__subtitle {
+        margin-bottom: $margin-l;
+    }
+
+    &__disclaimer {
+        align-items: center;
+        background-color: $color-background-primary;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        height: 16rem;
+        justify-content: center;
+        margin-bottom: $margin-xl;
+        margin-left: auto;
+        margin-right: auto;
+        padding: $space-m;
+        width: 100%;
+
+        @media (min-width: $mq-m) {
+            max-width: $grid-max-width-m;
+        }
+
+        @media (min-width: $mq-l) {
+            max-width: $grid-max-width-l;
+        }
+
+        &-content {
+            align-items: center;
+            background-color: $color-background-light;
+            display: flex;
+            justify-content: center;
+            height: 5rem;
+            padding-left: $padding-m;
+            padding-right: $padding-m;
+            width: 44.5rem;
+        }
+
+        &-price {
+            @include text-xxl();
+            color: inherit;
+            margin-bottom: 0;
+            margin-right: $margin-m;
+            margin-top: 0;
+        }
+
+        &-description {
+            @include text-m();
+            color: inherit;
+            font-weight: $font-weight-medium;
+            line-height: 1.2;
+            margin: 0;
+        }
+    }
+}

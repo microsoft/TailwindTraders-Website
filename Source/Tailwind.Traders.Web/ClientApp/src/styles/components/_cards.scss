@@ -1,0 +1,106 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Card component of the site/application.
+// -----------------------------------------------------------------------------
+.cards {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: $grid-gap-m;
+    margin-bottom: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(100% - 4rem);
+
+    @media (min-width: 42.625em) {
+        grid-row-gap: 5rem;
+        grid-template-rows: 21.5rem;
+        grid-auto-rows: 21.5rem;
+    }
+    @media (min-width: $mq-m) and (max-width: $mq-l) {
+        &__item:nth-child(3) {
+            display: none;
+        }
+    }
+
+    @media (min-width: $mq-l) {
+        grid-gap: $grid-gap-m;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 27.5rem;
+    }
+}
+
+.card {
+    &__item {
+        align-items: center;
+        box-shadow: $box-shadow-l;
+        display: flex;
+        flex-direction: column;
+        grid-column: span 6;
+        justify-content: center;
+        margin-bottom: 5.5rem;
+        width: 100%;
+        text-align: center;
+
+        @media (min-width: 42.625em) {
+            grid-column: span 4;
+        }
+
+        @media (min-width: $mq-m) {
+            margin-bottom: 0;
+        }
+
+        @media (min-width: $mq-l) {
+            &:last-of-type {
+                display: flex;
+            }
+        }
+    }
+
+    &__photo {
+        background-color: $color-background-medium;
+        border-radius: 50%;
+        margin-bottom: $margin-m;
+        margin-top: -$margin-l;
+        height: 8rem;
+        width: 8rem;
+
+        @media (min-width: $mq-m) {
+            height: 12rem;
+            width: 12rem;
+        }
+
+        @media (min-width: $mq-l) {
+            margin-bottom: $margin-l;
+        }
+    }
+
+    &__heading {
+        @include text-l-price();
+        color: $color-text-primary;
+        margin-bottom: $margin-s;
+        margin-top: 0;
+    }
+
+    &__description {
+        @include text-m();
+        color: $color-text-primary;
+        margin-bottom: $margin-m;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0;
+        text-align: center;
+        max-width: 9rem;
+        
+
+        @media (min-width: $mq-m) {
+            margin-bottom: $margin-l;
+        }
+
+        @media (min-width: 30em) {
+            @include ellipsis(11.25rem);
+        }
+
+        @media (min-width: $mq-l) {
+            max-width: 15.625rem;
+        }
+    }
+}

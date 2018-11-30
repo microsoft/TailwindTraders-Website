@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the featured section of the site/application.
+// -----------------------------------------------------------------------------
+.featured {
+    &__title {
+        @include text-xl();
+        color: $color-text-primary;
+        margin-bottom: 3rem;
+        margin-top: 0;
+        text-align: center;
+
+        @media (min-width: $mq-l) {
+            margin-bottom: $margin-xl;
+        }
+    }
+
+    .btn {
+        box-shadow: $box-shadow-l;
+        display: block;
+        margin-bottom: -$margin-m;
+        margin-left: auto;
+        margin-right: auto;
+
+        @media (min-width: $mq-m) {
+            margin-bottom: -2rem;
+        }
+
+        &:active {
+            box-shadow: $box-shadow-xs;
+        }
+    }
+}

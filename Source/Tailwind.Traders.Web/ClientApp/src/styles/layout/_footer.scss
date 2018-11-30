@@ -1,0 +1,56 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the footer of the site/application.
+// -----------------------------------------------------------------------------
+.foo {
+    background-color: $color-background-medium;
+    display: flex;
+    flex-wrap: wrap;
+    padding: $padding-l;
+
+    &__content {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+
+        @media (min-width: $mq-s) {
+            width: $grid-max-width-s;
+        }
+
+        @media (min-width: $mq-m) {
+            width: $grid-max-width-m;
+        }
+
+        @media (min-width: $mq-l) {
+            width: $grid-max-width-l;
+        }
+
+        @media (min-width: $mq-xl) {
+            width: $grid-max-width-xl;
+        }
+    }
+
+    svg {
+        fill: $color-primary;
+        display: block;
+        margin-bottom: $margin-m;
+        margin-right: $margin-m;
+    }
+
+    &__links {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: -0.4rem;
+    }
+
+    &__link {
+        @include text-s();
+        color: $color-text-primary;
+        font-weight: $font-weight-medium;
+
+        white-space: nowrap;
+
+        &:not(:last-of-type) {
+            margin-right: $margin-m;
+        }
+    }
+}

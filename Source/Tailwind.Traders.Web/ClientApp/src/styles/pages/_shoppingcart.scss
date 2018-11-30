@@ -1,0 +1,63 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Suggested Products List page
+// -----------------------------------------------------------------------------
+
+.shopping-card {
+    &__grid {
+        display: grid;
+        grid-auto-rows: 19.5rem;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 19.5rem;
+        grid-gap: $grid-gap-m;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 4rem;
+        max-width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+
+        @media (min-width: 548px) {
+            grid-auto-rows: 21.5rem;
+            grid-template-rows: 21.5rem;
+        }
+    }
+
+    &__item {
+        box-shadow: $box-shadow-l;
+        grid-column: span 4;
+
+        @media (min-width: $mq-m) {
+            grid-column: span 2;
+        }
+    }
+
+    &__photo {
+        height: 10rem;
+        object-fit: cover;
+        width: 100%;
+
+        @media (min-width: 34.25em) {
+            height: 12rem;
+        }
+    }
+
+    &__heading,
+    &__description {
+        color: $color-text-primary;
+        margin-bottom: $margin-s;
+        text-align: center;
+        padding-left: .625rem;
+        padding-right: .625rem;
+    }
+
+    &__heading {
+        @include text-l-price();
+        margin-top: 0;
+    }
+
+    &__description {
+        @include text-m();
+        margin-top: 0;
+        @include ellipsis();
+    }
+}

@@ -1,0 +1,77 @@
+// Paragraph Extra-Extra Small
+@mixin text-xxs {
+	font-family: $font-family-body;
+	font-size: .875rem; // 14px
+}
+
+// Paragraph Extra Small
+@mixin text-xs {
+	font-family: $font-family-body;
+	font-size: 1rem; // 16px
+
+	@media (min-width: $mq-l) {
+		font-size: 1.125rem; // 18px
+	}
+}
+
+// Paragraph Small
+@mixin text-s {
+	font-family: $font-family-body;
+	font-size: 1.125rem; // 18px
+
+	@media (min-width: $mq-l) {
+		font-size: 1.25rem; // 20px;
+	}
+}
+
+// Paragraph Medium
+@mixin text-m {
+	font-family: $font-family-body;
+	font-size: 1.25rem; // 20px
+
+	@media (min-width: $mq-l) {
+		font-size: 1.5rem; // 24px
+	}
+}
+
+// Price numbers Card componnent only
+@mixin text-l-price {
+	font-family: $font-family-body;
+	font-size: 2rem; // 32px
+
+	@media (min-width: $mq-l) {
+		font-size: 2.125rem; // 34px
+	}
+}
+
+// Heading 3 & Price
+@mixin text-l {
+	font-family: $font-family-body;
+	font-size: 1.5rem; // 24px
+
+	@media (min-width: $mq-l) {
+		font-size: 2.125rem; // 34px
+	}
+}
+
+// Heading 2
+@mixin text-xl {
+	font-family: $font-family-heading;
+	font-size: 1.75rem; // 28px
+
+font-weight: $font-weight-light;
+	@media (min-width: $mq-l) {
+		font-size: 2.625rem; // 42px
+	}
+}
+
+// Heading 1
+@mixin text-xxl {
+	font-family: $font-family-heading;
+	font-size: 1.75rem; // 28px
+
+font-weight: $font-weight-light;
+	@media (min-width: $mq-l) {
+		font-size: 3.25rem; // 52px
+	}
+}

@@ -1,0 +1,53 @@
+@mixin loader-rotate {
+    @keyframes loader-rotate {
+        0% {
+            transform: rotate(0);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+@mixin loader-scale {
+    @keyframes loader-scale {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 0;
+        }
+    }
+}
+
+@mixin loader(
+    $size: $loader-size,
+    $color: $loader-color,
+    $border-size: $loader-border-size,
+    $duration: $loader-animation-duration,
+    $align: null
+) {
+    width: $size;
+    height: $size;
+    border: $border-size solid rgba($color, 0.25);
+    border-top-color: $color;
+    border-radius: 50%;
+    position: relative;
+    animation: loader-rotate $duration linear infinite;
+    @if ($align == center) {
+        margin: 0 auto;
+    }
+    @if ($align == middle) {
+        top: 50%;
+        margin: -$size / 2 auto 0;
+    }
+    @include loader-rotate;
+}

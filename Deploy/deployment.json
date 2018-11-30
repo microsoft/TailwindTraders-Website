@@ -1,0 +1,143 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard"
+    },
+    "skuCode": {
+      "type": "string",
+      "defaultValue": "S1"
+    },
+    "workerSize": {
+      "type": "string",
+      "defaultValue": "1"
+    },
+    "dockerRegistryUrl": {
+      "type": "string",
+      "defaultValue": "https://index.docker.io"
+    },
+    "dockerimage": {
+      "type": "string",
+      "defaultValue": "tailwindtraders/web:latest"
+    },
+    "cosmosdbpairedLocation": {
+      "type": "string",
+      "defaultValue": "westus"
+    },
+    "registrySku": {
+      "defaultValue": "Standard",
+      "type": "string"
+    }
+  },
+  "variables": {
+    "website_name": "[concat('tailwindtraders-',uniqueString(resourceGroup().id))]",
+    "plan_name": "[concat('ttappserviceplan-',uniqueString(resourceGroup().id))]",
+    "cosmosdb_name": "[concat('ttcosmosdb',uniqueString(resourceGroup().id))]",
+    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "name": "[variables('website_name')]",
+      "apiVersion": "2016-03-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[variables('website_name')]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+              "value": "false"
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_URL",
+              "value": "[parameters('dockerRegistryUrl')]"
+            }
+          ],
+          "appCommandLine": "",
+          "linuxFxVersion": "[concat('DOCKER|', parameters('dockerimage'))]"
+        },
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('plan_name'))]",
+        "hostingEnvironment": ""
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "kind": "linux",
+      "sku": {
+        "Tier": "[parameters('sku')]",
+        "Name": "[parameters('skuCode')]"
+      },
+      "name": "[variables('plan_name')]",
+      "apiVersion": "2016-09-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[variables('plan_name')]",
+        "workerSizeId": "[parameters('workerSize')]",
+        "numberOfWorkers": "1",
+        "hostingEnvironment": "",
+        "reserved": true
+      }
+    },
+    {
+      "apiVersion": "2015-04-08",
+      "kind": "GlobalDocumentDB",
+      "type": "Microsoft.DocumentDb/databaseAccounts",
+      "name": "[variables('cosmosdb_name')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "databaseAccountOfferType": "Standard",
+        "locations": [
+          {
+            "id": "[concat(variables('cosmosdb_name'), '-', resourceGroup().location)]",
+            "failoverPriority": 0,
+            "locationName": "[resourceGroup().location]"
+          },
+          {
+            "id": "[concat(variables('cosmosdb_name'), '-', parameters('cosmosdbpairedLocation'))]",
+            "failoverPriority": 1,
+            "locationName": "[parameters('cosmosdbpairedLocation')]"
+          }
+        ],
+        "enableMultipleWriteLocations": true,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "dependsOn": []
+      },
+      "tags": {
+        "defaultExperience": "DocumentDB"
+      }
+    },
+    {
+      "type": "Microsoft.ContainerRegistry/registries",
+      "sku": {
+        "name": "[parameters('registrySku')]"
+      },
+      "name": "[variables('acr_name')]",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "adminUserEnabled": true
+      }
+    }
+  ],
+  "outputs": {
+    "web": {
+      "type": "string",
+      "value": "[variables('website_name')]"
+    },
+    "cosmosdb": {
+      "type": "string",
+      "value": "[variables('cosmosdb_name')]"
+    },
+    "acr": {
+      "type": "string",
+      "value": "[variables('acr_name')]"
+    }
+  }
+}

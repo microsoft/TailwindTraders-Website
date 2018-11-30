@@ -1,0 +1,192 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Alert component of the site/application.
+// This is the code uses by a 3rd party library so, don't change class names
+// -----------------------------------------------------------------------------
+.s-alert-close {
+    display: none;
+}
+
+.s-alert-error {
+    background: $color-background-warning-altert;
+    padding: 0.5rem;
+    text-align: center;
+    max-width: 70rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.s-alert-success {
+    background: $color-background-success-altert;
+    padding: 0.5rem;
+    text-align: center;
+    max-width: 70rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Common, default styles for the notification box
+.s-alert-box,
+.s-alert-box * {
+    box-sizing: border-box;
+}
+
+.s-alert-box {
+    position: fixed;
+    padding: .5rem;
+    line-height: 1.4;
+    z-index: 1000;
+    pointer-events: none;
+    color: rgba(250, 251, 255, 0.95);
+    font-size: 100%;
+    max-width: 18.75rem;
+    transition: top 0.4s, bottom 0.4s;
+}
+
+.s-alert-box.s-alert-show {
+    pointer-events: auto;
+}
+
+.s-alert-box a {
+    color: inherit;
+    opacity: 0.7;
+    font-weight: 700;
+}
+
+.s-alert-box a:hover,
+.s-alert-box a:focus {
+    opacity: 1;
+}
+
+.s-alert-box p {
+    margin: 0;
+}
+
+.s-alert-box.s-alert-show,
+.s-alert-box.s-alert-visible {
+    pointer-events: auto;
+}
+
+.s-alert-close:hover,
+.s-alert-close:focus {
+    outline: none;
+}
+
+.s-alert-close::before,
+.s-alert-close::after {
+    content: "";
+    position: absolute;
+    width: 0.1875rem;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    background: $color-background-light;
+}
+
+.s-alert-close:hover::before,
+.s-alert-close:hover::after {
+    background: $color-background-light;
+}
+
+.s-alert-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.s-alert-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+// Positions
+.s-alert-bottom-left {
+    top: auto;
+    right: auto;
+    bottom: 1.875rem;
+    left: 1.875rem;
+}
+
+.s-alert-top-left {
+    top: 1.875rem;
+    right: auto;
+    bottom: auto;
+    left: 1.875rem;
+}
+
+.s-alert-top-right {
+    top: 1.875rem;
+    right: 1.875rem;
+    bottom: auto;
+    left: auto;
+}
+
+.s-alert-bottom-right {
+    /*default*/
+    top: auto;
+    right: 1.875rem;
+    bottom: 1.875rem;
+    left: auto;
+}
+
+.s-alert-bottom {
+    width: 100%;
+    max-width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+}
+
+.s-alert-top {
+    width: 100%;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+}
+
+[class^="s-alert-effect-"].s-alert-hide,
+[class*=" s-alert-effect-"].s-alert-hide {
+    animation-direction: reverse;
+}
+
+// Height measurement helper
+.s-alert-box-height {
+    visibility: hidden;
+    position: fixed;
+}
+
+// Scale
+.s-alert-effect-scale a {
+    color: $color-text-light;
+}
+
+.s-alert-effect-scale a:hover,
+.s-alert-effect-scale a:focus {
+    color: $color-text-light;
+}
+
+.s-alert-effect-scale .s-alert-close::before,
+.s-alert-effect-scale .s-alert-close::after {
+    background: $color-background-light;
+}
+
+.s-alert-effect-scale .s-alert-close:hover::before,
+.s-alert-effect-scale .s-alert-close:hover::after {
+    background: $color-background-light;
+}
+
+.s-alert-effect-scale.s-alert-show,
+.s-alert-effect-scale.s-alert-hide {
+    animation-name: animScale;
+    animation-duration: 0.25s;
+}
+
+@keyframes animScale {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 2.5rem, 0) scale3d(0.1, 0.6, 1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    }
+}

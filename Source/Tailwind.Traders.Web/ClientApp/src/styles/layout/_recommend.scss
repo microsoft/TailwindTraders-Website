@@ -1,0 +1,147 @@
+.recommended {
+    margin-top: -12rem;
+    padding-left: $padding-m;
+    padding-right: $padding-m;
+    opacity: 0.99;
+
+    @media (min-width: $mq-m) {
+        margin-top: -20rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+
+    .upload {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    & > .btn {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.6rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 18.5rem;
+
+        @media (min-width: $mq-m) {
+            margin-top: 0;
+        }
+
+        > svg {
+            display: none;
+            fill: $color-svg-primary;
+            margin-right: 1rem;
+
+            @media (min-width: 390px) {
+                display: block;
+            }
+        }
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: $grid-gap-m;
+    margin-bottom: $margin-l;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: 38.75em) {
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: 18rem 14rem 18rem;
+        margin-bottom: $margin-xl;
+    }
+
+    @media (min-width: 67.5em) {
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 14rem 18rem;
+    }
+
+    @media (min-width: $mq-xl) {
+        max-width: $grid-max-width-xl;
+    }
+
+    &__wrapper {
+        background-color: $color-background-light;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: $padding-l;
+        width: 100%;
+
+        @media (min-width: 36em) {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        @media (min-width: $mq-l) {
+            padding-top: 2.5rem;
+        }
+
+        @media (min-width: $mq-xl) {
+            max-width: $grid-max-width-xl;
+        }
+    }
+
+    &__heading {
+        @include text-xl();
+        color: $color-text-primary;
+        margin-bottom: $margin-l;
+        margin-top: 0;
+        text-align: center;
+
+        @media (min-width: $mq-l) {
+            margin-bottom: 2.5rem;
+        }
+    }
+
+    &__item {
+        background-size: cover;
+        background-repeat: no-repeat;
+        align-items: center;
+        display: flex;
+        grid-column-end: span 4;
+        justify-content: center;
+        min-height: 14.5rem;
+
+        &-a,
+        &-b,
+        &-c {
+            background-position: bottom center;
+        }
+
+        &-d {
+            background-position: center;
+        }
+
+        @media (min-width: 38.75em) {
+            min-height: auto;
+
+            &-a,
+            &-d {
+                grid-column-end: span 8;
+            }
+
+            &-b,
+            &-c {
+                grid-column-end: span 4;
+            }
+        }
+
+        @media (min-width: 67.5em) {
+            &-a {
+                grid-column-end: span 6;
+                grid-row-end: span 2;
+            }
+
+            &-b,
+            &-c {
+                grid-column-end: span 3;
+            }
+
+            &-d {
+                grid-column-end: span 6;
+            }
+        }
+    }
+}

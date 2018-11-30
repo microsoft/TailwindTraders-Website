@@ -1,0 +1,10 @@
+build/
+node_modules/
+.dockerignore
+.gitattributes
+deploy/
+bin/
+obj
+**/bin/
+**/obj/
+**/.vs/
