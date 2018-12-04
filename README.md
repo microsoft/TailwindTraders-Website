@@ -1,9 +1,12 @@
+# Tailwind Traders Website Reference App
+
+<img src="/Documents/Images/Website.png" alt="Tailwind Traders Website"/>
 
 # Deploy to Azure
 
 We have added an ARM template so you can automate the creation of the resources for this website.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2FDeploy%2Fdeployment.json"><img src="/Deploy/Images/deploy-to-azure.png" alt="Deploy to Azure"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2FDeploy%2Fdeployment.json"><img src="/Documents/Images/deploy-to-azure.png" alt="Deploy to Azure"/></a>
 
 # Contributing
 
