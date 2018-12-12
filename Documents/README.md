@@ -6,6 +6,8 @@ The web runs as a Docker image. To build it just type `docker-compose build` fro
 
  ## Run the Web
 
+**Note**: Currently `https` is not supported. Please use `http` when browsing the web.
+
  Web uses some environment variables for its settings:
 
  * `Auth`: Is the fake authorization email of the logged user.
