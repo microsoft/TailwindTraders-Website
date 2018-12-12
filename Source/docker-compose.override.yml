@@ -3,7 +3,9 @@ version: '3.4'
 services:
   web:
     environment:
-      - Auth=JohnDoe@email.com
-      - ApiUrl=http://81649b4bff174fb6b0d3.westus2.aksapp.io/webbff
+      - Auth=${TT_WEB_AUTH}
+      - ApiUrl=${TT_WEB_USERID}
+      - UserId=${TT_TT_WEB_USERID}
+      - ApiUrlShoppingCart=${TT_WEB_APISHOPPINGCART}
     ports:
       - "5100:80"   
