@@ -20,7 +20,7 @@
     },
     "dockerimage": {
       "type": "string",
-      "defaultValue": "tailwindtraders/web:latest"
+      "defaultValue": "msfttailwindtraders/tailwindtraderswebsite:latest"
     },
     "cosmosdbpairedLocation": {
       "type": "string",
