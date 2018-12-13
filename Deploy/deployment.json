@@ -29,6 +29,9 @@
     "registrySku": {
       "defaultValue": "Standard",
       "type": "string"
+    },
+    "userEmail" : {
+      "type": "string"
     }
   },
   "variables": {
@@ -54,6 +57,10 @@
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
               "value": "[parameters('dockerRegistryUrl')]"
+            },
+            {
+              "name": "Auth",
+              "value": "[parameters('userEmail')]"
             }
           ],
           "appCommandLine": "",
