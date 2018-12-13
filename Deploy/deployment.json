@@ -22,10 +22,6 @@
       "type": "string",
       "defaultValue": "msfttailwindtraders/tailwindtraderswebsite:latest"
     },
-    "cosmosdbpairedLocation": {
-      "type": "string",
-      "defaultValue": "westus"
-    },
     "registrySku": {
       "defaultValue": "Standard",
       "type": "string"
@@ -41,7 +37,6 @@
   "variables": {
     "website_name": "[concat('tailwindtraders-',uniqueString(resourceGroup().id))]",
     "plan_name": "[concat('ttappserviceplan-',uniqueString(resourceGroup().id))]",
-    "cosmosdb_name": "[concat('ttcosmosdb',uniqueString(resourceGroup().id))]",
     "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]"
   },
   "resources": [
@@ -105,35 +100,6 @@
       }
     },
     {
-      "apiVersion": "2015-04-08",
-      "kind": "GlobalDocumentDB",
-      "type": "Microsoft.DocumentDb/databaseAccounts",
-      "name": "[variables('cosmosdb_name')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "databaseAccountOfferType": "Standard",
-        "locations": [
-          {
-            "id": "[concat(variables('cosmosdb_name'), '-', resourceGroup().location)]",
-            "failoverPriority": 0,
-            "locationName": "[resourceGroup().location]"
-          },
-          {
-            "id": "[concat(variables('cosmosdb_name'), '-', parameters('cosmosdbpairedLocation'))]",
-            "failoverPriority": 1,
-            "locationName": "[parameters('cosmosdbpairedLocation')]"
-          }
-        ],
-        "enableMultipleWriteLocations": true,
-        "isVirtualNetworkFilterEnabled": false,
-        "virtualNetworkRules": [],
-        "dependsOn": []
-      },
-      "tags": {
-        "defaultExperience": "DocumentDB"
-      }
-    },
-    {
       "type": "Microsoft.ContainerRegistry/registries",
       "sku": {
         "name": "[parameters('registrySku')]"
@@ -150,10 +116,6 @@
     "web": {
       "type": "string",
       "value": "[variables('website_name')]"
-    },
-    "cosmosdb": {
-      "type": "string",
-      "value": "[variables('cosmosdb_name')]"
     },
     "acr": {
       "type": "string",
