@@ -8,6 +8,16 @@ We have added an ARM template so you can automate the creation of the resources 
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2FDeploy%2Fdeployment.json"><img src="/Documents/Images/deploy-to-azure.png" alt="Deploy to Azure"/></a>
 
+When deploying to Azure pay attention to parameters `User Email` and `Api Base Url`. 
+
+The first is the email of the logged user (not need to be a valid email, but MUST have email format).
+
+The second is the base url where the [Backend](https://github.com/Microsoft/TailwindTraders-Backend) is installed. Defaults to the public test environment provieded by Microsoft.
+
+![deploy to azure parameters](./Documents/Images/tt-website-deploy-params.png)
+
+# Run Locally
+
 To run the web locally, please [read the documentation](./Documents/README.md)
 
 # Repositories
