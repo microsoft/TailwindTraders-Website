@@ -32,7 +32,11 @@
     },
     "userEmail" : {
       "type": "string"
-    }
+    },
+    "apiBaseUrl" : {
+      "type": "string",
+      "defaultValue": "http://81649b4bff174fb6b0d3.westus2.aksapp.io/"
+    }    
   },
   "variables": {
     "website_name": "[concat('tailwindtraders-',uniqueString(resourceGroup().id))]",
@@ -61,7 +65,16 @@
             {
               "name": "Auth",
               "value": "[parameters('userEmail')]"
+            },
+            {
+              "name": "ApiUrl",
+              "value": "[concat(parameters('apiBaseUrl'), '/webbff/v1')]"
+            },
+            {
+              "name": "ApiUrlShoppingCart",
+              "value": "[concat(parameters('apiBaseUrl'), '/cart-api')]"
             }
+            
           ],
           "appCommandLine": "",
           "linuxFxVersion": "[concat('DOCKER|', parameters('dockerimage'))]"
