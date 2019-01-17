@@ -1,0 +1,163 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the login popup.
+// -----------------------------------------------------------------------------
+.modal {
+    border-radius: $border-radius-s;
+    box-shadow: $box-shadow-l;
+    background-color: $color-background-light;
+    height: 60%;
+    padding-bottom: $space-l;
+    padding-left: $space-l;
+    padding-right: $space-l;
+    padding-top: $padding-xl;
+    position: relative;
+    width: 90%;
+    z-index: $z-index-xl;
+
+    @media (min-width: $mq-m) {
+        padding-left: $space-l;
+        padding-right: $space-l;
+        padding-bottom: $space-l;
+        width: 50%;
+    }
+
+    @media (min-width: $mq-l) {
+        width: 40%;
+    }
+
+    @media (min-width: $mq-xl) {
+        width: 30%;
+    }
+
+    svg {
+        &:first-of-type {
+            position: absolute;
+            right: $space-l;
+            top: $space-l;
+        }
+
+        &:last-of-type {
+            display: block;
+            margin-bottom: $margin-l;
+            margin-left: auto;
+            margin-right: auto;
+            height: 4rem;
+            width: 15rem;
+        }
+    }
+
+    &__form {
+        display: block;
+        margin-bottom: $margin-l;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+    }
+
+    &__input {
+        display: block;
+        border-top: initial;
+        border-left: initial;
+        border-right: initial;
+        border-bottom: 2px solid $color-border;
+        color: $color-text-primary;
+        font-size: $font-big;
+        font-weight: $font-weight-medium;
+        padding-bottom: $padding-s;
+        width: 100%;
+
+        &:focus {
+          border: 2px solid $color-warning;
+        }
+
+        &:invalid {
+            border-bottom: 2px solid $color-warning;
+            box-shadow: initial;
+            color: $color-warning;
+
+            &:focus {
+                outline: initial;
+            }
+        }
+
+        &:first-of-type {
+            margin-bottom: $margin-l;
+        }
+
+        &::-webkit-input-placeholder {
+            // Chrome/Opera/Safari
+            color: $color-text-primary;
+            font-size: $font-big;
+            font-weight: $font-weight-medium;
+        }
+
+        &::-moz-placeholder {
+            // Firefox 19+
+            color: $color-text-primary;
+            font-size: $font-big;
+            font-weight: $font-weight-medium;
+        }
+
+        &:-ms-input-placeholder {
+            // IE 10+
+            color: $color-text-primary;
+            font-size: $font-big;
+            font-weight: $font-weight-medium;
+        }
+
+        &:-moz-placeholder {
+            // Firefox 18-
+            color: $color-text-primary;
+            font-size: $font-big;
+            font-weight: $font-weight-medium;
+        }
+    }
+
+    &__label {
+        display: block;
+        color: $color-text-primary;
+        font-size: $font-big;
+        font-weight: $font-weight-light;
+        margin-bottom: $margin-s;
+    }
+
+    &__btns {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+
+        span {
+            margin-bottom: $space-m;
+            margin-top: $space-m;
+            font-size: 0.875rem;
+            font-weight: $font-weight-medium;
+            color: $color-text-primary;
+            text-transform: uppercase;
+        }
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    &-overlay {
+        align-items: center;
+        background-color: rgba($color-primary, 0.7);
+        backdrop-filter: blur(3px);
+        display: none;
+        height: 100vh;
+        justify-content: center;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: $z-index-s;
+
+        &.is-opened {
+            display: flex;
+        }
+    }
+}
