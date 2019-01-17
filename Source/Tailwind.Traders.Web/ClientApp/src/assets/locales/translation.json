@@ -36,12 +36,21 @@
             "shared.header.diytools": "DIY Tools",
             "shared.header.profile": "Profile",
             "shared.header.logout": "Logout",
+            "shared.header.loginMicrosoft": "Login with Microsoft account",
+            "shared.header.or": "or",
+            "shared.header.login": "Login",
+            "shared.header.email": "Email",
+            "shared.header.emailPlaceholder": "johndoe@mail.com",
+            "shared.header.password": "Password",
+            "shared.header.passwordPlaceholder": "••••••••",
 
             "shared.banner.uploadPhotoTitle": "upload new photo",
             "shared.banner.disclaimer": "Based on your photo we found these products for you",
             "shared.banner.info": "Not what you are looking for?",
 
-            "shared.footer.link": "Link Name",
+            "shared.footer.link": "Tailwind Traders",
+            "shared.footer.link2": "Microsoft",
+            "shared.footer.link3": "Connect() 2018",
 
             "shared.addToList": "Add to list",
             "shared.seeMyCoupons": "See my coupons",
@@ -53,7 +62,7 @@
             "detail.shoppingCart": "Shopping Cart",
 
             "profile.name": "Name",
-            "profile.address": "Addres",
+            "profile.address": "Address",
             "profile.phoneNumber": "Phone number",
             "profile.email": "Email adress",
             "profile.customer.title": "Customer Information",

@@ -24,3 +24,7 @@ html {
 .App {
 	overflow-x: hidden;
 }
+
+body.is-blocked {
+  overflow: hidden;
+}

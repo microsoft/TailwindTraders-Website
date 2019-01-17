@@ -42,8 +42,8 @@ $color-background-accent-primary: $color-accent-primary;
 $color-background-accent-secondary: $color-accent-secondary;
 $color-background-accent-tertiary: $color-accent-tertiary;
 $color-background-accent-tertiary-hover: $color-accent-tertiary-hover;
-$color-background-warning-altert: $color-warning;
 $color-background-success-altert: $color-success;
+$color-background-microsoft: #0076ff;
 $color-background-overlay: rgba($color-black, .3);
 
 $color-link: $color-secondary;
@@ -68,6 +68,7 @@ $box-shadow-m: 8px 8px 26px 2px rgba($color-base, 0.6);
 $box-shadow-l: 10px 10px 52px 0 rgba($color-base, 0.2);
 $box-shadow-xl: 16px 16px 84px 0 rgba($color-base, 0.12);
 
+$border-radius-s: 0.5rem;
 $border-radius: 1rem;
 
 $linear-gradient-base: linear-gradient(to bottom, #f5f5f5, #f5f5f5);
@@ -121,6 +122,7 @@ $font-weight-medium: 500;
 // #Font-Size
 //
 $font-base: 1rem;
+$font-big: 1.125rem;
 
 // #Font-Variables
 $font-ratio: 1.15;
