@@ -18,7 +18,7 @@ const headersMultipartConfig = pauth => ({
     headers: {
         'Authorization': `Email ${pauth}`,
         'Content-Type': 'multipart/form-data'
-    },
+    },  
 });
 
 const APIClient = {
@@ -93,7 +93,7 @@ const APIClient = {
     },
     async getUserInfoData() {
         await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/profiles/${this._userid}`, headersConfig(this._auth));
+        const response = await axios.get(`${this._apiUrl}/profiles/me`, headersConfig(this._auth));
         return response.data;
     },
     async getProfileData() {
@@ -110,7 +110,7 @@ const APIClient = {
         }
         else {
             await this.loadSettings();
-            const response = await axios.get(`${this._apiUrl}/profiles/navbar/${this._userid}`, headersConfig(this._auth));
+            const response = await axios.get(`${this._apiUrl}/profiles/navbar/me`, headersConfig(this._auth));
             return response.data;
         }
     },
