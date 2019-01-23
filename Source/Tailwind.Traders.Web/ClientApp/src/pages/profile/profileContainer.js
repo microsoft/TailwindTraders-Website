@@ -68,7 +68,7 @@ class ProfileContainer extends Component {
     render() {
         const { coupons } = this.state
         const { purchaseHistory, recommendedProducts, favoriteCatregories, profile } = this.state
-        const isCouponsAvailable = coupons && coupons.smallCoupons.length;
+        const isSmallCouponsAvailable = coupons && coupons.smallCoupons.length;
         return (
             <NamespacesConsumer>
                 {t => (
@@ -78,12 +78,12 @@ class ProfileContainer extends Component {
                             <aside className="aside">
                                 <div className="profile__heading">
                                     <h2 className="profile__heading-title">{t("profile.cupons.title")}</h2>
-                                    {isCouponsAvailable ?
+                                    {isSmallCouponsAvailable ?
                                         <Link className="btn  btn--secondary" to="/coupons">
                                             <span>{t("profile.cupons.seeAll")}</span>
                                         </Link> : null}
                                 </div>
-                                {isCouponsAvailable ? <SmallCoupons smallCoupons={coupons.smallCoupons} /> :
+                                {isSmallCouponsAvailable ? <SmallCoupons smallCoupons={coupons.smallCoupons} /> :
                                     <div className="profile__data--empty">
                                         <span className="profile__title profile__info">{t("profile.cupons.noCupons")}</span>
                                     </div>}

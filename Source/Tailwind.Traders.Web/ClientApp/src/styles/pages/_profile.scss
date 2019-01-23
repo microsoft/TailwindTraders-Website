@@ -36,8 +36,8 @@
 
     &__data {
         &--empty {
-            margin-right: 1rem;
-            margin-left: 1rem;
+            margin-right: $margin-m;
+            margin-left: $margin-m;
             box-shadow: $box-shadow-l;
             padding-left: $grid-gap-m;
             padding-right: $grid-gap-m;
@@ -45,7 +45,7 @@
             padding-top: $grid-gap-m;
 
             @media (min-width: $mq-m) {
-                margin-right: 1rem;
+                margin-right: $margin-m;
                 margin-left: 0;
             }
         }
@@ -126,7 +126,7 @@
         }
 
         @media (min-width: $mq-m) {
-            margin-right: 1rem;
+            margin-right: $margin-m;
             margin-left: 0;
         }
 
@@ -249,7 +249,7 @@
         .btn {
             box-shadow: 10px 10px 52px 0 rgba(0, 0, 0, 0.2);
             display: block;
-            margin-bottom: -1rem;
+            margin-bottom: -$margin-m;
             margin-left: auto;
             margin-right: auto;
         }
