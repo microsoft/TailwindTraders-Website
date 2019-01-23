@@ -97,6 +97,7 @@ const APIClient = {
         return response.data;
     },
     async getProfileData() {
+        await this.loadSettings();
         if (this._userid === 0) {
             return {
                 profile: {
@@ -109,7 +110,6 @@ const APIClient = {
             }
         }
         else {
-            await this.loadSettings();
             const response = await axios.get(`${this._apiUrl}/profiles/navbar/${this._userid}`, headersConfig(this._auth));
             return response.data;
         }

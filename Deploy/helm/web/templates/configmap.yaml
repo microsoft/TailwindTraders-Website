@@ -1,0 +1,18 @@
+{{- $name := include "tt-web.fullname" . -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "tt-web.name" . }}
+    chart: {{ template "tt-web.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  Auth: {{ .Values.web.auth }}
+  UserId: "{{ .Values.web.userid }}"
+  ApiUrl:  {{.Values.ingress.protocol}}://{{index .Values.ingress.hosts 0}}{{ .Values.inf.ingress.webbff.path }}/v1
+  ApiUrlShoppingCart: {{.Values.ingress.protocol}}://{{index .Values.ingress.hosts 0}}{{ .Values.inf.ingress.cart.path }}
+
+

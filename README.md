@@ -6,6 +6,8 @@
 
 We have added an ARM template so you can automate the creation of the resources for this website.
 
+>**Note**: You can deploy the website inside an AKS cluster. If you want to do so instead of deploying the web in App Service please, [check the documentation](./Deploy/deploy-on-aks.md)
+
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2FDeploy%2Fdeployment.json"><img src="/Documents/Images/deploy-to-azure.png" alt="Deploy to Azure"/></a>
 
 When deploying to Azure pay attention to parameters `User Email` and `Api Base Url`. 
