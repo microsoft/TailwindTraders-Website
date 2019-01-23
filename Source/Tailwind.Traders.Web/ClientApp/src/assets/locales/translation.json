@@ -67,6 +67,7 @@
             "profile.email": "Email adress",
             "profile.customer.title": "Customer Information",
             "profile.cupons.title": "My Coupons",
+            "profile.cupons.noCupons": "No coupons for default users",
             "profile.cupons.seeAll": "See All",
             "profile.history.title": "My Purchase History",
             "profile.recommended.title": "Recommended For You",
