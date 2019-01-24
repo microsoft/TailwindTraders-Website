@@ -7,7 +7,6 @@ const settingsUrl = "/api/settings";
 const APIUrl = process.env.REACT_APP_DEV_API_URL;
 const APIUrlShoppingCart = process.env.REACT_APP_API_URL_SHOPPINGCART;
 const auth = process.env.REACT_APP_DEV_AUTH;
-const userid = process.env.REACT_APP_USERID || 0;
 const byPassShoppingCartApi = !!process.env.REACT_APP_BYPASS_SHOPPINGCART_API || false;
 
 const headersConfig = pauth => ({
@@ -25,7 +24,6 @@ const APIClient = {
     _needLoadSettings: !APIUrl || !auth || !APIUrlShoppingCart,
     _apiUrl: APIUrl,
     _auth: auth,
-    _userid: userid,
     _apiUrlShoppingCart: APIUrlShoppingCart,
     _byPassShoppingCartApi: byPassShoppingCartApi,
     _shoppingCartDao: null,
@@ -36,7 +34,6 @@ const APIClient = {
             this._needLoadSettings = false;
             this._apiUrl = settingsResponse.data.apiUrl;
             this._auth = settingsResponse.data.auth;
-            this._userid = settingsResponse.data.userId || 0;
             this._apiUrlShoppingCart = settingsResponse.data.apiUrlShoppingCart;
             this._byPassShoppingCartApi = !!settingsResponse.data.byPassShoppingCartApi;
             if (this._byPassShoppingCartApi && !this._shoppingCartDao) {
@@ -93,26 +90,15 @@ const APIClient = {
     },
     async getUserInfoData() {
         await this.loadSettings();
+    
         const response = await axios.get(`${this._apiUrl}/profiles/me`, headersConfig(this._auth));
         return response.data;
     },
     async getProfileData() {
-        if (this._userid === 0) {
-            return {
-                profile: {
-                    id: 0,
-                    name: "Unknown user",
-                    address: "",
-                    phoneNumber: "",
-                    email: this._auth
-                }
-            }
-        }
-        else {
-            await this.loadSettings();
-            const response = await axios.get(`${this._apiUrl}/profiles/navbar/me`, headersConfig(this._auth));
-            return response.data;
-        }
+        await this.loadSettings();
+        const response = await axios.get(`${this._apiUrl}/profiles/navbar/me`, headersConfig(this._auth));
+
+        return response.data;
     },
     async postProductToCart(detailProduct) {
         await this.loadSettings();

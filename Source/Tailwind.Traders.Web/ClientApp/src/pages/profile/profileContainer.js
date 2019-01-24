@@ -66,8 +66,9 @@ class ProfileContainer extends Component {
     }
 
     render() {
-        const { coupons: { smallCoupons } } = this.state
+        const { coupons } = this.state
         const { purchaseHistory, recommendedProducts, favoriteCatregories, profile } = this.state
+        const isSmallCouponsAvailable = coupons && coupons.smallCoupons.length;
         return (
             <NamespacesConsumer>
                 {t => (
@@ -77,12 +78,17 @@ class ProfileContainer extends Component {
                             <aside className="aside">
                                 <div className="profile__heading">
                                     <h2 className="profile__heading-title">{t("profile.cupons.title")}</h2>
-                                    <Link className="btn  btn--secondary" to="/coupons">
-                                        <span>{t("profile.cupons.seeAll")}</span>
-                                    </Link>
+                                    {isSmallCouponsAvailable ?
+                                        <Link className="btn  btn--secondary" to="/coupons">
+                                            <span>{t("profile.cupons.seeAll")}</span>
+                                        </Link> : null}
                                 </div>
-                                <SmallCoupons smallCoupons={smallCoupons} />
+                                {isSmallCouponsAvailable ? <SmallCoupons smallCoupons={coupons.smallCoupons} /> :
+                                    <div className="profile__data--empty">
+                                        <span className="profile__title profile__info">{t("profile.cupons.noCupons")}</span>
+                                    </div>}
                             </aside>
+
                             <div className="history">
                                 <h2 className="profile__heading-title profile__heading-history">{t("profile.history.title")}</h2>
                                 {purchaseHistory && purchaseHistory.map((purchaseHistoryItem, index) => (
