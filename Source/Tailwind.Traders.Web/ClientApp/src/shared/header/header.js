@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 import { NamespacesConsumer } from 'react-i18next';
 
 import APIClient from '../../ApiClient';
+
+
+import FormContainer from './components/formContainer';
+import FormComponent from './components/formComponent';
+
 // import UserPortrait from './components/userPortrait'; => this will be needed when the user is logged in
-import LoginModal from './components/loginModal';
 
 import { ReactComponent as Logo } from '../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../assets/images/icon-close.svg';
@@ -13,12 +17,14 @@ import { ReactComponent as Hamburger } from '../../assets/images/icon-menu.svg';
 import { ReactComponent as Cart } from '../../assets/images/icon-cart.svg';
 import { ReactComponent as Search } from '../../assets/images/icon-search.svg';
 
+const Form = FormContainer(FormComponent);
+
 class Header extends Component {
     constructor() {
         super();
         this.state = {
             isopened: false,
-            isomodalpened: false,
+            ismodalopened: false,
             profile: {},
         };
         this.loginModalRef = React.createRef();
@@ -30,7 +36,7 @@ class Header extends Component {
 
         const setComponentVisibility = this.setComponentVisibility.bind(this);
         setComponentVisibility(document.documentElement.clientWidth);
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             setComponentVisibility(document.documentElement.clientWidth);
         });
     }
@@ -48,8 +54,21 @@ class Header extends Component {
     };
 
     toggleModalClass = () => {
-        this.loginModalRef.current.toggleModalClass();
+
+        if (!document.body.classList.contains("is-blocked")) {
+            document.body.classList.add("is-blocked");
+        } else {
+            document.body.classList.remove("is-blocked");
+        }
+
+        this.setState(prevState => ({
+            ismodalopened: !prevState.ismodalopened
+        }));
     };
+
+    onClickClose = () => {
+        this.toggleModalClass();
+    }
 
     render() {
         // const { profile } = this.state; =>  this will be needed when the user is logged in
@@ -96,8 +115,11 @@ class Header extends Component {
                         </nav>
                         <nav className="secondary-nav">
                             <Search />
+
                             {/* <UserPortrait {...profile} /> this will be needed when the user is logged in */}
-                            <div onClick={this.toggleModalClass}>Login</div>
+
+                            <div className="secondary-nav__login" onClick={this.toggleModalClass}>Login</div>
+
                             <Link className="secondary-nav__cart" to="/shopping-cart">
                                 <Cart />
                                 <div className="secondary-nav__cart-number">
@@ -108,7 +130,9 @@ class Header extends Component {
                                 <Hamburger />
                             </button>
                         </nav>
-                        <LoginModal ref={this.loginModalRef} />
+
+                        {this.state.ismodalopened ? <Form toggleModalClass={this.state.ismodalopened} onClickClose={this.onClickClose} /> : null}
+
                     </header>
                 )}
             </NamespacesConsumer>

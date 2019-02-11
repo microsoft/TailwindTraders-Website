@@ -11,7 +11,7 @@
     padding-top: $padding-xl;
     position: relative;
     width: 90%;
-    z-index: $z-index-xl;
+    z-index: $z-index-xxl;
 
     @media (min-width: $mq-m) {
         padding-left: $space-l;
@@ -64,9 +64,10 @@
         font-weight: $font-weight-medium;
         padding-bottom: $padding-s;
         width: 100%;
+        padding: .5rem;
 
         &:focus {
-          border: 2px solid $color-warning;
+          border-bottom: 2px solid $color-warning;
         }
 
         &:invalid {
@@ -126,6 +127,7 @@
         flex-direction: column;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 2rem;
         width: 80%;
 
         span {
@@ -144,16 +146,16 @@
 
     &-overlay {
         align-items: center;
+        display: flex;
         background-color: rgba($color-primary, 0.7);
         backdrop-filter: blur(3px);
-        display: none;
         height: 100vh;
         justify-content: center;
         left: 0;
         position: absolute;
         top: 0;
         width: 100%;
-        z-index: $z-index-s;
+        z-index: $z-index-l;
 
         &.is-opened {
             display: flex;

@@ -19,8 +19,8 @@ class App extends Component {
     async componentDidMount() {
         const profile = await APIClient.getProfileData();
         const { profile: { email } } = profile;
-        const shoppingCart = await APIClient.getShoppingCart(email);
-        this.setState({ shoppingCart });
+        // const shoppingCart = await APIClient.getShoppingCart(email);
+        // this.setState({ shoppingCart });
         const quantity = this.state.shoppingCart.reduce((oldQty, { qty }) => oldQty + qty, 0);
         this.setState({ quantity })
     }

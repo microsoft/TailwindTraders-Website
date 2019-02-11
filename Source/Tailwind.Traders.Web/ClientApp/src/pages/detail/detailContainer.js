@@ -37,12 +37,13 @@ class DetailContainer extends Component {
     async getDetailPageData(productId) {
         const detailProduct = await APIClient.getDetailProductData(productId);
 
-        let popularProducts = await APIClient.getHomePageData();
-        if (popularProducts) {
-            popularProducts = popularProducts.popularProducts.slice(0, 3);
-        }
+        // let popularProducts = await APIClient.getHomePageData();
+        // if (popularProducts) {
+        //     popularProducts = popularProducts.popularProducts.slice(0, 3);
+        // }
 
-        this.setState({ popularProducts, detailProduct, loading: false });
+        // this.setState({ popularProducts, detailProduct, loading: false });
+        this.setState({ detailProduct, loading: false  });
     }
 
     async addProductToCart() {
@@ -88,14 +89,13 @@ class DetailContainer extends Component {
     }
 
     render() {
-        const { loading, detailProduct, relatedDetailProducts, loadingRelated } = this.state;
+        const { loading, detailProduct, loadingRelated } = this.state;
 
         return (
             <Fragment>
                 <Alert stack={{ limit: 1 }} />
                 {loading ? <LoadingSpinner /> :
                     <Detail
-                        relatedDetailProducts={relatedDetailProducts}
                         detailProductData={detailProduct}
                         addProductToCart={this.addProductToCart}
                         loadingRelated={loadingRelated}

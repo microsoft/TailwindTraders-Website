@@ -17,7 +17,7 @@ const headersMultipartConfig = pauth => ({
     headers: {
         'Authorization': `Email ${pauth}`,
         'Content-Type': 'multipart/form-data'
-    },  
+    },
 });
 
 const APIClient = {
@@ -44,7 +44,7 @@ const APIClient = {
     async getHomePageData() {
         await this.loadSettings();
         try {
-            const response = await axios.get(`${this._apiUrl}/products/landing`, headersConfig(this._auth));
+            const response = await axios.get(`${this._apiUrl}/products/landing`);
             return response.data;
         }
         catch {
@@ -59,29 +59,24 @@ const APIClient = {
         const response = await axios.get(`${this._apiUrl}/coupons`, headersConfig(this._auth));
         return response.data;
     },
-    async getProductsPageData() {
-        await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/products`, headersConfig(this._auth));
-        return response.data;
-    },
     async getFilteredProducts(type = {}) {
         await this.loadSettings();
         const response = await axios.get(`${this._apiUrl}/products/?`, {
             'params': type, 'paramsSerializer': function (params) {
                 return qs.stringify(params, { arrayFormat: 'repeat' })
-            }, ...headersConfig(this._auth)
+            }
         });
         return response.data;
     },
     async getDetailProductData(productId) {
         await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/products/${productId}`, headersConfig(this._auth));
+        const response = await axios.get(`${this._apiUrl}/products/${productId}`);
         return response.data;
     },
     async getRelatedProducts(formData) {
         await this.loadSettings();
         try {
-            const response = await axios.post(`${this._apiUrl}/products/imageclassifier`, formData, headersMultipartConfig(this._auth));
+            const response = await axios.post(`${this._apiUrl}/products/imageclassifier`, formData);
             return response.data;
         }
         catch {
@@ -90,7 +85,7 @@ const APIClient = {
     },
     async getUserInfoData() {
         await this.loadSettings();
-    
+
         const response = await axios.get(`${this._apiUrl}/profiles/me`, headersConfig(this._auth));
         return response.data;
     },
@@ -131,28 +126,28 @@ const APIClient = {
             return response;
         }
     },
-    async getShoppingCart(email) {
-        await this.loadSettings();
-        if (this._byPassShoppingCartApi) {
-            const items = await this._shoppingCartDao.find(email);
-            return items;
-        }
-        else {
-            const response = await axios.get(`${this._apiUrlShoppingCart}/shoppingcart`, {
-                params: {
-                    email: email
-                }
-            });
-            return response.data;
-        }
-    },
+    // async getShoppingCart(email) {
+    //     await this.loadSettings();
+    //     if (this._byPassShoppingCartApi) {
+    //         const items = await this._shoppingCartDao.find(email);
+    //         return items;
+    //     }
+    //     else {
+    //         const response = await axios.get(`${this._apiUrlShoppingCart}/shoppingcart`, {
+    //             params: {
+    //                 email: email
+    //             }
+    //         });
+    //         return response.data;
+    //     }
+    // },
     async updateQuantity(id, qty) {
         await this.loadSettings();
         const product = {
             id: id,
             qty: qty
         }
-        const response = await axios.post(`${this._apiUrlShoppingCart}/shoppingcart/product`, product);
+        const response = await axios.post(`${this._apiUrlShoppingCart}/shoppingcart/product`, product, headersConfig(this._auth));
         return response;
     },
     async deleteProduct(id) {
@@ -160,7 +155,7 @@ const APIClient = {
         const product = {
             id: id,
         }
-        const response = await axios.delete(`${this._apiUrlShoppingCart}/shoppingcart/product`, { data: product });
+        const response = await axios.delete(`${this._apiUrlShoppingCart}/shoppingcart/product`, { data: product }, headersConfig(this._auth));
         return response;
     },
     async getRelatedDetailProducts(email, typeid) {
@@ -170,8 +165,24 @@ const APIClient = {
                 email: email,
                 typeid: typeid
             }
-        });
+        }, headersConfig(this._auth));
         return response.data[0];
+    },
+
+    //////////////////////////////// v2 //////////////////////////////////////////////
+    async postLoginForm(formData) {
+        await this.loadSettings();
+        try {
+            const response = await axios.post(`${this._apiUrl}/login`, formData);
+            return response;
+        }
+        catch (error) {
+            console.log('error', error)
+            const statusError = {
+                errorMsj: "An error has occurred in Home's Page!",
+            };
+            return statusError;
+        }
     }
 };
 

@@ -14,11 +14,16 @@
     "react-a11y-dialog": "^4.1.0",
     "react-dom": "^16.5.2",
     "react-i18next": "^8.1.0",
+    "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-s-alert": "^1.4.1",
     "react-scripts": "2.0.5",
-    "react-scroll": "^1.7.10"
+    "react-scroll": "^1.7.10",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

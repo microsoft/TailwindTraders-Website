@@ -39,10 +39,10 @@ class ShoppingCart extends Component {
     }
 
     async assignShoppingCart() {
-        return setInterval(async () => {
-            const shoppingCart = await APIClient.getShoppingCart(this.email);
-            this.setState({ shoppingCart, loading: false });
-        }, 1000);
+        // return setInterval(async () => {
+        //     const shoppingCart = await APIClient.getShoppingCart(this.email);
+        //     this.setState({ shoppingCart, loading: false });
+        // }, 1000);
     }
 
     async updateQty(id, qty) {

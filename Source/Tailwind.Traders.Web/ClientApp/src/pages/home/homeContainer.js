@@ -40,16 +40,16 @@ class HomeContainer extends Component {
     }
 
     async componentDidMount() {
-        let popularProducts = await APIClient.getHomePageData();
+        // let popularProducts = await APIClient.getHomePageData();
 
-        if (popularProducts.errorMsj) {
-            console.error(popularProducts.errorMsj);
-        } else {
-            if (popularProducts) {
-                popularProducts = popularProducts.popularProducts.slice(0, 3);
-            }
-            this.setState({ popularProducts, loading: false });
-        }
+        // if (popularProducts.errorMsj) {
+        //     console.error(popularProducts.errorMsj);
+        // } else {
+        //     if (popularProducts) {
+        //         popularProducts = popularProducts.popularProducts.slice(0, 3);
+        //     }
+        //     this.setState({ popularProducts, loading: false });
+        // }
     }
 
     render() {
