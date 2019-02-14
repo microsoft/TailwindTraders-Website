@@ -9,6 +9,7 @@
             "home.recommended.uploadPhotoSubtitle": "start smart shopping",
 
             "home.popular.products": "Popular Products",
+            "home.recommended.products": "Recommended products",
             "home.getapp.title": "Get your mobile App",
             "home.getapp.subtitle": "Try our smart shopping app for easy planning",
             "home.getapp.appStoreImg": "Download Tailwind Traders on App Store",
@@ -16,6 +17,7 @@
 
             "mycoupons.title": "My coupons",
             "mycoupons.subtitle": "Personalized coupons for you based on your purchase history and interest",
+            "mycoupons.noCoupons": "This user does not have available coupons",
             "mycoupons.smallcoupons.until": "Until",
             "mycoupons.RecentSearchedProducts.title": "Based on your recent searches",
 

@@ -112,4 +112,13 @@
             margin: 0;
         }
     }
+
+    &-empty {
+        text-align: center;
+        border-bottom: 2px solid $color-border;
+        padding: $padding-l;
+        margin-bottom: $margin-l;
+        font-weight: $font-weight-medium;
+        font-size: $font-big
+    }
 }

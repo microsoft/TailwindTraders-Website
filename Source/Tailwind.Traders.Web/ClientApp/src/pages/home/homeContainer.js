@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
+import { connect } from 'react-redux';
 
-import APIClient from "../../ApiClient";
 import Home from "./home";
+import { CommonServices } from "../../services";
 
 import Powertools from "../../assets/images/home_powertools.jpg";
 import Plumbing from "../../assets/images/home_plumbing.jpg";
@@ -40,26 +41,42 @@ class HomeContainer extends Component {
     }
 
     async componentDidMount() {
-        // let popularProducts = await APIClient.getHomePageData();
+        if (this.props.userInfo.loggedIn) {
+            await this.renderPopularProducts()
+        }
+    }
 
-        // if (popularProducts.errorMsj) {
-        //     console.error(popularProducts.errorMsj);
-        // } else {
-        //     if (popularProducts) {
-        //         popularProducts = popularProducts.popularProducts.slice(0, 3);
-        //     }
-        //     this.setState({ popularProducts, loading: false });
-        // }
+    async shouldComponentUpdate(nextProps) {
+        if ((this.props.userInfo.loggedIn !== nextProps.userInfo.loggedIn) && nextProps.userInfo.loggedIn) {
+            await this.renderPopularProducts()
+        }
+    }
+
+    async renderPopularProducts() {
+        const token = this.props.userInfo.token;
+        let popularProducts = await CommonServices.getHomePageData(token);
+
+        if (popularProducts && popularProducts.data.popularProducts) {
+            popularProducts = popularProducts.data.popularProducts.slice(0, 3);
+            this.setState({ popularProducts, loading: false });
+        }
     }
 
     render() {
         const { recommendedProducts, popularProducts } = this.state;
+        const { loggedIn } = this.props.userInfo
         return (
             <Fragment>
-                <Home recommendedProducts={recommendedProducts} popularProducts={popularProducts} />
+                <Home
+                    recommendedProducts={recommendedProducts}
+                    popularProducts={popularProducts}
+                    loggedIn={loggedIn}
+                />
             </Fragment>
         );
     }
 }
 
-export default HomeContainer;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(HomeContainer);

@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 
 import { NamespacesConsumer } from 'react-i18next';
-import APIClient from "../../../ApiClient";
 import Alert from "react-s-alert";
+
+import { CommonServices } from "../../../services";
+import { saveState } from "../../../helpers/localStorage";
 
 import { ReactComponent as Logo } from '../../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../../assets/images/icon-close.svg';
 
 
-class FormComponent extends Component {
+class LoginComponent extends Component {
     constructor() {
         super();
         this.state = {
             isomodalpened: false,
             email: "",
             password: "",
+            grant_type: "password"
         };
     }
 
@@ -32,11 +35,9 @@ class FormComponent extends Component {
     }
 
 
-    handleSubmit = async (e) => {
-        e.preventDefault();
-
+    handleSubmit = async () => {
         const formData = {
-            username: this.state.email,
+            username: this.state.email.email,
             password: this.state.password,
             grant_type: this.state.grant_type
         }
@@ -46,10 +47,26 @@ class FormComponent extends Component {
             return;
         }
 
-        const loginFormData = await APIClient.postLoginForm(formData)
+        const loginFormData = await CommonServices.postLoginForm(formData);
+
         const LocalStorageInformation = this.generateLocalStorageInformation(loginFormData);
+
         this.saveDataToLocalStorage(LocalStorageInformation);
+        this.props.submitAction(LocalStorageInformation);
+
         this.toggleModalClass();
+    }
+
+    generateLocalStorageInformation(loginFormData) {
+        return {
+            user: this.state.email,
+            token: loginFormData.data.access_token,
+            loggedIn: true
+        }
+    }
+
+    saveDataToLocalStorage(LocalStorageInformation) {
+        saveState(LocalStorageInformation);
     }
 
     handleFormErrors() {
@@ -66,13 +83,13 @@ class FormComponent extends Component {
             <NamespacesConsumer>
                 {t => (
                     <div className={this.state.isomodalpened ? 'modal-overlay is-opened' : 'modal-overlay'}>
+                        <Alert stack={{ limit: 1 }} />
                         <div className="modal">
                             <Close onClick={this.toggleModalClass} />
                             <Logo />
                             <form onSubmit={(event) => {
                                 event.preventDefault();
-                                this.props.submitAction();
-                                alert(this.props.text);
+                                this.handleSubmit();
                             }}>
                                 <label className="modal__label" htmlFor="email">{t('shared.header.email')}</label>
                                 <input
@@ -106,26 +123,4 @@ class FormComponent extends Component {
     }
 }
 
-export default FormComponent;
-
-
-// const FormComponent = props => (
-//     <form onSubmit={(event) => {
-//         event.preventDefault();
-//         props.submitAction();
-//         alert(props.text);
-//     }}>
-//         <h1>Our form example</h1>
-//         <div>
-//             <textarea
-//                 onChange={event => props.textAction(event.target.value)}
-//                 value={props.text}
-//             />
-//         </div>
-//         <div>
-//             <input type="submit" value="Submit" />
-//         </div>
-//     </form>
-// );
-
-// export default FormComponent;
+export default LoginComponent;

@@ -1,189 +1,38 @@
 import axios from "axios";
-import ShoppingCartDaoFactory from "./cosmosdb/shoppingCartDaoFactory";
 
-const qs = require('qs');
 const settingsUrl = "/api/settings";
+const qs = require('qs');
 
 const APIUrl = process.env.REACT_APP_DEV_API_URL;
 const APIUrlShoppingCart = process.env.REACT_APP_API_URL_SHOPPINGCART;
-const auth = process.env.REACT_APP_DEV_AUTH;
-const byPassShoppingCartApi = !!process.env.REACT_APP_BYPASS_SHOPPINGCART_API || false;
 
-const headersConfig = pauth => ({
-    headers: { Authorization: `Email ${pauth}` },
-});
-
-const headersMultipartConfig = pauth => ({
-    headers: {
-        'Authorization': `Email ${pauth}`,
-        'Content-Type': 'multipart/form-data'
-    },
-});
-
-const APIClient = {
-    _needLoadSettings: !APIUrl || !auth || !APIUrlShoppingCart,
+const APIClient = { 
+    _needLoadSettings: !APIUrl || !APIUrlShoppingCart,
     _apiUrl: APIUrl,
-    _auth: auth,
-    _apiUrlShoppingCart: APIUrlShoppingCart,
-    _byPassShoppingCartApi: byPassShoppingCartApi,
-    _shoppingCartDao: null,
 
     async loadSettings() {
         if (this._needLoadSettings) {
             const settingsResponse = await axios.get(settingsUrl);
             this._needLoadSettings = false;
             this._apiUrl = settingsResponse.data.apiUrl;
-            this._auth = settingsResponse.data.auth;
-            this._apiUrlShoppingCart = settingsResponse.data.apiUrlShoppingCart;
-            this._byPassShoppingCartApi = !!settingsResponse.data.byPassShoppingCartApi;
-            if (this._byPassShoppingCartApi && !this._shoppingCartDao) {
-                this._shoppingCartDao = await ShoppingCartDaoFactory(settingsResponse.data.cart);
-            }
         }
     },
-    async getHomePageData() {
-        await this.loadSettings();
-        try {
-            const response = await axios.get(`${this._apiUrl}/products/landing`);
-            return response.data;
-        }
-        catch {
-            const statusError = {
-                errorMsj: "An error has occurred in Home's Page!",
-            };
-            return statusError;
-        }
-    },
-    async getCouponsPageData() {
-        await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/coupons`, headersConfig(this._auth));
-        return response.data;
-    },
-    async getFilteredProducts(type = {}) {
-        await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/products/?`, {
-            'params': type, 'paramsSerializer': function (params) {
-                return qs.stringify(params, { arrayFormat: 'repeat' })
-            }
-        });
-        return response.data;
-    },
-    async getDetailProductData(productId) {
-        await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/products/${productId}`);
-        return response.data;
-    },
-    async getRelatedProducts(formData) {
-        await this.loadSettings();
-        try {
-            const response = await axios.post(`${this._apiUrl}/products/imageclassifier`, formData);
-            return response.data;
-        }
-        catch {
-            throw new Error("KO");
-        }
-    },
-    async getUserInfoData() {
-        await this.loadSettings();
 
-        const response = await axios.get(`${this._apiUrl}/profiles/me`, headersConfig(this._auth));
-        return response.data;
-    },
-    async getProfileData() {
-        await this.loadSettings();
-        const response = await axios.get(`${this._apiUrl}/profiles/navbar/me`, headersConfig(this._auth));
-
-        return response.data;
-    },
-    async postProductToCart(detailProduct) {
-        await this.loadSettings();
-        try {
-            const productInfo = {
-                id: detailProduct.id,
-                name: detailProduct.name,
-                price: detailProduct.price,
-                imageUrl: detailProduct.imageUrl,
-                email: detailProduct.email,
-                typeid: detailProduct.type.id
-            };
-
-            const dataToPost = { detailProduct: productInfo, qty: 1 };
-
-            if (this._byPassShoppingCartApi) {
-                await this._shoppingCartDao.addItem(dataToPost);
-                return { message: "Product added on shopping cart" };
-            }
-            else {
-                const response = await axios.post(`${this._apiUrlShoppingCart}/shoppingcart`, dataToPost);
-                return response.data;
-            }
-        }
-        catch (error) {
-            console.error('Error on ApiClient::postProductToCart', error);
-            const response = {
-                message: "The product could not be added to the cart",
-            };
-            return response;
-        }
-    },
-    // async getShoppingCart(email) {
+    // async postLoginForm(formData) {
     //     await this.loadSettings();
-    //     if (this._byPassShoppingCartApi) {
-    //         const items = await this._shoppingCartDao.find(email);
-    //         return items;
+    //     try {
+    //         const response = await axios.post(`${this._apiUrl}/login`, formData);
+    //         return response;
     //     }
-    //     else {
-    //         const response = await axios.get(`${this._apiUrlShoppingCart}/shoppingcart`, {
-    //             params: {
-    //                 email: email
-    //             }
-    //         });
-    //         return response.data;
+    //     catch (error) {
+    //         const statusError = {
+    //             errorMsj: "An error retrieving login data",
+    //         };
+    //         return statusError;
     //     }
     // },
-    async updateQuantity(id, qty) {
-        await this.loadSettings();
-        const product = {
-            id: id,
-            qty: qty
-        }
-        const response = await axios.post(`${this._apiUrlShoppingCart}/shoppingcart/product`, product, headersConfig(this._auth));
-        return response;
-    },
-    async deleteProduct(id) {
-        await this.loadSettings();
-        const product = {
-            id: id,
-        }
-        const response = await axios.delete(`${this._apiUrlShoppingCart}/shoppingcart/product`, { data: product }, headersConfig(this._auth));
-        return response;
-    },
-    async getRelatedDetailProducts(email, typeid) {
-        await this.loadSettings();
-        const response = await axios.get(`${this._apiUrlShoppingCart}/shoppingcart/relatedproducts`, {
-            params: {
-                email: email,
-                typeid: typeid
-            }
-        }, headersConfig(this._auth));
-        return response.data[0];
-    },
 
-    //////////////////////////////// v2 //////////////////////////////////////////////
-    async postLoginForm(formData) {
-        await this.loadSettings();
-        try {
-            const response = await axios.post(`${this._apiUrl}/login`, formData);
-            return response;
-        }
-        catch (error) {
-            console.log('error', error)
-            const statusError = {
-                errorMsj: "An error has occurred in Home's Page!",
-            };
-            return statusError;
-        }
-    }
-};
+
+}
 
 export default APIClient;

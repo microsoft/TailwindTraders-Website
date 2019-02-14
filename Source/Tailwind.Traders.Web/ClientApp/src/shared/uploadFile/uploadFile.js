@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { ReactComponent as PhotoImg } from "../../assets/images/icon-photo.svg";
-import APIClient from "../../ApiClient";
+import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import Alert from "react-s-alert";
+import { CommonServices } from '../../services';
+
+import { ReactComponent as PhotoImg } from "../../assets/images/icon-photo.svg";
 
 class UploadFile extends Component {
     constructor(props) {
@@ -11,10 +13,12 @@ class UploadFile extends Component {
     }
 
     uploadFile(e) {
+
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append("file", file);
-        APIClient.getRelatedProducts(formData)
+        
+        CommonServices.getRelatedProducts(formData, this.props.userInfo.token)
             .then((relatedProducts) => {
                 if (relatedProducts.length > 1) {
                     this.props.history.push({
@@ -67,4 +71,6 @@ class UploadFile extends Component {
     }
 }
 
-export default withRouter(UploadFile);
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(withRouter(UploadFile));
