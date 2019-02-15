@@ -57,8 +57,8 @@ class Detail extends Component {
                                 </div>
                             </div>
                         </div>
-                        {/* {loadingRelated ? <LoadingSpinner /> : null} */}
-                        {/* {hasRelatedDetailProducts ? <Popular relatedDetailProducts={relatedDetailProducts} /> : null} */}
+                        {loadingRelated ? <LoadingSpinner /> : null}
+                        {hasRelatedDetailProducts ? <Popular relatedDetailProducts={relatedDetailProducts} /> : null}
                     </div>
                 )}
             </NamespacesConsumer>

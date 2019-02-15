@@ -6,12 +6,9 @@ import { CommonServices } from './services';
 import { Header, Footer } from "./shared";
 import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, ShoppingCart } from "./pages";
 
-import APIClient from "./ApiClient";
-
 import "./i18n";
 import "./main.scss";
 require("dotenv").config();
-
 
 class App extends Component {
     constructor() {
@@ -42,15 +39,13 @@ class App extends Component {
         })
     }
 
-
-
     render() {
         const { quantity } = this.state;
 
         const PrivateRoute = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
                 this.props.userInfo.loggedIn === true
-                    ? <Component {...props} />
+                    ? <Component {...props} {...rest} />
                     : <Redirect to='/' />
             )} />
         )
@@ -67,9 +62,7 @@ class App extends Component {
                         <Route path="/product/detail/:productId" render={(props) => <Detail sumProductInState={this.sumProductInState} {...props} />} />
                         <PrivateRoute path='/coupons' component={MyCoupons} />
                         <PrivateRoute path='/profile' component={Profile} />
-
-                        {/* // TODOOOOOOOOOOOOOOOOO */}
-                        <PrivateRoute path='/shopping-cart' component={ShoppingCart} ShoppingCart={this.ShoppingCart} quantity={this.state.quantity} />}
+                        <PrivateRoute path='/shopping-cart' component={ShoppingCart} ShoppingCart={this.ShoppingCart} quantity={this.state.quantity} />
                         <Footer />
                     </Fragment>
                 </Router>

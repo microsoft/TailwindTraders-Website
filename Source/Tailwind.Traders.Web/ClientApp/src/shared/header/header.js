@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { NamespacesConsumer } from 'react-i18next';
 
-import APIClient from '../../ApiClient';
 import { CommonServices } from '../../services';
 import { withRouter } from "react-router-dom";
 

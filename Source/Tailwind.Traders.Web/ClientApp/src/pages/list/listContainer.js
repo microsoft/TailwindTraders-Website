@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 
 import { LoadingSpinner } from "../../shared/index";
 
-import APIClient from "../../ApiClient";
 import List from "./list";
 import { CommonServices } from '../../services';
 
@@ -62,7 +61,6 @@ class ListContainer extends Component {
         this.setQueryStringState(isChecked, dataType, value);
 
         const apiCall = await CommonServices.getFilteredProducts(this.queryString);
-        console.log(apiCall);
         this.setState({ productsList: apiCall.data.products });
     };
 

@@ -5,7 +5,6 @@ import { animateScroll as scroll } from "react-scroll";
 import { LoadingSpinner } from "../../shared";
 import Alert from "react-s-alert";
 
-import APIClient from "../../ApiClient";
 import Detail from "./detail";
 import { CommonServices } from '../../services';
 
@@ -38,13 +37,6 @@ class DetailContainer extends Component {
 
     async getDetailPageData(productId) {
         const detailProduct = await CommonServices.getDetailProductData(productId);
-
-        // let popularProducts = await APIClient.getHomePageData();
-        // if (popularProducts) {
-        //     popularProducts = popularProducts.popularProducts.slice(0, 3);
-        // }
-
-        // this.setState({ popularProducts, detailProduct, loading: false });
         this.setState({ detailProduct, loading: false });
     }
 
@@ -54,15 +46,17 @@ class DetailContainer extends Component {
         const { profile: { email } } = profile;
         this.state.detailProduct.email = email
 
-        await CommonServices.postProductToCart(this.props.userInfo.token, this.state.detailProduct)
-            .then((data) => { this.showSuccesMessage(data) })
-            .catch((data) => { this.showErrorMessage(data) });
+        const productToCart = await CommonServices.postProductToCart(this.props.userInfo.token, this.state.detailProduct)
 
+        if (productToCart.errMessage) {
+            return this.showErrorMessage(productToCart)
+        } else {
+            this.showSuccesMessage(productToCart)
+        }
 
         this.setState({ loadingRelated: true });
 
         setTimeout(async () => {
-            console.log(this.props)
             let relatedDetailProducts = await CommonServices
                 .getRelatedDetailProducts(this.props.userInfo.token, this.state.detailProduct.type.id);
 
@@ -72,8 +66,6 @@ class DetailContainer extends Component {
 
             this.setState({ relatedDetailProducts, loadingRelated: false });
         }, 2000);
-
-
 
         this.props.sumProductInState();
     }
@@ -88,11 +80,11 @@ class DetailContainer extends Component {
     }
 
     showErrorMessage(data) {
-        Alert.error(data.message, {
+        Alert.error(data.errMessage, {
             position: "top",
             effect: "scale",
             beep: true,
-            timeout: 5000,
+            timeout: 3000,
         });
     }
 

@@ -9,7 +9,6 @@ import { saveState } from "../../../helpers/localStorage";
 import { ReactComponent as Logo } from '../../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../../assets/images/icon-close.svg';
 
-
 class LoginComponent extends Component {
     constructor() {
         super();
@@ -33,7 +32,6 @@ class LoginComponent extends Component {
     keepInputPassword = (e) => {
         this.setState({ password: e.target.value })
     }
-
 
     handleSubmit = async () => {
         const formData = {

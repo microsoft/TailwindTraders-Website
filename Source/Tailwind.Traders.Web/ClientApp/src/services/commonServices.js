@@ -95,37 +95,34 @@ const CommonServices = {
         return response.data;
     },
 
-    // TODO REFACTOR
     async postProductToCart(token, detailProduct) {
         await this.loadSettings();
-        try {
-            const productInfo = {
-                id: detailProduct.id,
-                name: detailProduct.name,
-                price: detailProduct.price,
-                imageUrl: detailProduct.imageUrl,
-                email: detailProduct.email,
-                typeid: detailProduct.type.id
-            };
 
-            const dataToPost = { detailProduct: productInfo, qty: 1 };
+        const productInfo = {
+            id: detailProduct.id,
+            name: detailProduct.name,
+            price: detailProduct.price,
+            imageUrl: detailProduct.imageUrl,
+            email: detailProduct.email,
+            typeid: detailProduct.type.id
+        };
 
-            if (this._byPassShoppingCartApi) {
-                await this._shoppingCartDao.addItem(dataToPost);
-                return { message: "Product added on shopping cart" };
-            }
-            else {
-                const response = await axios.post(`${this._apiUrlShoppingCart}/shoppingcart`, dataToPost, headersConfig(token));
+        const dataToPost = { detailProduct: productInfo, qty: 1 };
+
+        if (this._byPassShoppingCartApi) {
+            await this._shoppingCartDao.addItem(dataToPost);
+            return { message: "Product added on shopping cart" };
+        }
+
+        const addProduct = axios.post(`${this._apiUrlShoppingCart}/shoppingcart`, dataToPost, headersConfig(token))
+            .then((response) => {
                 return response.data;
-            }
-        }
-        catch (error) {
-            console.error('Error on ApiClient::postProductToCart', error);
-            const response = {
-                message: "The product could not be added to the cart",
-            };
-            return response;
-        }
+            })
+            .catch(() => {
+                return { errMessage: "The product could not be added to the cart" }
+            })
+
+        return addProduct;
     },
 
     async getRelatedDetailProducts(token, typeid = {}) {
@@ -136,6 +133,7 @@ const CommonServices = {
 
     async updateQuantity(id, qty, token) {
         await this.loadSettings();
+
         const product = {
             id: id,
             qty: qty
@@ -147,11 +145,13 @@ const CommonServices = {
 
     async deleteProduct(id, token) {
         await this.loadSettings();
-        const product = {
+
+        let config = headersConfig(token);
+        config.data = {
             id: id,
         }
-        
-        const response = await axios.delete(`${this._apiUrlShoppingCart}/shoppingcart/product`, { data: product }, headersConfig(token));
+
+        const response = await axios.delete(`${this._apiUrlShoppingCart}/shoppingcart/product`, config);
         return response;
     }
 }
