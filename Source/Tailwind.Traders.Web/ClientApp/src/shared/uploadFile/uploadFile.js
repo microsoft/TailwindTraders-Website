@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import Alert from "react-s-alert";
-import { CommonServices } from '../../services';
+import { ProductService } from '../../services';
 
 import { ReactComponent as PhotoImg } from "../../assets/images/icon-photo.svg";
 
@@ -18,7 +18,7 @@ class UploadFile extends Component {
         const formData = new FormData();
         formData.append("file", file);
         
-        CommonServices.getRelatedProducts(formData, this.props.userInfo.token)
+        ProductService.getRelatedProducts(formData, this.props.userInfo.token)
             .then((relatedProducts) => {
                 if (relatedProducts.length > 1) {
                     this.props.history.push({

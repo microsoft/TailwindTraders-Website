@@ -5,8 +5,7 @@ import { LoadingSpinner } from "../../shared/index";
 import { NamespacesConsumer } from "react-i18next";
 
 import ShoppingCartCard from "./shoppingCartCard";
-
-import { CommonServices } from '../../services';
+import {  CartService } from '../../services';
 
 class ShoppingCart extends Component {
     constructor() {
@@ -37,7 +36,7 @@ class ShoppingCart extends Component {
 
     async assignShoppingCart() {
         return setInterval(async () => {
-            const shoppingCart = await CommonServices.getShoppingCart(this.props.userInfo.token);
+            const shoppingCart = await CartService.getShoppingCart(this.props.userInfo.token);
             this.setState({ shoppingCart, loading: false });
         }, 1000);
     }
@@ -45,10 +44,10 @@ class ShoppingCart extends Component {
     async updateQty(id, qty) {
         this.setState({ isPulling: true }, async () => {
             if (qty > 0) {
-                await CommonServices.updateQuantity(id, qty, this.props.userInfo.token)
+                await CartService.updateQuantity(id, qty, this.props.userInfo.token)
                 await this.updateShoppingCartState(id, qty);
             } else {
-                await CommonServices.deleteProduct(id, this.props.userInfo.token);
+                await CartService.deleteProduct(id, this.props.userInfo.token);
                 await this.cleanShoppingCartState(id, qty);
             }
             this.setState({ isPulling: false })

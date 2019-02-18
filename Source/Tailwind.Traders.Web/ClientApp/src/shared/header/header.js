@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { NamespacesConsumer } from 'react-i18next';
 
-import { CommonServices } from '../../services';
+import { UserService } from '../../services';
 import { withRouter } from "react-router-dom";
 
 import LoginContainer from './components/loginContainer';
@@ -35,7 +35,7 @@ class Header extends Component {
     async componentDidMount() {
 
         if (this.props.userInfo.token) { 
-            const profileData  = await CommonServices.getProfileData(this.props.userInfo.token);
+            const profileData  = await UserService.getProfileData(this.props.userInfo.token);
             this.setState({ ...profileData });
         }
 

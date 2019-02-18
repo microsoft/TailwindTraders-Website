@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 import { LoadingSpinner } from "../../shared/index";
 
 import List from "./list";
-import { CommonServices } from '../../services';
+import {  ProductService } from '../../services';
 
 class ListContainer extends Component {
     constructor(props) {
@@ -41,12 +41,12 @@ class ListContainer extends Component {
 
     async getProductData(type) {
         const filter = type === '' ? {} : this.queryString.type = { type };
-        const filteredProductsPageData = await CommonServices.getFilteredProducts(filter);
+        const filteredProductsPageData = await ProductService.getFilteredProducts(filter);
         return filteredProductsPageData.data;
     }
 
     setPageState(filteredProductsPageData) {
-        if(filteredProductsPageData === undefined) {
+        if (filteredProductsPageData === undefined) {
             return;
         }
         const typesList = filteredProductsPageData.types;
@@ -60,7 +60,7 @@ class ListContainer extends Component {
         const dataType = e.target.getAttribute("id");
         this.setQueryStringState(isChecked, dataType, value);
 
-        const apiCall = await CommonServices.getFilteredProducts(this.queryString);
+        const apiCall = await ProductService.getFilteredProducts(this.queryString);
         this.setState({ productsList: apiCall.data.products });
     };
 

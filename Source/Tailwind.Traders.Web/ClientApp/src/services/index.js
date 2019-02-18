@@ -1,3 +1,5 @@
-import CommonServices from './commonServices';
+import UserService from './userService';
+import CartService from './cartService';
+import ProductService from './productsService';
 
-export { CommonServices };
+export { UserService, CartService, ProductService };

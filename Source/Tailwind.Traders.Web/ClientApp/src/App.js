@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
-import { CommonServices } from './services';
+import { CartService } from './services';
 
 import { Header, Footer } from "./shared";
 import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, ShoppingCart } from "./pages";
@@ -21,7 +21,7 @@ class App extends Component {
 
     async componentDidMount() {
         if (this.props.userInfo.token) {
-            const shoppingCart = await CommonServices.getShoppingCart(this.props.userInfo.token);
+            const shoppingCart = await CartService.getShoppingCart(this.props.userInfo.token);
             this.setState({ shoppingCart });
         }
 

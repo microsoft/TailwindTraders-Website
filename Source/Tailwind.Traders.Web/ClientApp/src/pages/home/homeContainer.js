@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 
 import Home from "./home";
-import { CommonServices } from "../../services";
+import { ProductService } from "../../services";
 
 import Powertools from "../../assets/images/home_powertools.jpg";
 import Plumbing from "../../assets/images/home_plumbing.jpg";
@@ -54,7 +54,7 @@ class HomeContainer extends Component {
 
     async renderPopularProducts() {
         const token = this.props.userInfo.token;
-        let popularProducts = await CommonServices.getHomePageData(token);
+        let popularProducts = await ProductService.getHomePageData(token);
 
         if (popularProducts && popularProducts.data.popularProducts) {
             popularProducts = popularProducts.data.popularProducts.slice(0, 3);

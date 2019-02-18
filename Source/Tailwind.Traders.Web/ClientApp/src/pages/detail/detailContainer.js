@@ -6,7 +6,7 @@ import { LoadingSpinner } from "../../shared";
 import Alert from "react-s-alert";
 
 import Detail from "./detail";
-import { CommonServices } from '../../services';
+import { CartService, ProductService, UserService } from '../../services';
 
 class DetailContainer extends Component {
     constructor(props) {
@@ -36,17 +36,17 @@ class DetailContainer extends Component {
     }
 
     async getDetailPageData(productId) {
-        const detailProduct = await CommonServices.getDetailProductData(productId);
+        const detailProduct = await ProductService.getDetailProductData(productId);
         this.setState({ detailProduct, loading: false });
     }
 
     async addProductToCart() {
 
-        const profile = await CommonServices.getProfileData(this.props.userInfo.token);
+        const profile = await UserService.getProfileData(this.props.userInfo.token);
         const { profile: { email } } = profile;
         this.state.detailProduct.email = email
 
-        const productToCart = await CommonServices.postProductToCart(this.props.userInfo.token, this.state.detailProduct)
+        const productToCart = await CartService.postProductToCart(this.props.userInfo.token, this.state.detailProduct)
 
         if (productToCart.errMessage) {
             return this.showErrorMessage(productToCart)
@@ -57,7 +57,7 @@ class DetailContainer extends Component {
         this.setState({ loadingRelated: true });
 
         setTimeout(async () => {
-            let relatedDetailProducts = await CommonServices
+            let relatedDetailProducts = await CartService
                 .getRelatedDetailProducts(this.props.userInfo.token, this.state.detailProduct.type.id);
 
             if (relatedDetailProducts) {

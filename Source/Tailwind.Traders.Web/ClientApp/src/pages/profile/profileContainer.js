@@ -16,7 +16,7 @@ import KitchenImg from "../../assets/images/profile-kitchen.jpg";
 import Plumbing from "../../assets/images/home_plumbing.jpg";
 import Garden from "../../assets/images/home_gardencenter.jpg";
 import Electrical from "../../assets/images/home_electrical.jpg";
-import { CommonServices } from '../../services';
+import { UserService } from '../../services';
 
 class ProfileContainer extends Component {
     constructor() {
@@ -62,7 +62,7 @@ class ProfileContainer extends Component {
     }
 
     async componentDidMount() {
-        const userInformation = await CommonServices.getUserInfoData(this.props.userInfo.token);
+        const userInformation = await UserService.getUserInfoData(this.props.userInfo.token);
         this.setState({ ...userInformation });
     }
 

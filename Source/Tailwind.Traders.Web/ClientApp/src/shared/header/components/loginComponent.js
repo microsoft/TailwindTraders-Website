@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NamespacesConsumer } from 'react-i18next';
 import Alert from "react-s-alert";
 
-import { CommonServices } from "../../../services";
+import { UserService } from "../../../services";
 import { saveState } from "../../../helpers/localStorage";
 
 import { ReactComponent as Logo } from '../../../assets/images/logo-horizontal.svg';
@@ -45,7 +45,7 @@ class LoginComponent extends Component {
             return;
         }
 
-        const loginFormData = await CommonServices.postLoginForm(formData);
+        const loginFormData = await UserService.postLoginForm(formData);
 
         const LocalStorageInformation = this.generateLocalStorageInformation(loginFormData);
 

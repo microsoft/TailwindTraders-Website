@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { LoadingSpinner } from "../../shared"
 
 import MyCoupons from "./myCoupons";
-import { CommonServices } from '../../services';
+import { ProductService } from '../../services';
 
 class MyCouponsContainer extends Component {
     constructor() {
@@ -19,7 +19,7 @@ class MyCouponsContainer extends Component {
 
     async componentDidMount() {
         const token = this.props.userInfo.token;
-        const couponsPageData = await CommonServices.getCouponsPageData(token);
+        const couponsPageData = await ProductService.getCouponsPageData(token);
         
         const recommendedProducts = couponsPageData.data.recommendedProducts;
         const { smallCoupons = [], bigCoupon = [] } = couponsPageData.data.coupons || {};
