@@ -41,7 +41,7 @@
     text-transform: uppercase;
     top: 0;
     transition: right $animation-speed-regular $animation-type-regular;
-    width: 100%;
+    width: 60%;
     will-change: right;
     z-index: $z-index-l;
 
@@ -115,9 +115,9 @@
 
 .secondary-nav {
     display: flex;
-    justify-content: space-between;
-    min-width: 8.625rem;
-    width: 9.75rem;
+    justify-content: space-around;
+    min-width: 13rem;
+    width: 10rem;
 
     svg:nth-child(2) {
         display: none;
@@ -151,6 +151,10 @@
             right: -.5rem;
             color: $color-text-primary;
         }
+    }
+
+    &__login {
+        cursor: pointer;
     }
 
     .portrait {

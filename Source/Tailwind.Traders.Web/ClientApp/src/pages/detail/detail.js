@@ -24,7 +24,7 @@ class Detail extends Component {
             backgroundImage: `url(${imageUrl})`,
         };
 
-        const { loadingRelated } = this.props;
+        const { loadingRelated, loggedIn } = this.props;
 
         return (
             <NamespacesConsumer>
@@ -40,10 +40,10 @@ class Detail extends Component {
                                     <span className="detail__tag">{t("detail.tagName1")}</span>
                                     <span className="detail__tag">{t("detail.tagName2")}</span>
                                 </div>
-                                <div className="detail__buttons">
+                                {loggedIn && <div className="detail__buttons">
                                     <button className={`btn btn--primary btn--cart`} onClick={this.addToCart}>{t("detail.addToCart")}</button>
                                     <Link className="btn btn--secondary" to="/shopping-cart">{t("detail.shoppingCart")}</Link>
-                                </div>
+                                </div> }
                                 <div className="detail__description">
                                     <ul>
                                         {features &&

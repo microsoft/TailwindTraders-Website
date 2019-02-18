@@ -2,10 +2,10 @@ import React from "react";
 
 import { Banner, ListGrid, ListAside } from "./components";
 
-const List = ({ typesList, brandsList, onFilterChecked, productsList }) => {
+const List = ({ typesList, brandsList, onFilterChecked, productsList, loggedIn }) => {
     return (
         <div className="list">
-            <Banner />
+            <Banner loggedIn={loggedIn} />
             <div className="list__content">
                 <ListAside
                     onFilterChecked={onFilterChecked}

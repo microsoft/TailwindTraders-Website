@@ -9,7 +9,8 @@ const Popular = ({ t, popularProductsData, relatedDetailProducts }) => {
     relatedDetailProducts = relatedDetailProducts || [];
     return (
         <section className="featured">
-            {popularProductsData.length ? <h2 className="featured__title">{t("home.popular.products")}</h2> : <h2 className="featured__title">Recommended products</h2>}
+            {popularProductsData.length ? <h2 className="featured__title">{t("home.popular.products")}</h2> 
+            : <h2 className="featured__title">{t("home.recommended.products")}</h2>}
             <div className="cards">
                 {popularProductsData.map((popularProductsInfo, index) => {
                     return <Card {...popularProductsInfo} key={index} />;

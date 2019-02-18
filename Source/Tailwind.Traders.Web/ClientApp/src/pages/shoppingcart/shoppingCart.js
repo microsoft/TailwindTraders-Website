@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from "react";
+import { connect } from 'react-redux';
 
 import { LoadingSpinner } from "../../shared/index";
 import { NamespacesConsumer } from "react-i18next";
 
 import ShoppingCartCard from "./shoppingCartCard";
-
-import APIClient from "../../ApiClient";
+import {  CartService } from '../../services';
 
 class ShoppingCart extends Component {
     constructor() {
@@ -23,14 +23,10 @@ class ShoppingCart extends Component {
     }
 
     async componentDidMount() {
-        const profile = await APIClient.getProfileData();
-        const { profile: { email } } = profile;
-        this.email = email
-
         this.setState({ quantity: this.props.quantity });
 
         if (this.state.isPulling) {
-            this.assignShoppingCartInterval = await this.assignShoppingCart(email);
+            this.assignShoppingCartInterval = await this.assignShoppingCart();
         }
     }
 
@@ -40,7 +36,7 @@ class ShoppingCart extends Component {
 
     async assignShoppingCart() {
         return setInterval(async () => {
-            const shoppingCart = await APIClient.getShoppingCart(this.email);
+            const shoppingCart = await CartService.getShoppingCart(this.props.userInfo.token);
             this.setState({ shoppingCart, loading: false });
         }, 1000);
     }
@@ -48,14 +44,16 @@ class ShoppingCart extends Component {
     async updateQty(id, qty) {
         this.setState({ isPulling: true }, async () => {
             if (qty > 0) {
-                await APIClient.updateQuantity(id, qty)
+                await CartService.updateQuantity(id, qty, this.props.userInfo.token)
                 await this.updateShoppingCartState(id, qty);
             } else {
-                await APIClient.deleteProduct(id);
+                await CartService.deleteProduct(id, this.props.userInfo.token);
                 await this.cleanShoppingCartState(id, qty);
             }
             this.setState({ isPulling: false })
+
             await this.setQuantityState();
+
             this.props.ShoppingCart(this.state.quantity)
         });
     }
@@ -110,4 +108,6 @@ class ShoppingCart extends Component {
     }
 }
 
-export default ShoppingCart;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(ShoppingCart);

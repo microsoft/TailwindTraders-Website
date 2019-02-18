@@ -20,6 +20,10 @@
         &:hover {
             color: $color-text-tertiary;
             cursor: pointer;
+            
+            .upload__img {
+                fill: #b4c8bd;
+            }
         }
 
         &:active {

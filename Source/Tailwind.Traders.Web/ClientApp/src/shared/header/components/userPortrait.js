@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import { ReactComponent as User } from "../../../assets/images/icon-profile.svg";
 class UserPortrait extends Component {

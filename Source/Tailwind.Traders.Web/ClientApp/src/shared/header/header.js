@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { NamespacesConsumer } from 'react-i18next';
 
-import APIClient from '../../ApiClient';
-// import UserPortrait from './components/userPortrait'; => this will be needed when the user is logged in
-import LoginModal from './components/loginModal';
+import { UserService } from '../../services';
+import { withRouter } from "react-router-dom";
+
+import LoginContainer from './components/loginContainer';
+import LoginComponent from './components/loginComponent';
+import UserPortrait from './components/userPortrait';
 
 import { ReactComponent as Logo } from '../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../assets/images/icon-close.svg';
@@ -13,24 +17,32 @@ import { ReactComponent as Hamburger } from '../../assets/images/icon-menu.svg';
 import { ReactComponent as Cart } from '../../assets/images/icon-cart.svg';
 import { ReactComponent as Search } from '../../assets/images/icon-search.svg';
 
+import { clickAction } from "../../actions/actions";
+
+const Login = LoginContainer(LoginComponent);
+
 class Header extends Component {
     constructor() {
         super();
         this.state = {
             isopened: false,
-            isomodalpened: false,
+            ismodalopened: false,
             profile: {},
         };
         this.loginModalRef = React.createRef();
     }
 
     async componentDidMount() {
-        const profileData = await APIClient.getProfileData();
-        this.setState({ ...profileData });
+
+        if (this.props.userInfo.token) { 
+            const profileData  = await UserService.getProfileData(this.props.userInfo.token);
+            this.setState({ ...profileData });
+        }
+
 
         const setComponentVisibility = this.setComponentVisibility.bind(this);
         setComponentVisibility(document.documentElement.clientWidth);
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             setComponentVisibility(document.documentElement.clientWidth);
         });
     }
@@ -48,11 +60,31 @@ class Header extends Component {
     };
 
     toggleModalClass = () => {
-        this.loginModalRef.current.toggleModalClass();
+
+        if (!document.body.classList.contains("is-blocked")) {
+            document.body.classList.add("is-blocked");
+        } else {
+            document.body.classList.remove("is-blocked");
+        }
+
+        this.setState(prevState => ({
+            ismodalopened: !prevState.ismodalopened
+        }));
     };
 
+    onClickClose = () => {
+        this.toggleModalClass();
+    }
+
+    onClickLogout = () => {
+        localStorage.clear();
+        this.props.clickAction();
+        this.props.history.push('/');
+    }
+
     render() {
-        // const { profile } = this.state; =>  this will be needed when the user is logged in
+        const { profile } = this.state;
+        const { loggedIn } = this.props.userInfo;
         return (
             <NamespacesConsumer>
                 {t => (
@@ -96,19 +128,22 @@ class Header extends Component {
                         </nav>
                         <nav className="secondary-nav">
                             <Search />
-                            {/* <UserPortrait {...profile} /> this will be needed when the user is logged in */}
-                            <div onClick={this.toggleModalClass}>Login</div>
-                            <Link className="secondary-nav__cart" to="/shopping-cart">
+                            {loggedIn && <Link to="/profile"><UserPortrait {...profile} /></Link>}
+                            {loggedIn ? <div className="secondary-nav__login" onClick={this.onClickLogout}>{t('shared.header.logout')}</div>
+                                : <div className="secondary-nav__login" onClick={this.toggleModalClass}>{t('shared.header.login')}</div>}
+                            {loggedIn && <Link className="secondary-nav__cart" to="/shopping-cart">
                                 <Cart />
                                 <div className="secondary-nav__cart-number">
                                     {this.props.quantity}
                                 </div>
-                            </Link>
+                            </Link>}
                             <button className="u-empty" onClick={this.toggleModClass}>
                                 <Hamburger />
                             </button>
                         </nav>
-                        <LoginModal ref={this.loginModalRef} />
+                        {this.state.ismodalopened ?
+                            <Login toggleModalClass={this.state.ismodalopened} onClickClose={this.onClickClose} />
+                            : null}
                     </header>
                 )}
             </NamespacesConsumer>
@@ -116,4 +151,6 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps, { clickAction })(withRouter(Header));

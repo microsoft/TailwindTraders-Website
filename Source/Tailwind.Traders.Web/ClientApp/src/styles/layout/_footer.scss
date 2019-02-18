@@ -8,6 +8,9 @@
     padding: $padding-l;
 
     &__content {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
         margin-left: auto;
         margin-right: auto;
         width: 100%;
@@ -33,13 +36,12 @@
         fill: $color-primary;
         display: block;
         margin-bottom: $margin-m;
-        margin-right: $margin-m;
     }
 
     &__links {
+        margin-top: $margin-s;
         display: flex;
         flex-wrap: wrap;
-        margin-top: -0.4rem;
     }
 
     &__link {

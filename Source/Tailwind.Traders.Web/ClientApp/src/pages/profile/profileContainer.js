@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
-import APIClient from "../../ApiClient";
 import { NamespacesConsumer } from "react-i18next";
 
 import Profile from "./components/profile"
@@ -16,6 +16,7 @@ import KitchenImg from "../../assets/images/profile-kitchen.jpg";
 import Plumbing from "../../assets/images/home_plumbing.jpg";
 import Garden from "../../assets/images/home_gardencenter.jpg";
 import Electrical from "../../assets/images/home_electrical.jpg";
+import { UserService } from '../../services';
 
 class ProfileContainer extends Component {
     constructor() {
@@ -61,7 +62,7 @@ class ProfileContainer extends Component {
     }
 
     async componentDidMount() {
-        const userInformation = await APIClient.getUserInfoData();
+        const userInformation = await UserService.getUserInfoData(this.props.userInfo.token);
         this.setState({ ...userInformation });
     }
 
@@ -115,4 +116,6 @@ class ProfileContainer extends Component {
     }
 }
 
-export default ProfileContainer;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(ProfileContainer);
