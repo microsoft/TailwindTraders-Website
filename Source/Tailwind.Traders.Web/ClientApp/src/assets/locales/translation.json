@@ -17,7 +17,8 @@
 
             "mycoupons.title": "My coupons",
             "mycoupons.subtitle": "Personalized coupons for you based on your purchase history and interest",
-            "mycoupons.noCoupons": "This user does not have available coupons",
+            "mycoupons.big.noCoupons": "This user does not have available big coupons",
+            "mycoupons.small.noCoupons": "This user does not have available small coupons",
             "mycoupons.smallcoupons.until": "Until",
             "mycoupons.RecentSearchedProducts.title": "Based on your recent searches",
 

@@ -109,8 +109,9 @@ class LoginComponent extends Component {
                                 />
                                 <div className="modal__btns">
                                     <button type="submit" value="Submit" className="btn btn--primary">{t('shared.header.login')}</button>
-                                    <span>{t('shared.header.or')}</span>
-                                    <button className="btn btn--microsoft">{t('shared.header.loginMicrosoft')}</button>
+
+                                    <span style={{ display: 'none' }}>{t('shared.header.or')}</span>
+                                    <button style={{ display: 'none' }} className="btn btn--microsoft">{t('shared.header.loginMicrosoft')}</button>
                                 </div>
                             </form>
                         </div>

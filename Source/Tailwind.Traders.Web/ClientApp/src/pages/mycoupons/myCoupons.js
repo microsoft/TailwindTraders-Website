@@ -8,8 +8,8 @@ const MyCoupons = ({ t, bigCoupon, smallCoupons, recommendedProducts }) => {
     return (
         <div className="mycoupons">
             <div className="mycoupons__container">
-                {!smallCoupons.length && <p className="mycoupons-empty">{t("mycoupons.noCoupons")}</p>}
-                {!bigCoupon.length && <p className="mycoupons-empty">{t("mycoupons.noCoupons")}</p>}
+                {!smallCoupons.length && <p className="mycoupons-empty">{t("mycoupons.small.noCoupons")}</p>}
+                {!bigCoupon.length && <p className="mycoupons-empty">{t("mycoupons.big.noCoupons")}</p>}
                 
                 {smallCoupons.length || bigCoupon.length ? <div>
                     <h1 className="mycoupons__title">{t("mycoupons.title")}</h1>
