@@ -330,3 +330,7 @@ ASALocalRun/
 .mfractor/
 
 **/local.settings.json
+
+# Custom helm config
+Deploy/helm/__values/*
+!Deploy/helm/__values/readme.txt

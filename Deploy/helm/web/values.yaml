@@ -1,0 +1,29 @@
+replicaCount: 1
+applicationName: tailwindtraders
+
+image:
+  repository: tailwindtradersacr.azurecr.io/web.api
+  tag: prod
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  configmap:
+    - name: Auth
+    - name: UserId
+    - name: ApiUrl
+    - name: ApiUrlShoppingCart
+  values:
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Production
