@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
-import APIClient from "../../ApiClient";
 import { NamespacesConsumer } from "react-i18next";
 
 import Profile from "./components/profile"
@@ -16,6 +16,7 @@ import KitchenImg from "../../assets/images/profile-kitchen.jpg";
 import Plumbing from "../../assets/images/home_plumbing.jpg";
 import Garden from "../../assets/images/home_gardencenter.jpg";
 import Electrical from "../../assets/images/home_electrical.jpg";
+import { UserService } from '../../services';
 
 class ProfileContainer extends Component {
     constructor() {
@@ -61,13 +62,14 @@ class ProfileContainer extends Component {
     }
 
     async componentDidMount() {
-        const userInformation = await APIClient.getUserInfoData();
+        const userInformation = await UserService.getUserInfoData(this.props.userInfo.token);
         this.setState({ ...userInformation });
     }
 
     render() {
-        const { coupons: { smallCoupons } } = this.state
+        const { coupons } = this.state
         const { purchaseHistory, recommendedProducts, favoriteCatregories, profile } = this.state
+        const isSmallCouponsAvailable = coupons && coupons.smallCoupons.length;
         return (
             <NamespacesConsumer>
                 {t => (
@@ -77,12 +79,17 @@ class ProfileContainer extends Component {
                             <aside className="aside">
                                 <div className="profile__heading">
                                     <h2 className="profile__heading-title">{t("profile.cupons.title")}</h2>
-                                    <Link className="btn  btn--secondary" to="/coupons">
-                                        <span>{t("profile.cupons.seeAll")}</span>
-                                    </Link>
+                                    {isSmallCouponsAvailable ?
+                                        <Link className="btn  btn--secondary" to="/coupons">
+                                            <span>{t("profile.cupons.seeAll")}</span>
+                                        </Link> : null}
                                 </div>
-                                <SmallCoupons smallCoupons={smallCoupons} />
+                                {isSmallCouponsAvailable ? <SmallCoupons smallCoupons={coupons.smallCoupons} /> :
+                                    <div className="profile__data--empty">
+                                        <span className="profile__title profile__info">{t("profile.cupons.noCupons")}</span>
+                                    </div>}
                             </aside>
+
                             <div className="history">
                                 <h2 className="profile__heading-title profile__heading-history">{t("profile.history.title")}</h2>
                                 {purchaseHistory && purchaseHistory.map((purchaseHistoryItem, index) => (
@@ -109,4 +116,6 @@ class ProfileContainer extends Component {
     }
 }
 
-export default ProfileContainer;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(ProfileContainer);

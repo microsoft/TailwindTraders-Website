@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 
 import { LoadingSpinner } from "../../shared/index";
 
-import APIClient from "../../ApiClient";
 import List from "./list";
+import {  ProductService } from '../../services';
 
 class ListContainer extends Component {
     constructor(props) {
@@ -41,11 +41,14 @@ class ListContainer extends Component {
 
     async getProductData(type) {
         const filter = type === '' ? {} : this.queryString.type = { type };
-        const filteredProductsPageData = await APIClient.getFilteredProducts(filter);
-        return filteredProductsPageData;
+        const filteredProductsPageData = await ProductService.getFilteredProducts(filter);
+        return filteredProductsPageData.data;
     }
 
     setPageState(filteredProductsPageData) {
+        if (filteredProductsPageData === undefined) {
+            return;
+        }
         const typesList = filteredProductsPageData.types;
         const brandsList = filteredProductsPageData.brands;
         const productsList = filteredProductsPageData.products;
@@ -57,8 +60,8 @@ class ListContainer extends Component {
         const dataType = e.target.getAttribute("id");
         this.setQueryStringState(isChecked, dataType, value);
 
-        const apiCall = await APIClient.getFilteredProducts(this.queryString);
-        this.setState({ productsList: apiCall.products });
+        const apiCall = await ProductService.getFilteredProducts(this.queryString);
+        this.setState({ productsList: apiCall.data.products });
     };
 
     setQueryStringState(isChecked, dataType, value) {
@@ -92,7 +95,5 @@ class ListContainer extends Component {
         );
     }
 }
-
-
 
 export default ListContainer;

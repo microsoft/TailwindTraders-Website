@@ -13,7 +13,7 @@
     padding: $padding-m;
     text-align: center;
     text-decoration: none;
-    text-transform: uppercase;
+    transition: background-color $animation-speed-fast $animation-type-regular, color $animation-speed-fast $animation-type-regular;
     white-space: nowrap;
 
     @include text-s();
@@ -21,6 +21,7 @@
     &--primary {
         background-color: $color-background-accent-tertiary;
         color: $color-text-light;
+        text-transform: uppercase;
 
         &:hover {
             background-color: $color-background-accent-tertiary-hover;
@@ -52,14 +53,22 @@
         }
     }
 
+    &--microsoft {
+        background-color: $color-background-microsoft;
+        color: $color-text-light;
+
+        &:hover {
+            background-color: darken($color-background-microsoft, 10%);
+        }
+    }
+
     &--float {
         bottom: $space-l;
         left: 50%;
         position: fixed;
         transform: translateX(-50%) translateZ(0);
-        z-index: $z-index-s;
-
         will-change: transform;
+        z-index: $z-index-s;
     }
 
     &.is-disabled {

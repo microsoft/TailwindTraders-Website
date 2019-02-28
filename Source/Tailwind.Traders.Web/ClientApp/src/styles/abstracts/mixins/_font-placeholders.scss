@@ -10,14 +10,14 @@
 	font-size: 1rem; // 16px
 
 	@media (min-width: $mq-l) {
-		font-size: 1.125rem; // 18px
+		font-size: $font-big; // 18px
 	}
 }
 
 // Paragraph Small
 @mixin text-s {
 	font-family: $font-family-body;
-	font-size: 1.125rem; // 18px
+	font-size: $font-big; // 18px
 
 	@media (min-width: $mq-l) {
 		font-size: 1.25rem; // 20px;

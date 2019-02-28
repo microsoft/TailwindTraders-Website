@@ -6,7 +6,6 @@ namespace Tailwind.Traders.Web
     {
         public string Auth  {get; set;}
         public string ApiUrl {get; set;}
-        public int UserId {get; set;}
         public string ApiUrlShoppingCart {get; set;}
         
         public CartSettings Cart {get; set;}

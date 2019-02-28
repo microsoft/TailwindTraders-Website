@@ -8,7 +8,7 @@ const Profile = ({ t, name, address, phoneNumber, email, imageUrlMedium }) => {
             <h2 className="profile__heading-title">{t("Customer Information")}</h2>
             <div className="profile-wapper">
                 <div className="profile__image">
-                    <UserPortrait imageUrlMedium={imageUrlMedium}/>
+                    <UserPortrait imageUrlMedium={imageUrlMedium} name={name}/>
                 </div>
                 <div className="profile__info">
                     <p className="profile__title">{t("profile.name")}</p>

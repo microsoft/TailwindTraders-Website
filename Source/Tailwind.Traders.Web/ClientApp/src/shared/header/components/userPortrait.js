@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import { ReactComponent as User } from "../../../assets/images/icon-profile.svg";
 class UserPortrait extends Component {
@@ -16,13 +16,11 @@ class UserPortrait extends Component {
 
     render() {
         const { isUserPortrait } = this.state;
-        const { imageUrlMedium } = this.props;
+        const { imageUrlMedium, name } = this.props;
         return (
             <Fragment>
                 {isUserPortrait && imageUrlMedium ? (
-                    <Link to="/profile">
-                        <img className="portrait" src={imageUrlMedium} alt="Scott Hanselman's Portrait" onError={this.onError} />
-                    </Link>
+                    <img className="portrait" src={imageUrlMedium} alt={`${name}'s portrait`} onError={this.onError} />
                 ) : (
                         <User />
                     )}

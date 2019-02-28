@@ -8,17 +8,18 @@ import { UploadFile } from "../../../../shared/index";
 
 import { ReactComponent as CouponsImg } from "../../../../assets/images/icon-coupons.svg";
 
-const Recommended = ({ t, recommendedProductsData }) => {
+const Recommended = ({ t, recommendedProductsData, loggedIn }) => {
     return (
         <section className="recommended">
             <UploadFile
                 title={t("home.recommended.uploadPhotoTitle")}
                 subtitle={t("home.recommended.uploadPhotoSubtitle")}
             />
-            <Link className="btn  btn--secondary" to="/coupons">
+            {loggedIn && <Link className="btn  btn--secondary" to="/coupons">
                 <CouponsImg />
                 <span>{t("shared.seeMyCoupons")}</span>
-            </Link>
+            </Link>}
+
             <div className="grid__wrapper">
                 <h2 className="grid__heading">{t("home.recommended.recommended")}</h2>
                 <div className="grid">

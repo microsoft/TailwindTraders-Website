@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from "react";
+import { connect } from 'react-redux';
 
-import APIClient from "../../ApiClient";
 import { LoadingSpinner } from "../../shared"
 
 import MyCoupons from "./myCoupons";
+import { ProductService } from '../../services';
 
 class MyCouponsContainer extends Component {
     constructor() {
@@ -17,9 +18,11 @@ class MyCouponsContainer extends Component {
     }
 
     async componentDidMount() {
-        const couponsPageData = await APIClient.getCouponsPageData();
-        const recommendedProducts = couponsPageData.recommendedProducts;
-        const { smallCoupons, bigCoupon } = couponsPageData.coupons;
+        const token = this.props.userInfo.token;
+        const couponsPageData = await ProductService.getCouponsPageData(token);
+        
+        const recommendedProducts = couponsPageData.data.recommendedProducts;
+        const { smallCoupons = [], bigCoupon = [] } = couponsPageData.data.coupons || {};
 
         this.setState({ smallCoupons, bigCoupon, recommendedProducts, loading: false });
     }
@@ -39,4 +42,6 @@ class MyCouponsContainer extends Component {
     }
 }
 
-export default MyCouponsContainer;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(MyCouponsContainer);

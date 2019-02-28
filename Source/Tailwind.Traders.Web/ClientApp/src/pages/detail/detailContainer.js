@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
+import { connect } from 'react-redux';
 
 import { animateScroll as scroll } from "react-scroll";
 import { LoadingSpinner } from "../../shared";
 import Alert from "react-s-alert";
 
-import APIClient from "../../ApiClient";
 import Detail from "./detail";
+import { CartService, ProductService, UserService } from '../../services';
 
 class DetailContainer extends Component {
     constructor(props) {
@@ -35,36 +36,36 @@ class DetailContainer extends Component {
     }
 
     async getDetailPageData(productId) {
-        const detailProduct = await APIClient.getDetailProductData(productId);
-
-        let popularProducts = await APIClient.getHomePageData();
-        if (popularProducts) {
-            popularProducts = popularProducts.popularProducts.slice(0, 3);
-        }
-
-        this.setState({ popularProducts, detailProduct, loading: false });
+        const detailProduct = await ProductService.getDetailProductData(productId);
+        this.setState({ detailProduct, loading: false });
     }
 
     async addProductToCart() {
-        const profile = await APIClient.getProfileData();
+
+        const profile = await UserService.getProfileData(this.props.userInfo.token);
         const { profile: { email } } = profile;
         this.state.detailProduct.email = email
 
-        await APIClient.postProductToCart(this.state.detailProduct)
-            .then((data) => { this.showSuccesMessage(data) })
-            .catch((data) => { this.showErrorMessage(data) });
+        const productToCart = await CartService.postProductToCart(this.props.userInfo.token, this.state.detailProduct)
 
+        if (productToCart.errMessage) {
+            return this.showErrorMessage(productToCart)
+        } else {
+            this.showSuccesMessage(productToCart)
+        }
 
         this.setState({ loadingRelated: true });
 
         setTimeout(async () => {
-            let relatedDetailProducts = await APIClient.getRelatedDetailProducts(email, this.state.detailProduct.type.id);
-            relatedDetailProducts = relatedDetailProducts.recommendations.slice(0, 3);
+            let relatedDetailProducts = await CartService
+                .getRelatedDetailProducts(this.props.userInfo.token, this.state.detailProduct.type.id);
+
+            if (relatedDetailProducts) {
+                relatedDetailProducts = relatedDetailProducts.recommendations.slice(0, 3);
+            }
 
             this.setState({ relatedDetailProducts, loadingRelated: false });
         }, 2000);
-
-
 
         this.props.sumProductInState();
     }
@@ -79,23 +80,23 @@ class DetailContainer extends Component {
     }
 
     showErrorMessage(data) {
-        Alert.error(data.message, {
+        Alert.error(data.errMessage, {
             position: "top",
             effect: "scale",
             beep: true,
-            timeout: 5000,
+            timeout: 3000,
         });
     }
 
     render() {
-        const { loading, detailProduct, relatedDetailProducts, loadingRelated } = this.state;
-
+        const { loading, detailProduct, loadingRelated } = this.state;
+        const { loggedIn } = this.props.userInfo
         return (
             <Fragment>
                 <Alert stack={{ limit: 1 }} />
                 {loading ? <LoadingSpinner /> :
                     <Detail
-                        relatedDetailProducts={relatedDetailProducts}
+                        loggedIn={loggedIn}
                         detailProductData={detailProduct}
                         addProductToCart={this.addProductToCart}
                         loadingRelated={loadingRelated}
@@ -106,4 +107,6 @@ class DetailContainer extends Component {
     }
 }
 
-export default DetailContainer;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(DetailContainer);

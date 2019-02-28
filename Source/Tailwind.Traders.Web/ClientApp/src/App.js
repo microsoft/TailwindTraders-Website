@@ -1,8 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
+import { CartService } from './services';
+
 import { Header, Footer } from "./shared";
 import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, ShoppingCart } from "./pages";
-import APIClient from "./ApiClient";
+
 import "./i18n";
 import "./main.scss";
 require("dotenv").config();
@@ -17,10 +20,11 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        const profile = await APIClient.getProfileData();
-        const { profile: { email } } = profile;
-        const shoppingCart = await APIClient.getShoppingCart(email);
-        this.setState({ shoppingCart });
+        if (this.props.userInfo.token) {
+            const shoppingCart = await CartService.getShoppingCart(this.props.userInfo.token);
+            this.setState({ shoppingCart });
+        }
+
         const quantity = this.state.shoppingCart.reduce((oldQty, { qty }) => oldQty + qty, 0);
         this.setState({ quantity })
     }
@@ -37,19 +41,28 @@ class App extends Component {
 
     render() {
         const { quantity } = this.state;
+
+        const PrivateRoute = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                this.props.userInfo.loggedIn === true
+                    ? <Component {...props} {...rest} />
+                    : <Redirect to='/' />
+            )} />
+        )
+
         return (
             <div className="App">
                 <Router>
                     <Fragment>
                         <Header quantity={quantity} />
                         <Route exact path="/" component={Home} />
-                        <Route path="/coupons" component={MyCoupons} />
                         <Route exact path="/list" component={List} />
                         <Route exact path="/list/:code" component={List} />
                         <Route path="/suggested-products-list" component={SuggestedProductsList} />
-                        <Route path="/product/detail/:productId" render={(props) => <Detail sumProductInState={this.sumProductInState} {...props}/>} />
-                        <Route path="/profile" component={Profile} />
-                        <Route path="/shopping-cart" render={() => <ShoppingCart ShoppingCart={this.ShoppingCart} quantity={this.state.quantity} />} />
+                        <Route path="/product/detail/:productId" render={(props) => <Detail sumProductInState={this.sumProductInState} {...props} />} />
+                        <PrivateRoute path='/coupons' component={MyCoupons} />
+                        <PrivateRoute path='/profile' component={Profile} />
+                        <PrivateRoute path='/shopping-cart' component={ShoppingCart} ShoppingCart={this.ShoppingCart} quantity={this.state.quantity} />
                         <Footer />
                     </Fragment>
                 </Router>
@@ -58,4 +71,6 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => state.login;
+
+export default connect(mapStateToProps)(App);

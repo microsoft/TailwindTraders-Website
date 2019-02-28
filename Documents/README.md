@@ -11,7 +11,6 @@ The web runs as a Docker image. To build it just type `docker-compose build` fro
  Web uses some environment variables for its settings:
 
  * `Auth`: Is the fake authorization email of the logged user.
- * `UserId`: Is the fake ID of the logged user
  * `ApiUrl`: Is the URL of the API gateway
  * `ApiUrlShoppingCart`: Is the URL of the API used by the shopping cart
 
@@ -22,7 +21,6 @@ Entries of the `.env` file are:
 
 * `TT_WEB_APIURL`: Value of the `ApiUrl` variable
 * `TT_WEB_AUTH`: Value of the `Auth` variable
-* `TT_WEB_USERID`: Value of the `UserId` variable
 * `TT_WEB_APISHOPPINGCART`: Value of the `ApiUrlShoppingCart` variable
 
 ### Default values for the .env file
@@ -32,7 +30,7 @@ Currently Microsoft is providing a test Backend server. Please, note that this i
 * `TT_WEB_APIURL`: http://81649b4bff174fb6b0d3.westus2.aksapp.io/webbff/v1
 * `TT_WEB_APISHOPPINGCART`: http://81649b4bff174fb6b0d3.westus2.aksapp.io/cart-api
 
-Read the `.env` file for valid values of `TT_WEB_AUTH` and `TT_WEB_USERID`.
+Read the `.env` file for valid values of `TT_WEB_AUTH`.
 
 ## Run the web using VS
 
@@ -42,5 +40,4 @@ You can run the web locally using Visual Studio. Only update the `appsettings.De
   "ApiUrl": "URL OF API GATEWAY",
   "ApiUrlShoppingCart": "URL OF SHOPPING CART API",
   "Auth": "AUTH EMAIL",
-  "UserId": "AUTH ID",
 ```
