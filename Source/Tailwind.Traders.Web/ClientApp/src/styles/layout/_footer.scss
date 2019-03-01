@@ -32,6 +32,17 @@
         }
     }
 
+    &__disclaimer {
+        margin-top: $margin-s;
+    }
+
+    &-text {
+        @include text-xs();
+        color: $color-text-primary;
+        margin-top: $margin-m;
+        text-align: center;
+    }
+
     svg {
         fill: $color-primary;
         display: block;
@@ -39,20 +50,28 @@
     }
 
     &__links {
-        margin-top: $margin-s;
+        margin-top: $margin-m;
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
+        text-align: center;
+
+        @media (min-width: $mq-m) {
+            margin-top: $margin-s;
+            flex-direction: row;
+        }
     }
 
     &__link {
         @include text-s();
         color: $color-text-primary;
         font-weight: $font-weight-medium;
-
         white-space: nowrap;
 
         &:not(:last-of-type) {
-            margin-right: $margin-m;
+            @media (min-width: $mq-m) {
+                margin-right: $margin-l;
+            }
         }
     }
 }

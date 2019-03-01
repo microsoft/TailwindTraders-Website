@@ -14,14 +14,20 @@ const Footer = ({ t }) => {
                 </Link>
                 <div className="foo__links">
                     <Link className="foo__link" to="/">
-                        {t("shared.footer.link")}
+                        {t("shared.footer.link2")}
                     </Link>
                     <Link className="foo__link" to="/">
-                        {t("shared.footer.link")}
+                        {t("shared.footer.link3")}
                     </Link>
                     <Link className="foo__link" to="/">
-                        {t("shared.footer.link")}
+                        {t("shared.footer.link4")}
                     </Link>
+                    <Link className="foo__link" to="/">
+                        {t("shared.footer.link5")}
+                    </Link>
+                </div>
+                <div className="foo__disclaimer">
+                    <p className="foo-text">{t("shared.footer.disclaimer")}</p>
                 </div>
             </div>
         </footer>
