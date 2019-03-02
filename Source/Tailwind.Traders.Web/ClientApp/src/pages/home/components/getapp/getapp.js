@@ -17,20 +17,20 @@ const Getapp = ({ t }) => {
                 <h1 className="getapp-title">{t("home.getapp.title")}</h1>
                 <p className="getapp-text">{t("home.getapp.subtitle")}</p>
                 <div className="getapp__stores-wrapper">
-                    <Link className="getapp__btn" to="/">
+                    <a className="getapp__btn" href="https://aka.ms/tailwindtradersios">
                         <img
                             className="getapp__badge"
                             src={BadgeApple}
                             alt={t("home.getapp.appStoreImg")}
                         />
-                    </Link>
-                    <Link className="getapp__btn" to="/">
+                    </a>
+                    <a className="getapp__btn" href="https://aka.ms/tailwindtradersandroid">
                         <img
                             className="getapp__badge"
                             src={BadgeGoogle}
                             alt={t("home.getapp.googlePlayImg")}
                         />
-                    </Link>
+                    </a>
                 </div>
             </header>
             <picture className="getapp__body">
