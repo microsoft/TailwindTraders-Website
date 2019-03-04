@@ -72,7 +72,7 @@ To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Depl
 To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
 
 ```
-.\Deploy-Images-Aks.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
+.\DeployImagesAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
 ```
 
 # Contributing
