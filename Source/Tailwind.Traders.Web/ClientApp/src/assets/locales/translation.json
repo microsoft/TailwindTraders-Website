@@ -12,8 +12,8 @@
         "home.recommended.products": "Recommended products",
         "home.getapp.title": "Get your mobile App",
         "home.getapp.subtitle": "Try our smart shopping app for easy planning",
-        "home.getapp.appStoreImg": "Download Tailwind Traders on App Store",
-        "home.getapp.googlePlayImg": "Download Tailwind Traders on Google Play",
+        "home.getapp.appStoreImg": "Download Tailwind Traders for iOS",
+        "home.getapp.googlePlayImg": "Download Tailwind Traders for Android",
 
         "mycoupons.title": "My coupons",
         "mycoupons.subtitle": "Personalized coupons for you based on your purchase history and interest",
@@ -43,7 +43,7 @@
         "shared.header.or": "or",
         "shared.header.login": "Login",
         "shared.header.email": "Email",
-        "shared.header.emailPlaceholder": "johndoe@mail.com",
+        "shared.header.emailPlaceholder": "admin@tailwindtraders.com",
         "shared.header.password": "Password",
         "shared.header.passwordPlaceholder": "••••••••",
 
@@ -56,7 +56,7 @@
         "shared.footer.link3": "Privacy Policy",
         "shared.footer.link4": "Help",
         "shared.footer.link5": "Contact",
-        "shared.footer.disclaimer": "This site is built by Microsoft for demonstration purposes only",
+        "shared.footer.disclaimer": "This site was built for demonstration purposes only.",
 
         "shared.addToList": "Add to list",
         "shared.seeMyCoupons": "See my coupons",

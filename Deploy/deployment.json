@@ -22,22 +22,14 @@
       "type": "string",
       "defaultValue": "msfttailwindtraders/tailwindtraderswebsite:latest"
     },
-    "registrySku": {
-      "defaultValue": "Standard",
-      "type": "string"
-    },
-    "userEmail" : {
-      "type": "string"
-    },
     "apiBaseUrl" : {
       "type": "string",
       "defaultValue": "http://81649b4bff174fb6b0d3.westus2.aksapp.io/"
     }    
   },
   "variables": {
-    "website_name": "[concat('tailwindtraders-',uniqueString(resourceGroup().id))]",
-    "plan_name": "[concat('ttappserviceplan-',uniqueString(resourceGroup().id))]",
-    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]"
+    "website_name": "[concat('tailwindtraders',uniqueString(resourceGroup().id))]",
+    "plan_name": "[concat('ttappserviceplan',uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -56,10 +48,6 @@
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
               "value": "[parameters('dockerRegistryUrl')]"
-            },
-            {
-              "name": "Auth",
-              "value": "[parameters('userEmail')]"
             },
             {
               "name": "ApiUrl",
@@ -98,28 +86,12 @@
         "hostingEnvironment": "",
         "reserved": true
       }
-    },
-    {
-      "type": "Microsoft.ContainerRegistry/registries",
-      "sku": {
-        "name": "[parameters('registrySku')]"
-      },
-      "name": "[variables('acr_name')]",
-      "apiVersion": "2017-10-01",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "adminUserEnabled": true
-      }
     }
   ],
   "outputs": {
     "web": {
       "type": "string",
       "value": "[variables('website_name')]"
-    },
-    "acr": {
-      "type": "string",
-      "value": "[variables('acr_name')]"
     }
   }
 }

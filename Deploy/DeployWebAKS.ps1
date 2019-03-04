@@ -7,8 +7,6 @@ Param(
     [parameter(Mandatory=$false)][string]$tag="latest",
     [parameter(Mandatory=$false)][string]$valueSFile = "gvalues.yaml",
     [parameter(Mandatory=$false)][string]$afHost = "http://your-product-visits-af-here",
-    [parameter(Mandatory=$true)][string]$webAuth,
-    [parameter(Mandatory=$true)][string]$webUserId,
     [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none', IgnoreCase=$false)]$tlsEnv = "none"
 )
 
@@ -82,7 +80,7 @@ validate
 Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
-$command = createHelmCommand "helm install --name $name -f $valuesFile --set web.auth=$webAuth --set web.userid=$webUserId  --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag"  "web" 
+$command = createHelmCommand "helm install --name $name -f $valuesFile --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag"  "web" 
 cmd /c "$command"
 Pop-Location
 
