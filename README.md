@@ -2,6 +2,8 @@
 
 <img src="/Documents/Images/Website.png" alt="Tailwind Traders Website"/>
 
+[![Build status](https://dev.azure.com/TailwindTraders/Website/_apis/build/status/Website-CI)](https://dev.azure.com/TailwindTraders/Website/_build/latest?definitionId=-1)
+
 # Deploy to Azure
 
 We have added an ARM template so you can automate the creation of the resources for this website.
