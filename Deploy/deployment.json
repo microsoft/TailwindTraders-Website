@@ -24,7 +24,7 @@
     },
     "apiBaseUrl" : {
       "type": "string",
-      "defaultValue": "http://81649b4bff174fb6b0d3.westus2.aksapp.io/"
+      "defaultValue": "http://f5dc03f4e99349f6b467.eastus.aksapp.io"
     }    
   },
   "variables": {
