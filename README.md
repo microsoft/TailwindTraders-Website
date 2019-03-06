@@ -75,6 +75,11 @@ To install the web in AKS my-aks using production TLS certificates, located in r
 .\DeployImagesAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
 ```
 
+# How to use the product search by photo
+
+To use the product search by photo you have go to:
+* [./Documents/Product_Search_By_Image.md](./Documents/Product_Search_By_Image.md)
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
