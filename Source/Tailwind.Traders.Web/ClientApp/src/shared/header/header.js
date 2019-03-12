@@ -34,7 +34,7 @@ class Header extends Component {
 
     async componentDidMount() {
 
-        if (this.props.userInfo.token) { 
+        if (this.props.userInfo.token) {
             const profileData  = await UserService.getProfileData(this.props.userInfo.token);
             this.setState({ ...profileData });
         }
@@ -60,7 +60,6 @@ class Header extends Component {
     };
 
     toggleModalClass = () => {
-
         if (!document.body.classList.contains("is-blocked")) {
             document.body.classList.add("is-blocked");
         } else {
@@ -122,12 +121,12 @@ class Header extends Component {
                                     {t('shared.header.logout')}
                                 </button>
                             </div>
-                            <button className="u-empty js-close" onClick={this.toggleClass}>
-                                <Close />
+                            <button className="u-empty btn-close" onClick={this.toggleClass}>
+                              <Close />
                             </button>
                         </nav>
                         <nav className="secondary-nav">
-                            <Search />
+                            {/* <Search /> */}
                             {loggedIn && <Link to="/profile"><UserPortrait {...profile} /></Link>}
                             {loggedIn ? <div className="secondary-nav__login" onClick={this.onClickLogout}>{t('shared.header.logout')}</div>
                                 : <div className="secondary-nav__login" onClick={this.toggleModalClass}>{t('shared.header.login')}</div>}
@@ -137,7 +136,7 @@ class Header extends Component {
                                     {this.props.quantity}
                                 </div>
                             </Link>}
-                            <button className="u-empty" onClick={this.toggleModClass}>
+                            <button className="u-empty" onClick={this.toggleClass}>
                                 <Hamburger />
                             </button>
                         </nav>
