@@ -1,0 +1,20 @@
+pool:
+    vmImage: 'Hosted Ubuntu 1604'
+steps:
+    -
+        task: Docker@1
+        displayName: 'Build an image on Docker Hub'
+        inputs:
+            containerregistrytype: 'Container Registry'
+            dockerRegistryEndpoint: DockerHub
+            dockerFile: Source/Dockerfile
+            imageName: 'msfttailwindtraders/tailwindtraderswebsite:latest'
+            includeLatestTag: true
+    -
+        task: Docker@1
+        displayName: 'Push an image to Docker Hub'
+        inputs:
+            containerregistrytype: 'Container Registry'
+            dockerRegistryEndpoint: DockerHub
+            command: 'Push an image'
+            imageName: 'msfttailwindtraders/tailwindtraderswebsite:latest'
