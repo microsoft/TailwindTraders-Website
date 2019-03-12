@@ -18,21 +18,25 @@ class HomeContainer extends Component {
                     title: "Power Tools",
                     imageUrl: Powertools,
                     cssClass: "grid__item-a",
+                    url: "/list/diytools"
                 },
                 {
                     title: "Plumbing",
                     imageUrl: Plumbing,
                     cssClass: "grid__item-b",
+                    url: "/list/kitchen"
                 },
                 {
                     title: "Electrical",
                     imageUrl: Electrical,
                     cssClass: "grid__item-c",
+                    url: "/list/home"
                 },
                 {
                     title: "Garden Center",
                     imageUrl: Garden,
                     cssClass: "grid__item-d",
+                    url: "/list/gardening"
                 },
             ],
             popularProducts: [],

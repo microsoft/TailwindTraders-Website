@@ -89,12 +89,15 @@
             border: 0;
         }
 
-        svg:last-of-type {
-            display: block;
+        .btn-close {
+          display: block;
+          position: absolute;
+          right: 2rem;
+          top: 1.5rem;
+
+          svg {
             fill: $color-svg-tertiary;
-            position: absolute;
-            right: 2rem;
-            top: 1.5rem;
+          }
         }
     }
 
@@ -154,6 +157,7 @@
     }
 
     &__login {
+        color: $color-text-primary;
         cursor: pointer;
     }
 
