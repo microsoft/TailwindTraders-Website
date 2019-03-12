@@ -1,5 +1,6 @@
 pool:
-    vmImage: 'Hosted Ubuntu 1604'
+    vmImage: ubuntu-16.04
+
 steps:
     -
         task: Docker@1
