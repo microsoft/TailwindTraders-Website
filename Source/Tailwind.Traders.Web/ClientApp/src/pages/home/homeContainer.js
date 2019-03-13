@@ -52,12 +52,13 @@ class HomeContainer extends Component {
 
     async shouldComponentUpdate(nextProps) {
         if ((this.props.userInfo.loggedIn !== nextProps.userInfo.loggedIn) && nextProps.userInfo.loggedIn) {
-            await this.renderPopularProducts()
+            await this.renderPopularProducts(nextProps.userInfo.token)
         }
     }
 
-    async renderPopularProducts() {
-        const token = this.props.userInfo.token;
+    async renderPopularProducts(token) {
+        token = token || this.props.userInfo.token;
+
         let popularProducts = await ProductService.getHomePageData(token);
 
         if (popularProducts && popularProducts.data.popularProducts) {
