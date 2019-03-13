@@ -5,7 +5,7 @@ To use the product search, we need to upload a photo, the website redirects to s
 Steps to search:
 
 1. In home of the website, click in the "Start smart shopping" button.
-<img src="./Images/Docs/Start_Smart_Shopping_Button.png">
+<img src="./Images/Docs/Start_Smart_Shopping_Button.PNG">
 
 2. Select a photo to upload and send it.
     * If website has more than 1 suggested products
@@ -21,15 +21,15 @@ To use this search, you can use the images in:
 ### Rechargable screwdriver sample
 If you select the [electric_screwdriver.jpg](./Images/TestImages/electric_screwdriver.jpg) should be appears 3 suggested products similar to:
 
-<img src="./Images/Docs/rechargeable_Screwdriver_Suggested_Products.png">
+<img src="./Images/Docs/rechargeable_Screwdriver_Suggested_Products.PNG">
 
 ### Multi-tool plier sample
 If you select the [multi-tool_plier.jpg](./Images/TestImages/multi-tool_plier.jpg) should be appears 3 suggested products similar to:
 
-<img src="./Images/Docs/multi-tool_plier_Suggested_Products.png">
+<img src="./Images/Docs/multi-tool_plier_Suggested_Products.PNG">
 
 
 ### Hard hat sample
 If you select the [hard_hat.jpg](./Images/TestImages/hard_hat.jpg) should be redirect to product detail, beacuse only have a 1 suggested product:
 
-<img src="./Images/Docs/hard_Hat_Suggested_Product_Detail.png">
+<img src="./Images/Docs/hard_Hat_Suggested_Product_Detail.PNG">
