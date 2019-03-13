@@ -10,6 +10,10 @@
       "type": "string",
       "defaultValue": "S1"
     },
+    "registrySku": {
+      "defaultValue": "Standard",
+      "type": "string"
+    },
     "workerSize": {
       "type": "string",
       "defaultValue": "1"
@@ -29,9 +33,22 @@
   },
   "variables": {
     "website_name": "[concat('tailwindtraders',uniqueString(resourceGroup().id))]",
-    "plan_name": "[concat('ttappserviceplan',uniqueString(resourceGroup().id))]"
+    "plan_name": "[concat('ttappserviceplan',uniqueString(resourceGroup().id))]",
+    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]"
   },
   "resources": [
+    {
+      "type": "Microsoft.ContainerRegistry/registries",
+      "sku": {
+        "name": "[parameters('registrySku')]"
+      },
+      "name": "[variables('acr_name')]",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "adminUserEnabled": true
+      }
+    },
     {
       "type": "Microsoft.Web/sites",
       "name": "[variables('website_name')]",
@@ -92,6 +109,10 @@
     "web": {
       "type": "string",
       "value": "[variables('website_name')]"
+    },
+    "acr": {
+      "type": "string",
+      "value": "[variables('acr_name')]"
     }
   }
 }
