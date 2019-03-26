@@ -58,7 +58,7 @@ class LoginComponent extends Component {
     generateLocalStorageInformation(loginFormData) {
         return {
             user: this.state.email,
-            token: loginFormData.data.access_token,
+            token: loginFormData.data.access_token.token,
             loggedIn: true
         }
     }
