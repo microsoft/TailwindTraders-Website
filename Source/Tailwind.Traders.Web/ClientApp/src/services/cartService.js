@@ -64,7 +64,6 @@ const CartService = {
     },
 
     async updateQuantity(id, qty, token) {
-        debugger
         await ConfigService.loadSettings();
 
         const product = {
