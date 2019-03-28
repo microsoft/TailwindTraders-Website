@@ -15,6 +15,19 @@ const CartService = {
     },
 
     async postProductToCart(token, detailProduct) {
+        const products = await this.getShoppingCart(token);
+
+        const product = products.find(product => product.id === detailProduct.id);
+        if (product) {
+            return this.updateQuantity(product._cdbid, product.qty + 1, token)
+                .then(() => ({message: "Product added on shopping cart"}))
+                .catch(() => ({ errMessage: "The product could not be added to the cart" }))
+        }
+
+        return this.addProduct(token, detailProduct);
+    },
+
+    async addProduct(token, detailProduct) {
         await ConfigService.loadSettings();
 
         const productInfo = {
@@ -51,6 +64,7 @@ const CartService = {
     },
 
     async updateQuantity(id, qty, token) {
+        debugger
         await ConfigService.loadSettings();
 
         const product = {
