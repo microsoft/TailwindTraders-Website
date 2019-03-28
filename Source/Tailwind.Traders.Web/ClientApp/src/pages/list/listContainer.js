@@ -29,7 +29,6 @@ class ListContainer extends Component {
   async componentDidMount() {
     const filter = this.props.match.params.code || '';
     const filteredProductsPageData = await this.getProductData(filter);
-    console.log('filteredProductsPageData', filteredProductsPageData);
     this.setPageState(filteredProductsPageData);
   }
 
@@ -44,8 +43,6 @@ class ListContainer extends Component {
   async getProductData(type) {
     const filter = type === '' ? {} : (this.queryString.type = { type });
     const filteredProductsPageData = await ProductService.getFilteredProducts(filter);
-
-    console.log(filteredProductsPageData);
 
     return filteredProductsPageData.data;
   }
