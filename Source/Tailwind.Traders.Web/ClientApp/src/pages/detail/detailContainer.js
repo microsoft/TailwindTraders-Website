@@ -89,7 +89,7 @@ class DetailContainer extends Component {
     }
 
     render() {
-        const { loading, detailProduct, loadingRelated } = this.state;
+        const { loading, detailProduct, loadingRelated,relatedDetailProducts } = this.state;
         const { loggedIn } = this.props.userInfo
         return (
             <Fragment>
@@ -100,6 +100,7 @@ class DetailContainer extends Component {
                         detailProductData={detailProduct}
                         addProductToCart={this.addProductToCart}
                         loadingRelated={loadingRelated}
+                        relatedDetailProducts={relatedDetailProducts}
                     />
                 }
             </Fragment>

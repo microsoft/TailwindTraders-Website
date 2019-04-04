@@ -20,8 +20,6 @@ affinity: {}
 
 env:
   configmap:
-    - name: Auth
-    - name: UserId
     - name: ApiUrl
     - name: ApiUrlShoppingCart
   values:
