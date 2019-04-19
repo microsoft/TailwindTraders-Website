@@ -16,19 +16,11 @@ const Getapp = ({ t }) => {
                 <h1 className="getapp-title">{t("home.getapp.title")}</h1>
                 <p className="getapp-text">{t("home.getapp.subtitle")}</p>
                 <div className="getapp__stores-wrapper">
-                    <a className="getapp__btn" href="https://aka.ms/tailwindtradersios">
-                        <img
-                            className="getapp__badge"
-                            src={BadgeApple}
-                            alt={t("home.getapp.appStoreImg")}
-                        />
+                    <a className="btn btn--getapp btn--getapp--left" href="https://aka.ms/tailwindtradersios">
+                        <div className="getapp-btntext">Get it now for </div>iOS
                     </a>
-                    <a className="getapp__btn" href="https://aka.ms/tailwindtradersandroid">
-                        <img
-                            className="getapp__badge"
-                            src={BadgeGoogle}
-                            alt={t("home.getapp.googlePlayImg")}
-                        />
+                    <a className="btn btn--getapp btn--getapp--right" href="https://aka.ms/tailwindtradersandroid">
+                        <div className="getapp-btntext">Get it now for </div>Android
                     </a>
                 </div>
             </header>
