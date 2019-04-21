@@ -48,8 +48,33 @@
 
         > svg {
             margin-right: $margin-s;
-
             fill: $color-svg-primary;
+        }
+    }
+
+    &--getapp {
+        display: block;
+        background-color: $color-background-light;
+        box-shadow: $box-shadow-s;
+        color: $color-text-primary;
+        padding: 0.5rem;
+        width: 150px;
+        line-height: 100%;
+
+        @media (min-width: $mq-m) {
+            width: 170px;
+        }
+
+        @media (min-width: $mq-l) {
+            width: 192px;
+        }
+
+        &--left {
+            float: left;
+        }
+
+        &--right {
+            float: right;
         }
     }
 
