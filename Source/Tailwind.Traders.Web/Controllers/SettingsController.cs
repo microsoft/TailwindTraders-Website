@@ -1,23 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Tailwind.Traders.Web.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
-    public class SettingsController : Controller
+    public class SettingsController : ControllerBase
     {
         private readonly Settings _settings;
         public SettingsController(IOptions<Settings> settings) => _settings = settings.Value;
 
         [HttpGet()]
-        public IActionResult GetSettings()
+        public ActionResult<Settings> GetSettings()
         {
-            return Ok(_settings);
+            return _settings;
         }
-
-     }
+    }
 }
