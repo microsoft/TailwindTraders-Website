@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HeadersConfig, ConfigService } from "./configService"
+import { ConfigService } from "./configService"
 require('../helpers/errorsHandler');
 
 
@@ -13,13 +13,13 @@ const UserService = {
 
     async getUserInfoData(token) {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrl}/profiles/me`, HeadersConfig(token), { errorHandle: false });
+        const response = await axios.get(`${ConfigService._apiUrl}/profiles/me`, ConfigService.HeadersConfig(token), { errorHandle: false });
         return response.data;
     },
 
     async getProfileData(token) {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrl}/profiles/navbar/me`, HeadersConfig(token), { errorHandle: false });
+        const response = await axios.get(`${ConfigService._apiUrl}/profiles/navbar/me`, ConfigService.HeadersConfig(token), { errorHandle: false });
         return response.data;
     }
 }

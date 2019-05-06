@@ -8,13 +8,13 @@ const ProductService = {
 
     async getHomePageData(token) {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrl}/products/landing`, HeadersConfig(token), { errorHandle: false })
+        const response = await axios.get(`${ConfigService._apiUrl}/products/landing`, ConfigService.HeadersConfig(token), { errorHandle: false })
         return response;
     },
 
     async getCouponsPageData(token) {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrl}/coupons`, HeadersConfig(token), { errorHandle: false });
+        const response = await axios.get(`${ConfigService._apiUrl}/coupons`, ConfigService.HeadersConfig(token), { errorHandle: false });
         return response;
     },
 
@@ -40,7 +40,7 @@ const ProductService = {
 
     async getRelatedProducts(formData, token) {
         await ConfigService.loadSettings();
-        const response = await axios.post(`${ConfigService._apiUrl}/products/imageclassifier`, formData, HeadersConfig(token));
+        const response = await axios.post(`${ConfigService._apiUrl}/products/imageclassifier`, formData, ConfigService.HeadersConfig(token));
         return response.data;
     }
 }

@@ -1,0 +1,28 @@
+# Values for web chart for use with Devspaves
+
+web:
+  auth: #auth email to use (can be set by azds.yaml)
+  userid: #User id (can be set by azds.yaml)
+inf:
+  sa: ttsa
+  appinsights:
+    id: ""
+  ingress:
+    webbff:
+      path: /webbff    
+    cart:
+      path: /cart-api
+az:
+  productvisitsurl: ""
+
+# Shared ingress configurations
+ingress:
+  enabled: true
+  protocol: http
+#  hosts:
+#    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local

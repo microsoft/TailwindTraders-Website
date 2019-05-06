@@ -10,7 +10,7 @@ const CartService = {
             return items;
         }
 
-        const response = await axios.get(`${ConfigService._apiUrlShoppingCart}/shoppingcart`, HeadersConfig(token));
+        const response = await axios.get(`${ConfigService._apiUrlShoppingCart}/shoppingcart`, ConfigService.HeadersConfig(token));
         return response.data;
     },
 
@@ -46,7 +46,7 @@ const CartService = {
             return { message: "Product added on shopping cart" };
         }
 
-        const addProduct = axios.post(`${ConfigService._apiUrlShoppingCart}/shoppingcart`, dataToPost, HeadersConfig(token))
+        const addProduct = axios.post(`${ConfigService._apiUrlShoppingCart}/shoppingcart`, dataToPost, ConfigService.HeadersConfig(token))
             .then((response) => {
                 return response.data;
             })
@@ -59,7 +59,7 @@ const CartService = {
 
     async getRelatedDetailProducts(token, typeid = {}) {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrlShoppingCart}/shoppingcart/relatedproducts/?type=${typeid}`, HeadersConfig(token));
+        const response = await axios.get(`${ConfigService._apiUrlShoppingCart}/shoppingcart/relatedproducts/?type=${typeid}`, ConfigService.HeadersConfig(token));
         return response.data[0];
     },
 
@@ -71,14 +71,14 @@ const CartService = {
             qty: qty
         }
 
-        const response = await axios.post(`${ConfigService._apiUrlShoppingCart}/shoppingcart/product`, product, HeadersConfig(token));
+        const response = await axios.post(`${ConfigService._apiUrlShoppingCart}/shoppingcart/product`, product, ConfigService.HeadersConfig(token));
         return response;
     },
 
     async deleteProduct(id, token) {
         await ConfigService.loadSettings();
 
-        let config = HeadersConfig(token);
+        let config = ConfigService.HeadersConfig(token);
         config.data = {
             id: id,
         }
