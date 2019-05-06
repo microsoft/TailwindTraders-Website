@@ -16,7 +16,13 @@ namespace Tailwind.Traders.Web.Controllers
         [HttpGet()]
         public IActionResult GetSettings()
         {
-            return Ok(_settings);
+            var settings = _settings;
+            if (Request.Headers.TryGetValue("azds-route-as", out var devspaceName)) 
+            {
+                settings = _settings.Clone();
+                settings.UseDevspacesName(devspaceName.FirstOrDefault() ?? string.Empty);
+            }
+            return Ok(settings);
         }
 
      }

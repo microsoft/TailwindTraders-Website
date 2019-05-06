@@ -4,5 +4,5 @@ services:
   web:
     image: ${REGISTRY:-tailwindtraders}/web:${TAG:-latest}
     build:
-      context: .
+      context: Tailwind.Traders.Web
       dockerfile: Dockerfile

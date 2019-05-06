@@ -30,3 +30,11 @@ Create chart name and version as used by the chart label.
 {{- define "tt-web.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "tt-web.apihost" -}}
+{{- if .Values.apihost -}}
+{{- printf "%s" .Values.apihost -}}
+{{- else -}}
+{{- printf "%s" index .Values.ingress.hosts 0 -}}
+{{- end -}}
+{{- end -}}
