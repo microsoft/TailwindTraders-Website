@@ -31,6 +31,8 @@ When you deploy this website to Azure you can define the [Backend](https://githu
 
 Please follow these steps to deploy the web in the same AKS where Backend is running instead of deploying to an App Service.
 
+**Note**: Website supports [Devspaces deployment](./Documents/Devspaces.md).
+
 ## Pre-Requisites:
 
 1. **You must have an AKS with all the Tailwind Traders Backend Up & Running**. Please follow the instructions on [Tailwind Traders Backend repo](https://github.com/Microsoft/TailwindTraders-Backend/) to deploy the backend on AKS.
