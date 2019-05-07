@@ -35,6 +35,6 @@ Create chart name and version as used by the chart label.
 {{- if .Values.apihost -}}
 {{- printf "%s" .Values.apihost -}}
 {{- else -}}
-{{- printf "%s" index .Values.ingress.hosts 0 -}}
+{{- printf "%s" (index .Values.ingress.hosts 0) -}}
 {{- end -}}
 {{- end -}}
