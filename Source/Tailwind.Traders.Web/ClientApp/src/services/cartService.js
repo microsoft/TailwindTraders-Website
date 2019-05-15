@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HeadersConfig, ConfigService } from "./configService"
+import { ConfigService } from "./configService"
 require('../helpers/errorsHandler');
 
 const CartService = {
