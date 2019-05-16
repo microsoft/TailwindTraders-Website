@@ -28,13 +28,13 @@ const ProductService = {
             }
         }
 
-        const response = await axios.get(`${ConfigService._apiUrl}/products/?`, params, { errorHandle: false });
+        const response = await axios.get(`${ConfigService._apiUrl}/products/?`, params, ConfigService.HeadersConfig(), { errorHandle: false });
         return response;
     },
 
     async getDetailProductData(productId) {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrl}/products/${productId}`, { errorHandle: false });
+        const response = await axios.get(`${ConfigService._apiUrl}/products/${productId}`, ConfigService.HeadersConfig(), { errorHandle: false });
         return response.data;
     },
 

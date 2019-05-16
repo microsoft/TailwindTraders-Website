@@ -104,7 +104,12 @@
             color: $color-text-light;
             font-weight: $font-weight-light;
         }
+
+        &.nostock {
+            background: #ff7777;
+        }
     }
+
 
     &__data-price {
         @include text-l-price;
