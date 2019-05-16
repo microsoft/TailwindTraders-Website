@@ -7,7 +7,7 @@ const UserService = {
 
     async postLoginForm(formData) {
         await ConfigService.loadSettings();
-        const response = await axios.post(`${ConfigService._apiUrl}/login`, formData, { errorHandle: false });
+        const response = await axios.post(`${ConfigService._apiUrl}/login`, formData, ConfigService.HeadersConfig(), { errorHandle: false });
         return response;
     },
 

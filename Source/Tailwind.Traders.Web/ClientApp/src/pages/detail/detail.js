@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import { NamespacesConsumer } from "react-i18next";
+import { NamespacesConsumer, I18nextProvider } from "react-i18next";
 import { LoadingSpinner } from "../../shared";
 
 import { Popular } from "../home/components";
@@ -12,8 +12,9 @@ class Detail extends Component {
         this.props.addProductToCart();
     }
 
+
     render() {
-        const { name, price, imageUrl } = this.props.detailProductData;
+        const { name, price, imageUrl, stockUnits } = this.props.detailProductData;
         const type = Object.assign({}, this.props.detailProductData.type);
         const { features } = this.props.detailProductData;
 
@@ -26,6 +27,7 @@ class Detail extends Component {
 
         const { loadingRelated, loggedIn } = this.props;
 
+
         return (
             <NamespacesConsumer>
                 {t => (
@@ -36,11 +38,14 @@ class Detail extends Component {
                                 <p className="detail__label">{type.name}</p>
                                 <div className="detail__data">
                                     <span className="detail__title">{name} (${price})</span>
-                                    <span className="detail__tag">{t("detail.inStock")}</span>
+                                    {stockUnits > 0 ? 
+                                        <span className="detail__tag">{t("detail.inStock")}</span> :
+                                        <span className="detail__tag nostock">{t("detail.outStock")}</span>
+                                    }
                                     <span className="detail__tag">{t("detail.tagName1")}</span>
                                     <span className="detail__tag">{t("detail.tagName2")}</span>
                                 </div>
-                                {loggedIn && <div className="detail__buttons">
+                                {stockUnits > 0 && loggedIn && <div className="detail__buttons">
                                     <button className={`btn btn--primary btn--cart`} onClick={this.addToCart}>{t("detail.addToCart")}</button>
                                     <Link className="btn btn--secondary" to="/shopping-cart">{t("detail.shoppingCart")}</Link>
                                 </div> }

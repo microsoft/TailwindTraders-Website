@@ -7,11 +7,11 @@ const APIUrl = process.env.REACT_APP_DEV_API_URL;
 const APIUrlShoppingCart = process.env.REACT_APP_API_URL_SHOPPINGCART;
 
 const _HeadersConfig = (token, devspaces = undefined) => {
-    const headers = { Authorization: `Bearer ${token}`};
+    const headers =  token ? { Authorization: `Bearer ${token}`} : {};
     if (devspaces) {
         headers['azds-route-as']= devspaces;
     }
-
+    
     return {headers: headers};
 };
 
@@ -30,7 +30,7 @@ export const ConfigService = {
         }
     },
 
-    HeadersConfig(token) {
+    HeadersConfig(token = undefined) {
         return _HeadersConfig(token, this._devspacesName);
     }
 }
