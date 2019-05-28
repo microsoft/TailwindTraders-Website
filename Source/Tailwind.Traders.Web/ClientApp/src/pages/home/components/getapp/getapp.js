@@ -2,8 +2,6 @@ import React from "react";
 
 import { withNamespaces } from "react-i18next";
 
-import BadgeApple from "../../../../assets/images/badge-apple.png";
-import BadgeGoogle from "../../../../assets/images/badge-google.png";
 import MockupSmall from "../../../../assets/images/Mockup_Small.png";
 import MockupSmall2 from "../../../../assets/images/Mockup_Small@2x.png";
 import MockupBig from "../../../../assets/images/Mockup_Big.png";
