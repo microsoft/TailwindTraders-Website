@@ -16,7 +16,7 @@ class LoginComponent extends Component {
     constructor() {
         super();
         this.state = {
-            isomodalopened: false,
+            isModalOpened: false,
             email: "",
             password: "",
             grant_type: "password",
@@ -86,10 +86,10 @@ class LoginComponent extends Component {
     }
 
     setUseB2c = () => {
-        const useB2cFromProps = this.props.UseB2C ? this.props.UseB2C : null;
-        const useB2cFromEnv = process.env.REACT_APP_USE_B2C ? JSON.parse(process.env.REACT_APP_USE_B2C.toLowerCase()) : null;
-        if (useB2cFromProps) {
-            return this.setState({ useB2c: useB2cFromProps })
+        const useB2cFromEnv = process.env.REACT_APP_USE_B2C ? JSON.parse(process.env.REACT_APP_USE_B2C.toLowerCase()) : false;
+        debugger;
+        if (this.props.UseB2C !== null) {
+            return this.setState({ useB2c: this.props.UseB2C })
         }
         return this.setState({ useB2c: useB2cFromEnv })
     }
@@ -98,7 +98,7 @@ class LoginComponent extends Component {
         return (
             <NamespacesConsumer>
                 {t => (
-                    <div className={this.state.isomodalopened ? 'modal-overlay is-opened' : 'modal-overlay'}>
+                    <div className={this.state.isModalOpened ? 'modal-overlay is-opened' : 'modal-overlay'}>
                         <Alert stack={{ limit: 1 }} />
                         <div className="modal">
                             <Close onClick={this.toggleModalClass} />
