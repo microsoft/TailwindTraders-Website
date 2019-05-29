@@ -4,7 +4,7 @@ import {
     setAccessToken,
     setRefreshToken
 } from './tokensHelper';
-import { ConfigService } from '../services/configService'
+import { ConfigService } from '../services'
 
 let failedRequestToRetry = [];
 let isAlreadyFetchingAccessToken = false;

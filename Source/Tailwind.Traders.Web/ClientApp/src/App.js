@@ -8,7 +8,6 @@ import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, Shopping
 
 import "./i18n";
 import "./main.scss";
-require("dotenv").config();
 
 class App extends Component {
     constructor() {

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 import { NamespacesConsumer } from 'react-i18next';
-import Alert from "react-s-alert";
+import Alert from 'react-s-alert';
 
-import { UserService } from "../../../services";
-import { saveState } from "../../../helpers/localStorage";
+import { UserService } from '../../../services';
+import { saveState } from '../../../helpers/localStorage';
+
+import LoginB2c from './loginb2c';
+import LoginForm from './loginForm';
 
 import { ReactComponent as Logo } from '../../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../../assets/images/icon-close.svg';
@@ -13,11 +16,16 @@ class LoginComponent extends Component {
     constructor() {
         super();
         this.state = {
-            isomodalpened: false,
+            isomodalopened: false,
             email: "",
             password: "",
-            grant_type: "password"
+            grant_type: "password",
+            useB2c: null,
         };
+    }
+
+    componentDidMount() {
+        this.setUseB2c();
     }
 
     toggleModalClass = () => {
@@ -77,44 +85,32 @@ class LoginComponent extends Component {
         });
     }
 
+    setUseB2c = () => {
+        const useB2cFromProps = this.props.UseB2C ? this.props.UseB2C : null;
+        const useB2cFromEnv = process.env.REACT_APP_USE_B2C ? JSON.parse(process.env.REACT_APP_USE_B2C.toLowerCase()) : null;
+        if (useB2cFromProps) {
+            return this.setState({ useB2c: useB2cFromProps })
+        }
+        return this.setState({ useB2c: useB2cFromEnv })
+    }
+
     render() {
         return (
             <NamespacesConsumer>
                 {t => (
-                    <div className={this.state.isomodalpened ? 'modal-overlay is-opened' : 'modal-overlay'}>
+                    <div className={this.state.isomodalopened ? 'modal-overlay is-opened' : 'modal-overlay'}>
                         <Alert stack={{ limit: 1 }} />
                         <div className="modal">
                             <Close onClick={this.toggleModalClass} />
                             <Logo />
-                            <form onSubmit={(event) => {
-                                event.preventDefault();
-                                this.handleSubmit();
-                            }}>
-                                <label className="modal__label" htmlFor="email">{t('shared.header.email')}</label>
-                                <input
-                                    onChange={this.keepInputEmail}
-                                    value={this.props.text}
-                                    className="modal__input"
-                                    id="email"
-                                    type="email"
-                                    placeholder={t('shared.header.emailPlaceholder')}
+                            {this.state.useB2c
+                                ? <LoginB2c />
+                                : <LoginForm
+                                    handleSubmit={this.handleSubmit}
+                                    keepInputEmail={this.keepInputEmail}
+                                    keepInputPassword={this.keepInputPassword}
                                 />
-                                <label className="modal__label" htmlFor="password">{t('shared.header.password')}</label>
-                                <input
-                                    onChange={this.keepInputPassword}
-                                    value={this.props.text}
-                                    className="modal__input"
-                                    id="password"
-                                    type="password"
-                                    placeholder={t('shared.header.passwordPlaceholder')}
-                                />
-                                <div className="modal__btns">
-                                    <button type="submit" value="Submit" className="btn btn--primary">{t('shared.header.login')}</button>
-
-                                    <span style={{ display: 'none' }}>{t('shared.header.or')}</span>
-                                    <button style={{ display: 'none' }} className="btn btn--microsoft">{t('shared.header.loginMicrosoft')}</button>
-                                </div>
-                            </form>
+                            }
                         </div>
                     </div>
                 )}
