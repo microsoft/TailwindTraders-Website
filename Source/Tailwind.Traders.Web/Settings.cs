@@ -11,7 +11,8 @@ namespace Tailwind.Traders.Web
         public string Auth  {get; set;}
         public string ApiUrl {get; set;}
         public string ApiUrlShoppingCart {get; set;}
-        
+        public bool UseB2C { get; set; }
+
         public CartSettings Cart {get; set;}
 
         public bool ByPassShoppingCartApi {get; set;}
@@ -29,6 +30,7 @@ namespace Tailwind.Traders.Web
                 Auth = Auth,
                 ApiUrlShoppingCart = ApiUrlShoppingCart,
                 ByPassShoppingCartApi = ByPassShoppingCartApi,
+                UseB2C = UseB2C,
             };
 
             if (Cart != null) 
