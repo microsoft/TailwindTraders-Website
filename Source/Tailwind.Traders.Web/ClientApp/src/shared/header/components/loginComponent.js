@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
 import { NamespacesConsumer } from 'react-i18next';
+
 import Alert from 'react-s-alert';
 
 import { UserService } from '../../../services';
+import AuthB2CService from '../../../services/authB2CService';
 import { saveState } from '../../../helpers/localStorage';
 
-import LoginB2c from './loginb2c';
+import LoginB2c from './loginB2c';
 import LoginForm from './loginForm';
 
 import { ReactComponent as Logo } from '../../../assets/images/logo-horizontal.svg';
@@ -15,6 +17,7 @@ import { ReactComponent as Close } from '../../../assets/images/icon-close.svg';
 class LoginComponent extends Component {
     constructor() {
         super();
+        this.authService = new AuthB2CService();
         this.state = {
             isModalOpened: false,
             email: "",
@@ -87,11 +90,41 @@ class LoginComponent extends Component {
 
     setUseB2c = () => {
         const useB2cFromEnv = process.env.REACT_APP_USE_B2C ? JSON.parse(process.env.REACT_APP_USE_B2C.toLowerCase()) : false;
-        debugger;
         if (this.props.UseB2C !== null) {
             return this.setState({ useB2c: this.props.UseB2C })
         }
         return this.setState({ useB2c: useB2cFromEnv })
+    }
+
+    handleLoginB2CClick = async (e) => {
+        e.preventDefault();
+        let user;
+        let token;
+        try {
+            user = await this.authService.login();
+            token = await this.authService.getToken();
+        }
+        catch (e) {
+            Alert.error("Cannot not be logged", {
+                position: "top",
+                effect: "scale",
+                beep: true,
+                timeout: 6000,
+            });
+            return;
+        }
+        
+        const LocalStorageInformation = {
+            user: user.name,
+            token: token,
+            refreshToken: null,
+            loggedIn: true
+        }
+
+        this.saveDataToLocalStorage(LocalStorageInformation);
+        this.props.submitAction(LocalStorageInformation);
+
+        this.toggleModalClass();
     }
 
     render() {
@@ -104,7 +137,7 @@ class LoginComponent extends Component {
                             <Close onClick={this.toggleModalClass} />
                             <Logo />
                             {this.state.useB2c
-                                ? <LoginB2c />
+                                ? <LoginB2c onLoginClick={this.handleLoginB2CClick} />
                                 : <LoginForm
                                     handleSubmit={this.handleSubmit}
                                     keepInputEmail={this.keepInputEmail}

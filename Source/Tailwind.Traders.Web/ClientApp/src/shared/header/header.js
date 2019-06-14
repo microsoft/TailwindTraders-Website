@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { NamespacesConsumer } from 'react-i18next';
 
 import { UserService, ConfigService } from '../../services';
+import AuthB2CService from '../../services/authB2CService';
 import { withRouter } from "react-router-dom";
 
 import LoginContainer from './components/loginContainer';
@@ -23,6 +24,7 @@ const Login = LoginContainer(LoginComponent);
 class Header extends Component {
     constructor() {
         super();
+        this.authService = new AuthB2CService();
         this.state = {
             isopened: false,
             ismodalopened: false,
@@ -83,6 +85,11 @@ class Header extends Component {
 
     onClickLogout = () => {
         localStorage.clear();
+
+        if (this.props.userInfo.isB2c) {
+            this.authService.logout();
+        }
+
         this.props.clickAction();
         this.props.history.push('/');
     }
