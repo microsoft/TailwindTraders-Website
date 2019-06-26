@@ -21,11 +21,15 @@ class App extends Component {
     async componentDidMount() {
         if (this.props.userInfo.token) {
             const shoppingCart = await CartService.getShoppingCart(this.props.userInfo.token);
-            this.setState({ shoppingCart });
+            if (shoppingCart) {
+                this.setState({ shoppingCart });
+            }
         }
 
-        const quantity = this.state.shoppingCart.reduce((oldQty, { qty }) => oldQty + qty, 0);
-        this.setState({ quantity })
+        if (this.state.shoppingCart != null) {
+            const quantity = this.state.shoppingCart.reduce((oldQty, { qty }) => oldQty + qty, 0);
+            this.setState({ quantity })
+        }
     }
 
     ShoppingCart = (quantity) => {

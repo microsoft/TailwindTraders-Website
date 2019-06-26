@@ -6,9 +6,9 @@ require('../helpers/errorsHandler');
 
 const ProductService = { 
 
-    async getHomePageData(token) {
+    async getHomePageData() {
         await ConfigService.loadSettings();
-        const response = await axios.get(`${ConfigService._apiUrl}/products/landing`, ConfigService.HeadersConfig(token), { errorHandle: false })
+        const response = await axios.get(`${ConfigService._apiUrl}/products/landing`, ConfigService.HeadersConfig(), { errorHandle: false })
         return response;
     },
 

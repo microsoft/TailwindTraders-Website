@@ -8,5 +8,9 @@ services:
       dockerfile: Dockerfile
       args:
         - USE_B2C=false
+    environment:
+      - B2CAuth:ClientId=
+      - B2CAuth:Authority=
+      - B2CAuth:Scopes=
     ports:
       - "2000:80"

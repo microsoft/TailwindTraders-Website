@@ -78,15 +78,15 @@ const handleUnathenticatedRequestFromFake = async (errorResponse, authentication
 
 const handleUnathenticatedRequestFromB2c = async (errorResponse, authenticationError) => {
     const authB2CService = new AuthB2CService();
-
     let accessToken;
+
     try {
         accessToken = await authB2CService.getToken();
     } catch (e) {
-        await this.authService.login();
-        accessToken = await this.authService.getToken();
-    }
-
+        await authB2CService.login();
+        accessToken = await authB2CService.getToken();
+   }
+ 
     if (!accessToken) {
         // We can't refresh, throw the error
         return Promise.reject(authenticationError);

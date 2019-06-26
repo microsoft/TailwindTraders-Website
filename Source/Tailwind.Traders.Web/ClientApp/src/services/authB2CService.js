@@ -7,12 +7,18 @@ export default class AuthB2CService {
             auth: {
                 clientId: ConfigService._B2cClientId,
                 authority: ConfigService._B2cAuthority,
+                validateAuthority: false,
                 redirectUri: `${window.location.origin}`
             }
         }
 
         this.msalAgent = new Msal.UserAgentApplication(this.applicationConfig);
-        this.msalAgent.handleRedirectCallback((error, response) => console.log(error, response));
+
+        this.msalAgent.handleRedirectCallback(async (error, response) => {
+            if(!response.accessToken) {
+                await this.login();
+            }
+        });
     }
 
     login = async () => {
