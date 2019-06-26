@@ -1,0 +1,6 @@
+B2C:
+  UseB2C: "false"
+  ReactAppUseB2C: "true"
+  ClientId: 9cff5fd8-12a7-4154-842a-14ddbadaf36f
+  Authority: https://tailwindtradersB2cTenantdev.b2clogin.com/tfp/tailwindtradersB2cTenantdev.onmicrosoft.com/B2C_1_tailwindtraderssignin_v2/
+  Scopes: https://tailwindtradersB2cTenantdev.onmicrosoft.com/tailwindtradersweb/user_impersonation

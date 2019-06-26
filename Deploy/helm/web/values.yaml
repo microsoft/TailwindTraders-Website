@@ -22,6 +22,11 @@ env:
   configmap:
     - name: ApiUrl
     - name: ApiUrlShoppingCart
+    - name: UseB2C
+    - name: REACT_APP_USE_B2C
+    - name: B2CAuth__ClientId
+    - name: B2CAuth__Authority
+    - name: B2CAuth__Scopes
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Production
