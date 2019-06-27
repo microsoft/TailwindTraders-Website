@@ -71,12 +71,13 @@ To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Depl
 * `-acrName`: ACR where image is pushed. Has to be the same ACR where Backend images are.
 * `-tag`: Tag to use for the Docker image of the Web
 * `-valueSFile`: YAML files containing the values. Defaults to `gvalues.yaml`. You can use the provided `gvalues.yaml` as-is, so don't need to specify this parameter.
+* `-b2cValuesFile`: YAML file with the B2C configuration values. Defaults to `values.b2c.yaml`. If B2C login is needed, you must fill the values in the file in order to configure it.
 * `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
 
 To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
 
 ```
-.\DeployImagesAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
+.\DeployWebAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
 ```
 
 # How to use the product search by photo

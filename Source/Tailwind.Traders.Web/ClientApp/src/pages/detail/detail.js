@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import { NamespacesConsumer, I18nextProvider } from "react-i18next";
+import { NamespacesConsumer } from "react-i18next";
 import { LoadingSpinner } from "../../shared";
 
 import { Popular } from "../home/components";

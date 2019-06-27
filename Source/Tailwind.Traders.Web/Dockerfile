@@ -3,13 +3,12 @@ WORKDIR /ClientApp
 COPY ClientApp/package.json .
 COPY ClientApp/package-lock.json .
 RUN npm install
-ARG USE_B2C
-ENV REACT_APP_USE_B2C $USE_B2C
 COPY ClientApp/ . 
 RUN npm run build
 
 FROM microsoft/dotnet:2.2.100-preview3-sdk-stretch as build-net
 ENV BuildingDocker true
+ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
 COPY *.csproj .
 RUN dotnet restore
