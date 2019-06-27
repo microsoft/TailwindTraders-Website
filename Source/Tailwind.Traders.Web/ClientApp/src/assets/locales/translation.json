@@ -47,6 +47,9 @@
         "shared.header.password": "Password",
         "shared.header.passwordPlaceholder": "••••••••",
 
+        "shared.login.claim": "Log in to add your products to the cart and enjoy the purchase!",
+        "shared.login.B2CButton": "Tailwind Traders Login",
+
         "shared.banner.uploadPhotoTitle": "upload new photo",
         "shared.banner.disclaimer": "Based on your photo we found these products for you",
         "shared.banner.info": "Not what you are looking for?",

@@ -3,6 +3,8 @@ WORKDIR /ClientApp
 COPY ClientApp/package.json .
 COPY ClientApp/package-lock.json .
 RUN npm install
+ARG USE_B2C
+ENV REACT_APP_USE_B2C $USE_B2C
 COPY ClientApp/ . 
 RUN npm run build
 

@@ -6,3 +6,7 @@ services:
     build:
       context: Tailwind.Traders.Web
       dockerfile: Dockerfile
+      args:
+        - USE_B2C=false
+    ports:
+      - "2000:80"
