@@ -21,15 +21,17 @@ function errorResponseHandler(error) {
 }
 
 function isTokenExpiredError(error) {    
-    
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
         return true;
     }
 
-    const errorResponseData = error.response.data;
+    if (error.response && error.response.data) {
 
-    if (typeof errorResponseData === 'string') {
-        return !!errorResponseData.match(/401|[Uu]nauthorized/);
+        const errorResponseData = error.response.data;
+
+        if (typeof errorResponseData === 'string') {
+            return !!errorResponseData.match(/401|[Uu]nauthorized/);
+        }
     }
 
     return false;

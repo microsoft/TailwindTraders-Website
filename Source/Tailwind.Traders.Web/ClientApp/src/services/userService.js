@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ConfigService } from "./configService"
+import { ConfigService } from "./"
 require('../helpers/errorsHandler');
 
 

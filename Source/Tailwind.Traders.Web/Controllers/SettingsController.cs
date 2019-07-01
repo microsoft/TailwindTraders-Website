@@ -9,7 +9,7 @@ namespace Tailwind.Traders.Web.Controllers
     public class SettingsController : ControllerBase
     {
         private readonly Settings _settings;
-        public SettingsController(IOptions<Settings> settings) => _settings = settings.Value;
+        public SettingsController(IOptionsSnapshot<Settings> settings) => _settings = settings.Value;
 
         [HttpGet()]
         public ActionResult<Settings> GetSettings()

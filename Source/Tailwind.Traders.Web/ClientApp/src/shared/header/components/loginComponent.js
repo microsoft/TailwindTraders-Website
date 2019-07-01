@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
 import { NamespacesConsumer } from 'react-i18next';
-import Alert from "react-s-alert";
 
-import { UserService } from "../../../services";
-import { saveState } from "../../../helpers/localStorage";
+import Alert from 'react-s-alert';
+
+import { UserService } from '../../../services';
+import AuthB2CService from '../../../services/authB2CService';
+import { saveState } from '../../../helpers/localStorage';
+
+import LoginB2c from './loginB2c';
+import LoginForm from './loginForm';
 
 import { ReactComponent as Logo } from '../../../assets/images/logo-horizontal.svg';
 import { ReactComponent as Close } from '../../../assets/images/icon-close.svg';
@@ -12,12 +17,18 @@ import { ReactComponent as Close } from '../../../assets/images/icon-close.svg';
 class LoginComponent extends Component {
     constructor() {
         super();
+        this.authService = new AuthB2CService();
         this.state = {
-            isomodalpened: false,
+            isModalOpened: false,
             email: "",
             password: "",
-            grant_type: "password"
+            grant_type: "password",
+            useB2c: null,
         };
+    }
+
+    componentDidMount() {
+        this.setUseB2c();
     }
 
     toggleModalClass = () => {
@@ -77,44 +88,62 @@ class LoginComponent extends Component {
         });
     }
 
+    setUseB2c = () => {
+        const useB2cFromEnv = process.env.REACT_APP_USE_B2C ? JSON.parse(process.env.REACT_APP_USE_B2C.toLowerCase()) : false;
+        if (this.props.UseB2C !== null) {
+            return this.setState({ useB2c: this.props.UseB2C })
+        }
+        return this.setState({ useB2c: useB2cFromEnv })
+    }
+
+    handleLoginB2CClick = async (e) => {
+        e.preventDefault();
+        let user;
+        let token;
+        try {
+            user = await this.authService.login();
+            token = await this.authService.getToken();
+        }
+        catch (e) {
+            Alert.error("Cannot not be logged", {
+                position: "top",
+                effect: "scale",
+                beep: true,
+                timeout: 6000,
+            });
+            return;
+        }
+        
+        const LocalStorageInformation = {
+            user: user.name,
+            token: token,
+            refreshToken: null,
+            loggedIn: true
+        }
+
+        this.saveDataToLocalStorage(LocalStorageInformation);
+        this.props.submitAction(LocalStorageInformation);
+
+        this.toggleModalClass();
+    }
+
     render() {
         return (
             <NamespacesConsumer>
                 {t => (
-                    <div className={this.state.isomodalpened ? 'modal-overlay is-opened' : 'modal-overlay'}>
+                    <div className={this.state.isModalOpened ? 'modal-overlay is-opened' : 'modal-overlay'}>
                         <Alert stack={{ limit: 1 }} />
                         <div className="modal">
                             <Close onClick={this.toggleModalClass} />
                             <Logo />
-                            <form onSubmit={(event) => {
-                                event.preventDefault();
-                                this.handleSubmit();
-                            }}>
-                                <label className="modal__label" htmlFor="email">{t('shared.header.email')}</label>
-                                <input
-                                    onChange={this.keepInputEmail}
-                                    value={this.props.text}
-                                    className="modal__input"
-                                    id="email"
-                                    type="email"
-                                    placeholder={t('shared.header.emailPlaceholder')}
+                            {this.state.useB2c
+                                ? <LoginB2c onLoginClick={this.handleLoginB2CClick} />
+                                : <LoginForm
+                                    handleSubmit={this.handleSubmit}
+                                    keepInputEmail={this.keepInputEmail}
+                                    keepInputPassword={this.keepInputPassword}
                                 />
-                                <label className="modal__label" htmlFor="password">{t('shared.header.password')}</label>
-                                <input
-                                    onChange={this.keepInputPassword}
-                                    value={this.props.text}
-                                    className="modal__input"
-                                    id="password"
-                                    type="password"
-                                    placeholder={t('shared.header.passwordPlaceholder')}
-                                />
-                                <div className="modal__btns">
-                                    <button type="submit" value="Submit" className="btn btn--primary">{t('shared.header.login')}</button>
-
-                                    <span style={{ display: 'none' }}>{t('shared.header.or')}</span>
-                                    <button style={{ display: 'none' }} className="btn btn--microsoft">{t('shared.header.loginMicrosoft')}</button>
-                                </div>
-                            </form>
+                            }
                         </div>
                     </div>
                 )}

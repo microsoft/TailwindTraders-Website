@@ -68,7 +68,7 @@
         line-height: 1rem;
 
         &:focus {
-          border-bottom: 2px solid $color-warning;
+            border-bottom: 2px solid $color-warning;
         }
 
         &:invalid {
@@ -138,7 +138,7 @@
         button {
             cursor: pointer;
         }
-        
+
         span {
             margin-bottom: $space-m;
             margin-top: $space-m;
@@ -168,6 +168,19 @@
 
         &.is-opened {
             display: flex;
+        }
+    }
+
+    &-b2c {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+
+        .btn {
+            margin-top: $margin-m;
+            margin-bottom: $margin-m;
+            cursor: pointer;
         }
     }
 }

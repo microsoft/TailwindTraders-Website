@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ConfigService } from "./configService"
+import { ConfigService } from "./"
 require('../helpers/errorsHandler');
 
 const CartService = {
@@ -10,8 +10,12 @@ const CartService = {
             return items;
         }
 
-        const response = await axios.get(`${ConfigService._apiUrlShoppingCart}/shoppingcart`, ConfigService.HeadersConfig(token));
-        return response.data;
+        try {
+            const response = await axios.get(`${ConfigService._apiUrlShoppingCart}/shoppingcart`, ConfigService.HeadersConfig(token));
+            return response.data;
+        } catch(e) {
+            return null;
+        }
     },
 
     async postProductToCart(token, detailProduct) {

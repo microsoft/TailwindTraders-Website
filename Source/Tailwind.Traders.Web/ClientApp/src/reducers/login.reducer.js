@@ -2,7 +2,6 @@ import { FORM_EMAIL, SAVE_USER, REMOVE_USER } from '../types/types';
 
 let userInfo = JSON.parse(localStorage.getItem('state'));
 
-//TODO HGACER UN DEFAULT STATE
 const initialDefaultState = {
     userInfo: {
         loggedIn: false,

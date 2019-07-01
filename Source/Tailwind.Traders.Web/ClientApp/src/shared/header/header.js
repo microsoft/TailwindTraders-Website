@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { NamespacesConsumer } from 'react-i18next';
 
-import { UserService } from '../../services';
+import { UserService, ConfigService } from '../../services';
+import AuthB2CService from '../../services/authB2CService';
 import { withRouter } from "react-router-dom";
 
 import LoginContainer from './components/loginContainer';
@@ -15,7 +16,6 @@ import { ReactComponent as Logo } from '../../assets/images/logo-horizontal.svg'
 import { ReactComponent as Close } from '../../assets/images/icon-close.svg';
 import { ReactComponent as Hamburger } from '../../assets/images/icon-menu.svg';
 import { ReactComponent as Cart } from '../../assets/images/icon-cart.svg';
-// import { ReactComponent as Search } from '../../assets/images/icon-search.svg';
 
 import { clickAction } from "../../actions/actions";
 
@@ -24,27 +24,35 @@ const Login = LoginContainer(LoginComponent);
 class Header extends Component {
     constructor() {
         super();
+        this.authService = new AuthB2CService();
         this.state = {
             isopened: false,
             ismodalopened: false,
             profile: {},
+            UseB2C: null
         };
         this.loginModalRef = React.createRef();
     }
 
     async componentDidMount() {
+        this.loadSettings();
 
         if (this.props.userInfo.token) {
-            const profileData  = await UserService.getProfileData(this.props.userInfo.token);
+            const profileData = await UserService.getProfileData(this.props.userInfo.token);
             this.setState({ ...profileData });
         }
-
 
         const setComponentVisibility = this.setComponentVisibility.bind(this);
         setComponentVisibility(document.documentElement.clientWidth);
         window.addEventListener('resize', function () {
             setComponentVisibility(document.documentElement.clientWidth);
         });
+    }
+
+    loadSettings = async () => {
+        await ConfigService.loadSettings();
+        const UseB2C = ConfigService._UseB2C;
+        this.setState({ UseB2C })
     }
 
     setComponentVisibility(width) {
@@ -77,6 +85,11 @@ class Header extends Component {
 
     onClickLogout = () => {
         localStorage.clear();
+
+        if (this.props.userInfo.isB2c) {
+            this.authService.logout();
+        }
+
         this.props.clickAction();
         this.props.history.push('/');
     }
@@ -122,7 +135,7 @@ class Header extends Component {
                                 </button>
                             </div>
                             <button className="u-empty btn-close" onClick={this.toggleClass}>
-                              <Close />
+                                <Close />
                             </button>
                         </nav>
                         <nav className="secondary-nav">
@@ -141,7 +154,7 @@ class Header extends Component {
                             </button>
                         </nav>
                         {this.state.ismodalopened ?
-                            <Login toggleModalClass={this.state.ismodalopened} onClickClose={this.onClickClose} />
+                            <Login UseB2C={this.state.UseB2C} toggleModalClass={this.state.ismodalopened} onClickClose={this.onClickClose} />
                             : null}
                     </header>
                 )}

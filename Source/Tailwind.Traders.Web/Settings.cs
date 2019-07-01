@@ -11,7 +11,9 @@ namespace Tailwind.Traders.Web
         public string Auth  {get; set;}
         public string ApiUrl {get; set;}
         public string ApiUrlShoppingCart {get; set;}
-        
+        public bool UseB2C { get; set; }
+
+        public B2CAuth B2CAuth { get; set; }
         public CartSettings Cart {get; set;}
 
         public bool ByPassShoppingCartApi {get; set;}
@@ -29,6 +31,7 @@ namespace Tailwind.Traders.Web
                 Auth = Auth,
                 ApiUrlShoppingCart = ApiUrlShoppingCart,
                 ByPassShoppingCartApi = ByPassShoppingCartApi,
+                UseB2C = UseB2C
             };
 
             if (Cart != null) 
@@ -51,5 +54,11 @@ namespace Tailwind.Traders.Web
         public string ContainerId {get; set;}
         public string DatabaseId {get; set;}
         public string Host {get; set;}
+    }
+    public class B2CAuth
+    {
+        public string ClientId { get; set; }
+        public string Authority { get; set; }
+        public string Scopes { get; set; }
     }
 }

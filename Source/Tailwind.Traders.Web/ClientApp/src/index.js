@@ -5,10 +5,13 @@ import "./index.css";
 import App from "./App";
 import './i18n';
 import store from './store';
+import ConfigService from './services/configService';
 
-ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('root')
-);
+(async () => {
+    await ConfigService.loadSettings();
+
+    ReactDOM.render(
+        <Provider store={store}><App /></Provider>,
+        document.getElementById('root')
+    );
+})();

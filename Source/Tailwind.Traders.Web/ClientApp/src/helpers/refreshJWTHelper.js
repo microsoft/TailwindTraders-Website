@@ -4,7 +4,8 @@ import {
     setAccessToken,
     setRefreshToken
 } from './tokensHelper';
-import { ConfigService } from '../services/configService'
+import { ConfigService } from '../services'
+import AuthB2CService from '../services/authB2CService';
 
 let failedRequestToRetry = [];
 let isAlreadyFetchingAccessToken = false;
@@ -32,46 +33,75 @@ const onAccessTokenFetched = (accessToken) => {
     failedRequestToRetry = [];
 }
 
-
 export const handleUnathenticatedRequest = async (authenticationError) => {
     try {
-
         const { response: errorResponse } = authenticationError;
-        const refreshToken = getRefreshToken();
+        const useB2cFromEnv = process.env.REACT_APP_USE_B2C ? JSON.parse(process.env.REACT_APP_USE_B2C.toLowerCase()) : false;
 
-        if (!refreshToken) {
-            // We can't refresh, throw the error
-            return Promise.reject(authenticationError);
-        }
-        const retryOriginalRequest = new Promise(resolve => {
-            addSubscriber(accessToken => {
-                errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
-                resolve(axios(errorResponse.config));
-            });
-        });
-
-        if (!isAlreadyFetchingAccessToken) {
-            isAlreadyFetchingAccessToken = true;
-            
-            const newJWTokens = await fetchNewJWTokens(refreshToken);
-
-            if (!newJWTokens) {
-                return Promise.reject(authenticationError);
-            }
-
-            setAccessToken(newJWTokens.newAccessToken);
-
-            setRefreshToken(newJWTokens.newRefreshToken);
-
-            isAlreadyFetchingAccessToken = false;
-            onAccessTokenFetched(newJWTokens.newAccessToken);
+        if (useB2cFromEnv) {
+            return handleUnathenticatedRequestFromB2c(errorResponse, authenticationError);
         }
 
-        return retryOriginalRequest;
-
+        return handleUnathenticatedRequestFromFake(errorResponse, authenticationError);
     } catch (err) {
         return Promise.reject(err);
     }
 }
 
+const handleUnathenticatedRequestFromFake = async (errorResponse, authenticationError) => {
+    const refreshToken = getRefreshToken();
 
+    if (!refreshToken) {
+        // We can't refresh, throw the error
+        return Promise.reject(authenticationError);
+    }
+
+    if (!isAlreadyFetchingAccessToken) {
+        isAlreadyFetchingAccessToken = true;
+
+        const newJWTokens = await fetchNewJWTokens(refreshToken);
+
+        if (!newJWTokens) {
+            return Promise.reject(authenticationError);
+        }
+
+        setAccessToken(newJWTokens.newAccessToken);
+
+        setRefreshToken(newJWTokens.newRefreshToken);
+
+        isAlreadyFetchingAccessToken = false;
+        onAccessTokenFetched(newJWTokens.newAccessToken);
+    }
+
+    return retryOriginalRequest(errorResponse);
+}
+
+const handleUnathenticatedRequestFromB2c = async (errorResponse, authenticationError) => {
+    const authB2CService = new AuthB2CService();
+    let accessToken;
+
+    try {
+        accessToken = await authB2CService.getToken();
+    } catch (e) {
+        await authB2CService.login();
+        accessToken = await authB2CService.getToken();
+   }
+ 
+    if (!accessToken) {
+        // We can't refresh, throw the error
+        return Promise.reject(authenticationError);
+    }
+
+    setAccessToken(accessToken);
+
+    return retryOriginalRequest(errorResponse);
+}
+
+const retryOriginalRequest = (errorResponse) => {
+    return new Promise(resolve => {
+        addSubscriber(accessToken => {
+            errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
+            resolve(axios(errorResponse.config));
+        });
+    });
+}
