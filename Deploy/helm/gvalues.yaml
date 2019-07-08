@@ -15,6 +15,9 @@ inf:
 az:
   productvisitsurl: ""
 
+nodeSelector:
+  "kubernetes.io/os": linux
+  
 # Shared ingress configurations
 ingress:
   enabled: true
