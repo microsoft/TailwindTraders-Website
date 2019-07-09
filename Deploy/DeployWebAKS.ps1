@@ -8,7 +8,9 @@ Param(
     [parameter(Mandatory=$false)][string]$valueSFile = "gvalues.yaml",
     [parameter(Mandatory=$false)][string]$b2cValuesFile = "values.b2c.yaml",
     [parameter(Mandatory=$false)][string]$afHost = "http://your-product-visits-af-here",
-    [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none', IgnoreCase=$false)]$tlsEnv = "none"
+    [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none','custom', IgnoreCase=$false)]$tlsEnv = "none",
+    [parameter(Mandatory=$false)][string]$tlsHost="",
+    [parameter(Mandatory=$false)][string]$tlsSecretName=""
 )
 
 function validate {
@@ -24,12 +26,16 @@ function validate {
         $valid=$false
     }
 
-    if ([string]::IsNullOrEmpty($aksHost))  {
+    if ([string]::IsNullOrEmpty($aksHost) -and $tlsEnv -ne "custom")  {
         Write-Host "AKS host of HttpRouting can't be found. Are you using right AKS ($aksName) and RG ($resourceGroup)?" -ForegroundColor Red
         $valid=$false
     }     
     if ([string]::IsNullOrEmpty($acrLogin))  {
         Write-Host "ACR login server can't be found. Are you using right ACR ($acrName) and RG ($resourceGroup)?" -ForegroundColor Red
+        $valid=$false
+    }
+    if ($tlsEnv -eq "custom" -and [string]::IsNullOrEmpty($tlsHost)) {
+        Write-Host "If tlsEnv is custom must use -tlsHost to set the hostname of AKS (inferred name of Http Application Routing won't be used)"
         $valid=$false
     }
     if ($valid -eq $false) {
@@ -38,18 +44,21 @@ function validate {
 }
 
 function createHelmCommand([string]$command, $chart) {
-    $tlsSecretName = ""
+    $tlsSecretNameToUse = ""
     if ($tlsEnv -eq "staging") {
-        $tlsSecretName = "tt-letsencrypt-staging"
+        $tlsSecretNameToUse = "tt-letsencrypt-staging"
     }
     if ($tlsEnv -eq "prod") {
-        $tlsSecretName = "tt-letsencrypt-prod"
+        $tlsSecretNameToUse = "tt-letsencrypt-prod"
+    }
+    if ($tlsEnv -eq "custom") {
+        $tlsSecretNameToUse=$tlsSecretName
     }
 
     $newcmd = $command
 
     if (-not [string]::IsNullOrEmpty($tlsSecretName)) {
-        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretName --set ingress.tls[0].hosts={$aksHost}"
+        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts={$aksHost}"
     }
     else {
         $newcmd = "$newcmd --set ingress.protocol=http"
@@ -71,10 +80,15 @@ Write-Host " TLS/SSL environment to enable: $tlsEnv"  -ForegroundColor Red
 Write-Host " --------------------------------------------------------" 
 
 $acrLogin=$(az acr show -n $acrName -g $resourceGroup | ConvertFrom-Json).loginServer
-$aksHost=$(az aks show -n $aksName -g $resourceGroup | ConvertFrom-Json).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName
 
-Write-Host "acr login server is $acrLogin" -ForegroundColor Yellow
-Write-Host "aksHost is $aksHost" -ForegroundColor Yellow
+if ($tlsEnv -ne "custom") {
+    $aksHost=$(az aks show -n $aksName -g $resourceGroup | ConvertFrom-Json).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName
+
+    Write-Host "acr login server is $acrLogin" -ForegroundColor Yellow
+    Write-Host "aksHost is $aksHost" -ForegroundColor Yellow 
+}else {
+    $aksHost=$tlsHost
+}
 
 validate
 
