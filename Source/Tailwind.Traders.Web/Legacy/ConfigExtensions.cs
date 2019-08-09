@@ -8,7 +8,8 @@ namespace Tailwind.Traders.Web.Legacy
     {
         public static void AddLegacy(this IServiceCollection services, IConfiguration config)
         {
-            services.AddScoped<SqlConnection>(_ => new SqlConnection(config["SqlConnectionString"]));
+            services.AddScoped<SqlConnection>(
+                _ => new SqlConnection(config["SqlConnectionString"]));
         }
     }
 }

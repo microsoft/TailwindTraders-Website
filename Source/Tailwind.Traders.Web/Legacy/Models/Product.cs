@@ -17,6 +17,6 @@ namespace Tailwind.Traders.Web.Legacy.Models
 
         public IEnumerable<ProductFeature> Features { get; set; }
 
-        public int StockUnits { get; set; }
+        public int StockUnits { get; set; } = 100;
     }
 }
