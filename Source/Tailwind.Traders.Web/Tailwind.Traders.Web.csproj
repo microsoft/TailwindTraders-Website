@@ -9,9 +9,12 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <ApplicationInsightsResourceId>/subscriptions/27af011d-837c-4a05-aa49-faff31edf79c/resourcegroups/Website/providers/microsoft.insights/components/TailwindTraders</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/27af011d-837c-4a05-aa49-faff31edf79c/resourcegroups/Website/providers/microsoft.insights/components/TailwindTraders</ApplicationInsightsAnnotationResourceId>
+    <UserSecretsId>f1b19c9c-b099-4076-ba74-d69af5896061</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
+    <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />

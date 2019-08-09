@@ -5,14 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Tailwind.Traders.Web.Legacy.Data;
 
 namespace Tailwind.Traders.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger<Startup> logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            this.logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -65,6 +70,9 @@ namespace Tailwind.Traders.Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            var initializer = new DatabaseInitializer(logger, Configuration["SqlConnectionString"]);
+            initializer.Seed().Wait();
         }
     }
 }
