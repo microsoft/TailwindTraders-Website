@@ -1,4 +1,4 @@
-namespace Tailwind.Traders.Web.Legacy.Models
+namespace Tailwind.Traders.Web.Standalone.Models
 {
     public class ProductBrand
     {

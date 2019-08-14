@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Tailwind.Traders.Web.Legacy;
-using Tailwind.Traders.Web.Legacy.Data;
+using Tailwind.Traders.Web.Standalone;
+using Tailwind.Traders.Web.Standalone.Data;
 
 namespace Tailwind.Traders.Web
 {
@@ -34,7 +34,7 @@ namespace Tailwind.Traders.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
-            services.AddLegacy(Configuration);
+            services.AddStandalone(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,8 +73,7 @@ namespace Tailwind.Traders.Web
                 }
             });
 
-            var initializer = new DatabaseInitializer(logger, Configuration["SqlConnectionString"]);
-            initializer.Seed().Wait();
+            StandaloneDatabaseInitializer.Initialize(logger, Configuration);
         }
     }
 }

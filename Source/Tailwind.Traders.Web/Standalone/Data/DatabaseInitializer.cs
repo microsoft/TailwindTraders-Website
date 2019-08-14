@@ -6,16 +6,17 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Tailwind.Traders.Web.Legacy.Data
+namespace Tailwind.Traders.Web.Standalone.Data
 {
-    public class DatabaseInitializer
+    public class StandaloneDatabaseInitializer
     {
         private readonly ILogger logger;
         private readonly string connectionString;
 
-        public DatabaseInitializer(ILogger logger, string connectionString)
+        public StandaloneDatabaseInitializer(ILogger logger, string connectionString)
         {
             this.logger = logger;
             this.connectionString = connectionString;
@@ -165,19 +166,10 @@ namespace Tailwind.Traders.Web.Legacy.Data
             return result == 0;
         }
 
-        public override bool Equals(object obj)
+        public static void Initialize(ILogger logger, IConfiguration configuration)
         {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
+            var initializer = new StandaloneDatabaseInitializer(logger, configuration["SqlConnectionString"]);
+            initializer.Seed().Wait();
         }
     }
 }

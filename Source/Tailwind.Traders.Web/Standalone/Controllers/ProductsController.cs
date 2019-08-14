@@ -4,9 +4,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using Tailwind.Traders.Web.Legacy.Models;
+using Tailwind.Traders.Web.Standalone.Models;
 
-namespace Tailwind.Traders.Web.Legacy.Controllers
+namespace Tailwind.Traders.Web.Standalone.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
