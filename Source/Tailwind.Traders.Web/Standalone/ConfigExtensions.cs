@@ -23,7 +23,7 @@ namespace Tailwind.Traders.Web.Standalone
             services.AddScoped<SqlConnection>(
                 _ => new SqlConnection(config["SqlConnectionString"]));
             services.AddSingleton<MongoClient>(
-                new MongoClient("mongodb://localhost:27017"));
+                new MongoClient(config["MongoConnectionString"] ?? "mongodb://localhost:27017"));
 
             // demo only, do not do this in real life!
             const string defaultSecurityKey = Constants.DefaultJwtSigningKey;
