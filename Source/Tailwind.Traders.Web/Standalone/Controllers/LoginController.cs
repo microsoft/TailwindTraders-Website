@@ -45,7 +45,7 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
             };
 
             // demo only, do not do this in real life!
-            const string defaultSecurityKey = "Ta!lwindTraderssssssss";
+            const string defaultSecurityKey = Constants.DefaultJwtSigningKey;
             var securityKey = config["SecurityKey"] ?? defaultSecurityKey;
             var encoding = Encoding.UTF8.GetBytes(securityKey);
             var key = new SymmetricSecurityKey(encoding);

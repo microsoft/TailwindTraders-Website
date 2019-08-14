@@ -34,7 +34,7 @@ namespace Tailwind.Traders.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
-            services.AddStandalone(Configuration);
+            services.AddStandalone(Configuration, logger);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +55,8 @@ namespace Tailwind.Traders.Web
                 ServeUnknownFileTypes = true
             });
 
+            app.UseStandalone(Configuration);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -72,8 +74,6 @@ namespace Tailwind.Traders.Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-
-            StandaloneDatabaseInitializer.Initialize(logger, Configuration);
         }
     }
 }
