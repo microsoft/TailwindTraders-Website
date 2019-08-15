@@ -9,6 +9,15 @@ import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, Shopping
 import "./i18n";
 import "./main.scss";
 
+// add appinsights
+import { createBrowserHistory } from "history";
+import { ai } from "./services/telemetryClient";
+const history = createBrowserHistory({ basename: '' });
+ai.initialize(window.appInsightsInstrumentationKey, {
+    history: history
+});
+
+
 class App extends Component {
     constructor() {
         super();
