@@ -12,8 +12,9 @@ import "./main.scss";
 import { createBrowserHistory } from "history";
 import { ai } from "./services/telemetryClient";
 // add appinsights
+/*global history*/
+const history = createBrowserHistory({ basename: '' });
 if (window.appInsightsInstrumentationKey) {
-    const history = createBrowserHistory({ basename: '' });
     ai.initialize(window.appInsightsInstrumentationKey, {
         history: history
     });
@@ -66,7 +67,7 @@ class App extends Component {
 
         return (
             <div className="App">
-                <Router>
+                <Router history={history}>
                     <Fragment>
                         <Header quantity={quantity} />
                         <Route exact path="/" component={Home} />
