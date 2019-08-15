@@ -3,9 +3,10 @@
 @inject IConfiguration config
 @{
     Response.ContentType = "application/javascript";
-    var instrumentationKey = 
-        config["ApplicationInsights:InstrumentationKey"] ??
-        config["APPINSIGHTS_INSTRUMENTATIONKEY"] ??
-        "";
+    var instrumentationKey = config["ApplicationInsights:InstrumentationKey"];
+    if (string.IsNullOrEmpty(instrumentationKey))
+    {
+        instrumentationKey = config["APPINSIGHTS_INSTRUMENTATIONKEY"] ?? "";
+    }
 }
 window.appInsightsInstrumentationKey = "@instrumentationKey"
