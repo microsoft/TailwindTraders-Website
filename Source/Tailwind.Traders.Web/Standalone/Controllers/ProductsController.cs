@@ -117,5 +117,11 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
                 products
             });
         }
+
+        [HttpGet("landing")]
+        public IActionResult GetPopularProducts()
+        {
+            return Ok(new object[] {});
+        }
     }
 }
