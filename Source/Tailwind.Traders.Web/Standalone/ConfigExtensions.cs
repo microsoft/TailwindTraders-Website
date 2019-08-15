@@ -1,5 +1,7 @@
+using System;
 using System.Data.SqlClient;
 using System.Text;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 using Tailwind.Traders.Web.Standalone.Data;
 
 namespace Tailwind.Traders.Web.Standalone
@@ -22,8 +25,35 @@ namespace Tailwind.Traders.Web.Standalone
 
             services.AddScoped<SqlConnection>(
                 _ => new SqlConnection(config["SqlConnectionString"]));
-            services.AddSingleton<MongoClient>(
-                new MongoClient(config["MongoConnectionString"] ?? "mongodb://localhost:27017"));
+
+            var telemetryClient = new TelemetryClient();
+            var mongoConnectionString = config["MongoConnectionString"] ?? "mongodb://localhost:27017";
+            var mongoClientSettings = MongoClientSettings.FromConnectionString(mongoConnectionString);
+            mongoClientSettings.ClusterConfigurator = cc =>
+            {
+                cc.Subscribe<CommandSucceededEvent>(e =>
+                {
+                    telemetryClient.TrackDependency(
+                        "mongodb", 
+                        mongoClientSettings.Server.Host, 
+                        null, 
+                        DateTimeOffset.UtcNow.AddMilliseconds(-1 * e.Duration.TotalMilliseconds), 
+                        e.Duration, 
+                        success: true);
+                });
+                cc.Subscribe<CommandFailedEvent>(e =>
+                {
+                    telemetryClient.TrackDependency(
+                        "mongodb", 
+                        mongoClientSettings.Server.Host, 
+                        e.Failure.ToString(), 
+                        DateTimeOffset.UtcNow.AddMilliseconds(-1 * e.Duration.TotalMilliseconds), 
+                        e.Duration, 
+                        success: false);
+                });
+            };
+            var mongoClient = new MongoClient(mongoClientSettings);
+            services.AddSingleton(mongoClient);
 
             // demo only, do not do this in real life!
             const string defaultSecurityKey = Constants.DefaultJwtSigningKey;
