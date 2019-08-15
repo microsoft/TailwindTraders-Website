@@ -83,6 +83,20 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
             });
         }
 
+        [HttpDelete("product")]
+        public async Task<IActionResult> DeleteProductAsync([FromBody]ShoppingCartItemDeleteRequest deleteRequest)
+        {
+            var userId = User.Identity.Name;
+            var database = mongoClient.GetDatabase(databaseName);
+            var collection = database.GetCollection<ShoppingCartItemDocument>(collectionName);
+            var filter = Builders<ShoppingCartItemDocument>.Filter;
+
+            _ = await collection.DeleteOneAsync(
+                filter.Eq(i => i.Email, userId) & filter.Eq(i => i.Guid, deleteRequest.Id));
+            
+            return Ok();
+        }
+
         [HttpGet("relatedproducts")]
         public IActionResult GetRelatedAsync()
         {
