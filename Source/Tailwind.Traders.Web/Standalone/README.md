@@ -56,3 +56,14 @@ The standalone version requires a couple of databases:
 
 1. Fork this repo, and use the App Service Deployment Center to select your fork and the proper branch. Start the deployment and get a cup of coffee. ☕️
 
+## Data
+
+### SQL Database
+
+On application startup, if `SqlConnectionString` is set, it will check if that database has tables. If not, it will create tables and seed them with data from CSV files downloaded from [here](https://github.com/microsoft/TailwindTraders-Backend/tree/master/Source/Services/Tailwind.Traders.Product.Api/Setup).
+
+To reseed the database, you'll need to drop all tables in the DB and run the app again.
+
+### MongoDB
+
+It will create and use a database named `tailwind` and a collection named `cart` to store cart information. There's no seeding required.
