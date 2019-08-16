@@ -26,7 +26,7 @@ The standalone version requires a couple of databases:
     ```
 
 1. Configure these environment variables
-    - Tell the frontend to call APIs on this app
+    - Configure the frontend to call APIs on this app
         - `apiUrl`: `/api/v1`
         - `ApiUrlShoppingCart`: `/api/v1`
     - Database connection strings
@@ -44,8 +44,8 @@ The standalone version requires a couple of databases:
 
 1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 2.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
 
-1. Configure these environment variables
-    - Tell the frontend to call APIs on this app
+1. Configure these app settings (place all of them in the Application Settings section, *not* Connection Strings)
+    - Configure the frontend to call APIs on this app
         - `apiUrl`: `/api/v1`
         - `ApiUrlShoppingCart`: `/api/v1`
     - Database connection strings
