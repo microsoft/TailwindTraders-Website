@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { Route, Router, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { CartService } from './services';
 
@@ -15,11 +15,8 @@ import { ai } from "./services/telemetryClient";
 /*global history*/
 const history = createBrowserHistory({ basename: '' });
 if (window.appInsightsInstrumentationKey) {
-    ai.initialize(window.appInsightsInstrumentationKey, {
-        history: history
-    });
+    ai.initialize(window.appInsightsInstrumentationKey, { history });
 }
-
 
 class App extends Component {
     constructor() {
