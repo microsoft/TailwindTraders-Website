@@ -5,6 +5,7 @@ namespace Tailwind.Traders.Web.Standalone.Models
         public ShoppingCartItem DetailProduct { get; set; }
         public int Qty { get; set; }
     }
+    
     public class ShoppingCartItem
     {
         public int Id { get; set; }

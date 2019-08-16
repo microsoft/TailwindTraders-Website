@@ -51,7 +51,7 @@ The standalone version requires a couple of databases:
     - Database connection strings
         - `SqlConnectionString`: SQL Database connection string
         - `MongoConnectionString`: MongoDB connection string
-    - Set the Node version if on Windows (Kudu needs Node 10+ to build the react app)
+    - Set the Node version if on Windows (needs 10+ to build and run)
         - `WEBSITE_NODE_DEFAULT_VERSION`: `10.15.2`
 
 1. Fork this repo, and use the App Service Deployment Center to select your fork and the proper branch. Start the deployment and get a cup of coffee. ☕️

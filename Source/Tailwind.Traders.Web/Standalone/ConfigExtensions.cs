@@ -81,7 +81,7 @@ namespace Tailwind.Traders.Web.Standalone
             initializer.Seed().Wait();
         }
 
-        public static void UseStandalone(this IApplicationBuilder app, IConfiguration config)
+        public static void UseStandalone(this IApplicationBuilder app, IConfiguration config, ILogger logger)
         {
             if (!IsStandaloneEnabled(config))
             {

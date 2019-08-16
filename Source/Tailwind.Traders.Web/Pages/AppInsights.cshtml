@@ -1,6 +1,5 @@
 @page
-@using Microsoft.Extensions.Configuration
-@inject IConfiguration config
+@inject Microsoft.Extensions.Configuration.IConfiguration config
 @{
     Response.ContentType = "application/javascript";
     var instrumentationKey = config["ApplicationInsights:InstrumentationKey"];
@@ -9,4 +8,4 @@
         instrumentationKey = config["APPINSIGHTS_INSTRUMENTATIONKEY"] ?? "";
     }
 }
-window.appInsightsInstrumentationKey = "@instrumentationKey"
+window.appInsightsInstrumentationKey = "@instrumentationKey";
