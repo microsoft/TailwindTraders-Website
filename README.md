@@ -1,8 +1,8 @@
+[![Build Status](https://dev.azure.com/MIGApps/TailwindTradersWeb/_apis/build/status/maurocon3ras.TailwindTraders-Website?branchName=master)](https://dev.azure.com/MIGApps/TailwindTradersWeb/_build/latest?definitionId=6&branchName=master)
+
 # Tailwind Traders Website
 
 ![Tailwind Traders Website](Documents/Images/Website.png)
-
-[![Build status](https://dev.azure.com/TailwindTraders/Website/_apis/build/status/Website-CI)](https://dev.azure.com/TailwindTraders/Website/_build?definitionId=22)
 
 You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com) 
 
