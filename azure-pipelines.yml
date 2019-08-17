@@ -1,0 +1,38 @@
+variables:
+  azureSubscription: DemoConn
+  resourcegroup: TailwindWebRG
+  location: westus
+  ImageName: website
+
+steps:
+- task: AzureResourceGroupDeployment@2
+  displayName: Azure Deployment
+  inputs:
+    azureSubscription: $(azureSubscription)
+    resourceGroupName: $(resourcegroup)
+    location: $(location)
+    csmFile: Deploy/deployment.json
+
+- task: keesschollaart.arm-outputs.arm-outputs.ARM Outputs@5
+  displayName: ARM Outputs
+  inputs:
+    ConnectedServiceNameARM: $(azureSubscription)
+    resourceGroupName: $(resourcegroup)
+
+- task: Docker@1
+  displayName: 'Build an image'
+  inputs:
+    azureSubscriptionEndpoint: $(azureSubscription)
+    azureContainerRegistry: $(acr).azurecr.io
+    dockerFile: Source/Tailwind.Traders.Web/Dockerfile
+    arguments: '-t $(acr).azurecr.io/$(ImageName):$(Build.BuildId)'
+    imageName: '$(ImageName):$(Build.BuildId)'
+    includeLatestTag: true
+
+- task: Docker@1
+  displayName: 'Push Image'
+  inputs:
+    azureSubscriptionEndpoint: $(azureSubscription)
+    azureContainerRegistry: '$(acr).azurecr.io'
+    command: 'Push an image'
+    imageName: '$(ImageName):$(Build.BuildId)'
