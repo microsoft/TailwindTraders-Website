@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/MIGApps/TailwindTradersWeb/_apis/build/status/maurocon3ras.TailwindTraders-Website?branchName=master)](https://dev.azure.com/MIGApps/TailwindTradersWeb/_build/latest?definitionId=6&branchName=master)
 
-# Tailwind Traders Website
+# Tailwind Traders Website 
 
 ![Tailwind Traders Website](Documents/Images/Website.png)
 
