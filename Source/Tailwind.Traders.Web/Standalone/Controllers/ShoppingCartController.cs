@@ -47,7 +47,7 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
             await collection.InsertOneAsync(new ShoppingCartItemDocument
             {
                 Id = itemRequest.DetailProduct.Id,
-                Email = itemRequest.DetailProduct.Email,
+                Email = userId,
                 Name = itemRequest.DetailProduct.Name,
                 ImageUrl = itemRequest.DetailProduct.ImageUrl,
                 Price = itemRequest.DetailProduct.Price,
