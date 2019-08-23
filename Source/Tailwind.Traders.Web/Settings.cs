@@ -15,6 +15,8 @@ namespace Tailwind.Traders.Web
 
         public B2CAuth B2CAuth { get; set; }
         public CartSettings Cart {get; set;}
+        public ApplicationInsightsSettings ApplicationInsights { get; set; }
+            = new ApplicationInsightsSettings();
 
         public bool ByPassShoppingCartApi {get; set;}
 
@@ -60,5 +62,10 @@ namespace Tailwind.Traders.Web
         public string ClientId { get; set; }
         public string Authority { get; set; }
         public string Scopes { get; set; }
+    }
+
+    public class ApplicationInsightsSettings
+    {
+        public string InstrumentationKey { get; set; } = "";
     }
 }

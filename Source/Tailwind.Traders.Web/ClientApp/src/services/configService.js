@@ -27,6 +27,7 @@ const ConfigService = {
     _B2cAuthority: B2cAuthority,
     _B2cClientId: B2cClientId,
     _B2cScopes: B2cScopes,
+    _applicationInsightsIntrumentationKey: '',
 
     async loadSettings() {
         if (this._needLoadSettings) {
@@ -39,6 +40,7 @@ const ConfigService = {
             this._B2cClientId = settingsResponse.data.b2CAuth.clientId;
             this._B2cScopes = settingsResponse.data.b2CAuth.scopes;
             this._devspacesName = settingsResponse.data.devspacesName;
+            this._applicationInsightsIntrumentationKey = settingsResponse.data.applicationInsights.instrumentationKey;
         }
     },
 

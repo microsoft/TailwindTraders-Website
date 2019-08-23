@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Route, Router, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { CartService } from './services';
+import { ConfigService } from './services'
 
 import { Header, Footer } from "./shared";
 import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, ShoppingCart } from "./pages";
@@ -12,11 +13,13 @@ import "./main.scss";
 import { createBrowserHistory } from "history";
 import { ai } from "./services/telemetryClient";
 // add appinsights
-/*global history*/
 const history = createBrowserHistory({ basename: '' });
-if (window.appInsightsInstrumentationKey) {
-    ai.initialize(window.appInsightsInstrumentationKey, { history });
-}
+(async () => {
+    await ConfigService.loadSettings();
+    if (ConfigService._applicationInsightsIntrumentationKey) {
+        ai.initialize(ConfigService._applicationInsightsIntrumentationKey, { history });
+    }
+})();
 
 class App extends Component {
     constructor() {
