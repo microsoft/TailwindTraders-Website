@@ -1,13 +1,25 @@
 import React, { Component, Fragment } from "react";
-import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { Route, Router, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { CartService } from './services';
+import { ConfigService } from './services'
 
 import { Header, Footer } from "./shared";
 import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, ShoppingCart } from "./pages";
 
 import "./i18n";
 import "./main.scss";
+
+import { createBrowserHistory } from "history";
+import { ai } from "./services/telemetryClient";
+// add appinsights
+const history = createBrowserHistory({ basename: '' });
+(async () => {
+    await ConfigService.loadSettings();
+    if (ConfigService._applicationInsightsIntrumentationKey) {
+        ai.initialize(ConfigService._applicationInsightsIntrumentationKey, { history });
+    }
+})();
 
 class App extends Component {
     constructor() {
@@ -55,7 +67,7 @@ class App extends Component {
 
         return (
             <div className="App">
-                <Router>
+                <Router history={history}>
                     <Fragment>
                         <Header quantity={quantity} />
                         <Route exact path="/" component={Home} />
