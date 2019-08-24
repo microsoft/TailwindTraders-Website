@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Tailwind.Traders.Web.Controllers
 {
@@ -9,7 +10,20 @@ namespace Tailwind.Traders.Web.Controllers
     public class SettingsController : ControllerBase
     {
         private readonly Settings _settings;
-        public SettingsController(IOptionsSnapshot<Settings> settings) => _settings = settings.Value;
+        public SettingsController(IOptionsSnapshot<Settings> settings)
+        {
+            _settings = settings.Value;
+            if (!string.IsNullOrEmpty(_settings.SqlConnectionString))
+            {
+                var match = Regex.Match(_settings.SqlConnectionString, @"Server=(tcp:)?(?<servername>[^,;]+)");
+                _settings.DebugInformation.SqlServerName = match.Groups["servername"].Value;
+            }
+            if (!string.IsNullOrEmpty(_settings.MongoConnectionString))
+            {
+                var match = Regex.Match(_settings.MongoConnectionString, @"//([^:]+:[^:]+@)?(?<servername>[^:/]+)");
+                _settings.DebugInformation.MongoServerName = match.Groups["servername"].Value;
+            }
+        }
 
         [HttpGet()]
         public ActionResult<Settings> GetSettings()

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { CartService } from './services';
 import { ConfigService } from './services'
 
-import { Header, Footer } from "./shared";
+import { Header, Footer, DebugHeader } from "./shared";
 import { Home, List, MyCoupons, Detail, SuggestedProductsList, Profile, ShoppingCart } from "./pages";
 
 import "./i18n";
@@ -69,6 +69,7 @@ class App extends Component {
             <div className="App">
                 <Router history={history}>
                     <Fragment>
+                        <DebugHeader />
                         <Header quantity={quantity} />
                         <Route exact path="/" component={Home} />
                         <Route exact path="/list" component={List} />
