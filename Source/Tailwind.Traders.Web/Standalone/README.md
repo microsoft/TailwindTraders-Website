@@ -40,7 +40,7 @@ The standalone version requires a couple of databases:
 
 ### Deploy to Azure App Service
 
-> Deploy to Azure button coming
+> **Deploy to Azure button** - Go to [this page](https://gist.github.com/anthonychu/9ab34d2991fb5c1c0c29faeebbe43a51#file-tailwind-deployments-md) for the latest deploy button(s)
 
 1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 2.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
 
