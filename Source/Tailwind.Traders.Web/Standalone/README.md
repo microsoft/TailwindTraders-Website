@@ -67,3 +67,28 @@ To reseed the database, you'll need to drop all tables in the DB and run the app
 ### MongoDB
 
 It will create and use a database named `tailwind` and a collection named `cart` to store cart information. There's no seeding required.
+
+## Demo-specific information
+
+### Changing the image base URL
+
+This allows you to change the base URL that is returned by the standalone product API.
+
+Additionally, you can serve product images from the standalone app. This can be used to demo migrating product images hosted in the app to Blob Storage and CDN.
+
+- To change the product images base URL, set the environment variable `ProductImagesUrl`
+- To serve product images from the app itself:
+    - Create a folder named `app_data/productimages`
+    - Upload these images to the folder (use Kudu debug console)
+    - Set `ProductImagesUrl` to `/productimages`
+
+### Adding debug info to the page
+
+You can add a debug header to the page. The header displays database server information, as well as a short custom text. Examples of how this can be used:
+
+- Display which databases the app is using during a database migration demo
+- Use the custom text to display the region name for an Azure Front Door region failover demo
+
+To enable the debug header, set `DebugInformation__ShowDebug` to `true`.
+
+To add custom text, set `DebugInformation__CustomText`.
