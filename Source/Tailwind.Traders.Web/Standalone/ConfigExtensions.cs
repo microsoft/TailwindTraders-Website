@@ -1,11 +1,13 @@
 using System;
 using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
@@ -89,6 +91,16 @@ namespace Tailwind.Traders.Web.Standalone
             }
 
             app.UseAuthentication();
+
+            var ProductImagesPath = Path.Combine(Directory.GetCurrentDirectory(), "app_data", "productimages");
+            if (Directory.Exists(ProductImagesPath))
+            {
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    RequestPath = "/productimages",
+                    FileProvider = new PhysicalFileProvider(ProductImagesPath)
+                });
+            }
         }
 
         public static bool IsStandaloneEnabled(this IConfiguration config)
