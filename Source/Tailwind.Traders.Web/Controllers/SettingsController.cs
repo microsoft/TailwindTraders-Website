@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ namespace Tailwind.Traders.Web.Controllers
     public class SettingsController : ControllerBase
     {
         private readonly Settings _settings;
-        public SettingsController(IOptionsSnapshot<Settings> settings)
+        public SettingsController(IOptionsSnapshot<Settings> settings, IConfiguration config)
         {
             _settings = settings.Value;
             if (!string.IsNullOrEmpty(_settings.SqlConnectionString))
@@ -22,6 +23,10 @@ namespace Tailwind.Traders.Web.Controllers
             {
                 var match = Regex.Match(_settings.MongoConnectionString, @"//([^:]+:[^:]+@)?(?<servername>[^:/]+)");
                 _settings.DebugInformation.MongoServerName = match.Groups["servername"].Value;
+            }
+            if (string.IsNullOrEmpty(_settings.ApplicationInsights.InstrumentationKey))
+            {
+                _settings.ApplicationInsights.InstrumentationKey = config["APPINSIGHTS_INSTRUMENTATIONKEY"];
             }
         }
 
