@@ -1,4 +1,4 @@
-using System;
+using Newtonsoft.Json;
 
 namespace Tailwind.Traders.Web
 {
@@ -12,11 +12,18 @@ namespace Tailwind.Traders.Web
         public string ApiUrl {get; set;}
         public string ApiUrlShoppingCart {get; set;}
         public bool UseB2C { get; set; }
+        [JsonIgnore]
+        public string SqlConnectionString { get; set; }
+        [JsonIgnore]
+        public string MongoConnectionString { get; set; }
 
         public B2CAuth B2CAuth { get; set; }
         public CartSettings Cart {get; set;}
         public ApplicationInsightsSettings ApplicationInsights { get; set; }
             = new ApplicationInsightsSettings();
+
+        public DebugInformationSettings DebugInformation { get; set; }
+            = new DebugInformationSettings();
 
         public bool ByPassShoppingCartApi {get; set;}
 
@@ -67,5 +74,13 @@ namespace Tailwind.Traders.Web
     public class ApplicationInsightsSettings
     {
         public string InstrumentationKey { get; set; } = "";
+    }
+
+    public class DebugInformationSettings
+    {
+        public string SqlServerName { get; set; }
+        public string MongoServerName { get; set; }
+        public string CustomText { get; set; }
+        public bool ShowDebug { get; set; }
     }
 }
