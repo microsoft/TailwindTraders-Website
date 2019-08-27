@@ -30,6 +30,8 @@ namespace Tailwind.Traders.Web
         // This is set by the SettingsController, do not set via config because will be overriden
         public string DevspacesName {get; private set;}
 
+        public string ProductImagesUrl { get; set; }
+
         public void UseDevspacesName(string devspacesName) => DevspacesName = devspacesName;
 
         public Settings Clone()

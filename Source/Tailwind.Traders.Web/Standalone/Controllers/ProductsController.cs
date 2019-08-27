@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Tailwind.Traders.Web.Standalone.Models;
 
 namespace Tailwind.Traders.Web.Standalone.Controllers
@@ -13,10 +14,16 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
     public class ProductsController : Controller
     {
         private readonly SqlConnection sqlConnection;
+        private readonly string productImagesUrl;
 
-        public ProductsController(SqlConnection sqlConnection)
+        public ProductsController(SqlConnection sqlConnection, IOptions<Settings> settings)
         {
             this.sqlConnection = sqlConnection;
+            
+            var basePath = settings.Value.ProductImagesUrl;
+            productImagesUrl = string.IsNullOrEmpty(basePath) ? 
+                "https://tailwindtraders.blob.core.windows.net/product-detail" :
+                basePath;
         }
 
         [HttpGet("{id}")]
@@ -45,7 +52,7 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
             {
                 p.Brand = b;
                 p.Type = t;
-                p.ImageUrl = "https://tailwindtraders.blob.core.windows.net/product-detail/" + p.ImageUrl;
+                p.ImageUrl = $"{productImagesUrl}/{p.ImageUrl}";
                 return p;
             }, new { Id = id });
 
@@ -87,7 +94,7 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
             {
                 p.Brand = b;
                 p.Type = t;
-                p.ImageUrl = "https://tailwindtraders.blob.core.windows.net/product-detail/" + p.ImageUrl;
+                p.ImageUrl = $"{productImagesUrl}/{p.ImageUrl}";
                 return p;
             }, new
             {
