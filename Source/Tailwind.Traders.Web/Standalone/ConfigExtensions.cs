@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 using Tailwind.Traders.Web.Standalone.Data;
+using Tailwind.Traders.Web.Standalone.Services;
 
 namespace Tailwind.Traders.Web.Standalone
 {
@@ -56,6 +57,8 @@ namespace Tailwind.Traders.Web.Standalone
             };
             var mongoClient = new MongoClient(mongoClientSettings);
             services.AddSingleton(mongoClient);
+
+            services.AddTransient<IProductService, ProductService>();
 
             // demo only, do not do this in real life!
             const string defaultSecurityKey = Constants.DefaultJwtSigningKey;
