@@ -7,7 +7,7 @@ namespace Tailwind.Traders.Web.Standalone
     public interface IProductService
     {
         Task<Product> GetProduct(int id);
-        Task<IEnumerable<Product>> GetProducts(int[] brandIds = null, string[] typeCodes = null, string searchKeyword = "");
+        Task<IEnumerable<Product>> GetProducts(int[] brandIds = null, string[] typeCodes = null, string searchTerm = "");
         Task<IEnumerable<ProductBrand>> GetBrands();
         Task<IEnumerable<ProductType>> GetTypes();
     }

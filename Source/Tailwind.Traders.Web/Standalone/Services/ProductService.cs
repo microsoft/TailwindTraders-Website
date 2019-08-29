@@ -75,7 +75,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
             return product;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(int[] brandIds = null, string[] typeCodes = null, string searchKeyword = "")
+        public async Task<IEnumerable<Product>> GetProducts(int[] brandIds = null, string[] typeCodes = null, string searchTerm = "")
         {
             await OpenConnection();
             var products = await sqlConnection.QueryAsync<Product, ProductBrand, ProductType, Product>(@"
@@ -94,7 +94,10 @@ namespace Tailwind.Traders.Web.Standalone.Services
                 FROM Products as p
                 INNER JOIN Brands as b ON p.BrandId = b.Id
                 INNER JOIN Types as t ON p.TypeId = t.Id
-                WHERE t.Code IN @TypeCodes OR b.Id IN @BrandIds
+                WHERE
+                    t.Code IN @TypeCodes OR 
+                    b.Id IN @BrandIds OR
+                    p.Name LIKE @SearchKeyword
             ", (p, b, t) =>
             {
                 p.Brand = b;
@@ -104,7 +107,8 @@ namespace Tailwind.Traders.Web.Standalone.Services
             }, new
             {
                 TypeCodes = typeCodes,
-                BrandIds = brandIds
+                BrandIds = brandIds,
+                SearchKeyword = string.IsNullOrEmpty(searchTerm) ? null : $"%{searchTerm}%"
             });
 
             return products;

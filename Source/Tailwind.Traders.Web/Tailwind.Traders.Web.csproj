@@ -19,7 +19,16 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.ML" Version="1.3.1" />
+    <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.3.1" />
+    <PackageReference Include="Microsoft.ML.OnnxTransformer" Version="1.3.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Standalone\OnnxModels\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

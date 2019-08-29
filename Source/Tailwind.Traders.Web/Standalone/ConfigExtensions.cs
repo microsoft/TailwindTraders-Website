@@ -59,6 +59,8 @@ namespace Tailwind.Traders.Web.Standalone
             services.AddSingleton(mongoClient);
 
             services.AddTransient<IProductService, ProductService>();
+            services.AddSingleton<OnnxImagePredictor>();
+            services.AddTransient<IImageSearchService, OnnxImageSearchService>();
 
             // demo only, do not do this in real life!
             const string defaultSecurityKey = Constants.DefaultJwtSigningKey;
