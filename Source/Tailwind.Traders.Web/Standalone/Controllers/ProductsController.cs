@@ -1,6 +1,5 @@
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tailwind.Traders.Web.Standalone.Models;
 
@@ -11,14 +10,11 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService productService;
-        private readonly IImageSearchService imageSearchService;
 
         public ProductsController(
-            IProductService productService,
-            IImageSearchService imageSearchService)
+            IProductService productService)
         {
             this.productService = productService;
-            this.imageSearchService = imageSearchService;
         }
 
         [HttpGet("{id}")]
@@ -49,14 +45,6 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
         public IActionResult GetPopularProducts()
         {
             return Ok(new object[] {});
-        }
-
-        [HttpPost("imageclassifier")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PostImage(IFormFile file)
-        {
-            var products = await imageSearchService.GetProducts(file.OpenReadStream());
-            return Ok(products);
         }
     }
 }
