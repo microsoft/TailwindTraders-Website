@@ -59,7 +59,7 @@ namespace Tailwind.Traders.Web.Standalone
             services.AddSingleton(mongoClient);
 
             services.AddTransient<IProductService, ProductService>();
-            services.AddSingleton<IImageSearchTermPredictor, OnnxImageSearchTermPredictor>();
+            services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();
             services.AddTransient<IImageSearchService, ImageSearchService>();
 
             // demo only, do not do this in real life!
