@@ -6,21 +6,21 @@ using Tailwind.Traders.Web.Standalone.Models;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {
-    public class OnnxImageSearchService : IImageSearchService
+    public class ImageSearchService : IImageSearchService
     {
-        private readonly OnnxImagePredictor onnxPredictor;
+        private readonly IImageSearchTermPredictor predictor;
         private readonly IProductService productService;
 
-        public OnnxImageSearchService(
-            OnnxImagePredictor onnxPredictor, IProductService productService)
+        public ImageSearchService(
+            IImageSearchTermPredictor predictor, IProductService productService)
         {
-            this.onnxPredictor = onnxPredictor;
+            this.predictor = predictor;
             this.productService = productService;
         }
 
         public async Task<IEnumerable<SearchProductItem>> GetProducts(Stream imageStream)
         {
-            var searchTerm = onnxPredictor.PredictSearchTerm(imageStream);
+            var searchTerm = await predictor.PredictSearchTerm(imageStream);
 
             if (string.IsNullOrEmpty(searchTerm))
             {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.ML;
 using Microsoft.ML.Data;
@@ -10,17 +11,17 @@ using Microsoft.ML.Transforms.Onnx;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {
-    public class OnnxImagePredictor
+    public class OnnxImageSearchTermPredictor : IImageSearchTermPredictor
     {
         private readonly PredictionEngine<ImageInput, ImagePrediction> engine;
 
-        public OnnxImagePredictor(IHostingEnvironment environment)
+        public OnnxImageSearchTermPredictor(IHostingEnvironment environment)
         {
             engine = LoadModel(
                 Path.Combine(environment.ContentRootPath, "Standalone/OnnxModels/products.onnx"));
         }
 
-        public string PredictSearchTerm(Stream imageStream)
+        public Task<string> PredictSearchTerm(Stream imageStream)
         {
             var input = new ImageInput { Image = (Bitmap)Image.FromStream(imageStream) };
             ImagePrediction output;
@@ -30,7 +31,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
                 output = engine.Predict(input);
             }
             var prediction = output.Prediction.FirstOrDefault();
-            return prediction;
+            return Task.FromResult(prediction);
         }
 
         private PredictionEngine<ImageInput, ImagePrediction> LoadModel(string onnxModelFilePath)
