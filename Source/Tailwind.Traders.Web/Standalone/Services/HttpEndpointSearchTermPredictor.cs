@@ -11,13 +11,13 @@ using System;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {
-    public class HttpEndpointImageSearchService : IImageSearchTermPredictor
+    public class HttpEndpointSearchTermPredictor : IImageSearchTermPredictor
     {
         private readonly IConfiguration config;
         private readonly string imageEndpoint;
         private readonly CloudStorageAccount storageAccount;
 
-        public HttpEndpointImageSearchService(IConfiguration config)
+        public HttpEndpointSearchTermPredictor(IConfiguration config)
         {
             this.config = config;
             this.imageEndpoint = config["ImagePredictorEndpoint"];
