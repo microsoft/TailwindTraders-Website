@@ -25,14 +25,14 @@ class UploadFile extends Component {
                         pathname: "/suggested-products-list",
                         state: { relatedProducts },
                     });
-                }else {
+                } else {
                     this.props.history.push({
                         pathname: `/product/detail/${relatedProducts[0].id}`,
                     });
                 }
             })
-            .catch(() => {
-                Alert.error("There was an error uploading the image, please try again", {
+            .catch((err) => {
+                Alert.error("There was an error uploading the image, please try again: "+ err, {
                     position: "top",
                     effect: "scale",
                     beep: true,
