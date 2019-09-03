@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics.Tensors;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms.Onnx;
@@ -17,9 +18,12 @@ namespace Tailwind.Traders.Web.Standalone.Services
     public class OnnxImageSearchTermPredictor : IImageSearchTermPredictor
     {
         private readonly PredictionEngine<ImageInput, ImagePrediction> engine;
+        private readonly ILogger<OnnxImageSearchTermPredictor> logger;
 
-        public OnnxImageSearchTermPredictor(IHostingEnvironment environment)
+        public OnnxImageSearchTermPredictor(IHostingEnvironment environment, ILogger<OnnxImageSearchTermPredictor> logger)
         {
+            this.logger = logger;
+            logger.LogInformation("ctor");
             engine = LoadModel(
                 Path.Combine(environment.ContentRootPath, "Standalone/OnnxModels/products.onnx"));
         }
@@ -30,17 +34,20 @@ namespace Tailwind.Traders.Web.Standalone.Services
             var input = new ImageInput { Data = data.ToArray() };
             ImagePrediction output;
 
+            logger.LogInformation("predict");
             // TODO: Figure out if Predict is thread-safe
             lock (engine)
             {
                 output = engine.Predict(input);
             }
             var prediction = output.Prediction.FirstOrDefault();
+            logger.LogInformation(prediction);
             return Task.FromResult(prediction);
         }
 
-        private static DenseTensor<float> ConvertImageToTensor(Stream imageStream)
+        private DenseTensor<float> ConvertImageToTensor(Stream imageStream)
         {
+            logger.LogInformation("ConvertImageToTensor");
             var data = new DenseTensor<float>(new[] { 3, 224, 224 });
             using (var image = Image.Load(imageStream))
             {
