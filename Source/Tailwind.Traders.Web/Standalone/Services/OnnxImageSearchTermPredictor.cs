@@ -26,6 +26,21 @@ namespace Tailwind.Traders.Web.Standalone.Services
 
         public Task<string> PredictSearchTerm(Stream imageStream)
         {
+            DenseTensor<float> data = ConvertImageToTensor(imageStream);
+            var input = new ImageInput { Data = data.ToArray() };
+            ImagePrediction output;
+
+            // TODO: Figure out if Predict is thread-safe
+            lock (engine)
+            {
+                output = engine.Predict(input);
+            }
+            var prediction = output.Prediction.FirstOrDefault();
+            return Task.FromResult(prediction);
+        }
+
+        private static DenseTensor<float> ConvertImageToTensor(Stream imageStream)
+        {
             var data = new DenseTensor<float>(new[] { 3, 224, 224 });
             using (var image = Image.Load(imageStream))
             {
@@ -45,16 +60,8 @@ namespace Tailwind.Traders.Web.Standalone.Services
                     }
                 }
             }
-            
-            var input = new ImageInput { Data = data.ToArray() };
-            ImagePrediction output;
-            // TODO: Figure out if Predict is thread-safe
-            lock(engine)
-            {
-                output = engine.Predict(input);
-            }
-            var prediction = output.Prediction.FirstOrDefault();
-            return Task.FromResult(prediction);
+
+            return data;
         }
 
         private PredictionEngine<ImageInput, ImagePrediction> LoadModel(string onnxModelFilePath)
