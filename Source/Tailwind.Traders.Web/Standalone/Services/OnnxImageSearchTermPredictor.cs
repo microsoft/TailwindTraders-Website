@@ -89,7 +89,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
 
     public class ImageInput
     {
-        [VectorType(224, 224, 3)]
+        [VectorType(3, 224, 224)]
         [ColumnName("data")]
         public float[] Data { get; set; }
     }
