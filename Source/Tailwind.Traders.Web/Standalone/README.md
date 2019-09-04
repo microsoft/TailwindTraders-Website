@@ -92,3 +92,15 @@ You can add a debug header to the page. The header displays database server info
 To enable the debug header, set `DebugInformation__ShowDebug` to `true`.
 
 To add custom text, set `DebugInformation__CustomText`.
+
+### Changing the Image Search feature
+
+There are two implementations of the image search. One that uses an embedded ONNX model, and one that calls an HTTP Endpoint taking an image URL in the querystring.
+
+You can select the correct implementation for your needs using the `ConfigExtensions.cs` file by editing the dependency injection:
+
+```services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();```
+
+`HttpEndpointSearchTermPredictor` is the Http endpoint implementation and it uses the `ImagePredictorEndpoint` configuration setting.
+
+`OnnxImageSearchTermPredictor` is the implementation that uses an ONNX model. It expects a model file to be present at `Standalone/OnnxModels/products.onnx`.
