@@ -101,6 +101,6 @@ You can select the correct implementation for your needs using the `ConfigExtens
 
 ```services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();```
 
-`HttpEndpointSearchTermPredictor` is the Http endpoint implementation and it uses the `ImagePredictorEndpoint` configuration setting.
+`HttpEndpointSearchTermPredictor` is the Http endpoint implementation and it uses the `ImagePredictorEndpoint` configuration setting. It also saves files in a `website-uploads` container of an Azure Blob Storage account. The connection string needs to be set in a `StorageConnectionString` configuration file.
 
 `OnnxImageSearchTermPredictor` is the implementation that uses an ONNX model. It expects a model file to be present at `Standalone/OnnxModels/products.onnx`.
