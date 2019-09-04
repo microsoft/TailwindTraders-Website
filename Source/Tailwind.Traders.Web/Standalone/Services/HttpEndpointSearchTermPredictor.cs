@@ -9,7 +9,6 @@ using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 
@@ -53,7 +52,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
             await cloudBlockBlob.UploadFromStreamAsync(blobStream);
 
             // pass the file to the endpoint
-            var fullEndpoint = imageEndpoint + "/score?image=" + cloudBlockBlob.Uri;
+            var fullEndpoint = imageEndpoint + cloudBlockBlob.Uri.AbsoluteUri;
             HttpClient client = new HttpClient();
             var response = await client.GetAsync(fullEndpoint);
             response.EnsureSuccessStatusCode();
