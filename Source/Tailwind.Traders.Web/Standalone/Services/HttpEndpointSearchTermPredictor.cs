@@ -8,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using System;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {
@@ -26,7 +30,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
             }
         }
 
-        public string PredictSearchTerm(Stream imageStream)
+        async Task<string> IImageSearchTermPredictor.PredictSearchTerm(Stream imageStream)
         {
             IImageFormat imageFormat;
             var image = Image.Load(imageStream, out imageFormat);
@@ -45,17 +49,38 @@ namespace Tailwind.Traders.Web.Standalone.Services
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filename);
             var blobStream = new MemoryStream();
             resizedImage.SaveAsJpeg(blobStream);
-            cloudBlockBlob.UploadFromStream(blobStream);
+            blobStream.Seek(0,SeekOrigin.Begin);
+            await cloudBlockBlob.UploadFromStreamAsync(blobStream);
 
             // pass the file to the endpoint
-            var fullEndpoint = imageEndpoint + "?image=" + cloudBlockBlob.Uri;
+            var fullEndpoint = imageEndpoint + "/score?image=" + cloudBlockBlob.Uri;
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(fullEndpoint);
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStreamAsync();
 
-            return fullEndpoint;
-        }
+            var serializer = new DataContractJsonSerializer(typeof(ImageRecognitionResult));
+            var resultObject = (ImageRecognitionResult)serializer.ReadObject(responseBody);
 
-        Task<string> IImageSearchTermPredictor.PredictSearchTerm(Stream imageStream)
-        {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(resultObject.prediction);
         }
+    }
+
+    [DataContract]
+    public class ImageRecognitionResult {
+        [DataMember]
+        public string time { get; set; }
+        [DataMember]
+        public string prediction { get; set; }
+        [DataMember]
+        public PredictionScores scores { get; set; }
+    }
+
+    [DataContract]
+    public class PredictionScores {
+        [DataMember]
+        public decimal hammers { get; set; }
+        [DataMember]
+        public decimal wrenches { get; set; }
     }
 }
