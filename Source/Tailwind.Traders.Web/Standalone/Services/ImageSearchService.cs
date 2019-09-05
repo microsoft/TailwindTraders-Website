@@ -18,13 +18,17 @@ namespace Tailwind.Traders.Web.Standalone.Services
             this.productService = productService;
         }
 
-        public async Task<IEnumerable<SearchProductItem>> GetProducts(Stream imageStream)
+        public async Task<ImageSearchResult> GetProducts(Stream imageStream)
         {
             var searchTerm = await predictor.PredictSearchTerm(imageStream);
 
+            var result = new ImageSearchResult {
+                PredictedSearchTerm = searchTerm
+            };
+
             if (string.IsNullOrEmpty(searchTerm))
             {
-                return new List<SearchProductItem>();
+                result.SearchResults = new List<SearchProductItem>();
             }
             else
             {
@@ -37,8 +41,10 @@ namespace Tailwind.Traders.Web.Standalone.Services
                     Name = p.Name,
                     Price = (float)p.Price
                 });
-                return searchResults;
+                result.SearchResults = searchResults;
             }
+            
+            return result;
         }
     }
 }
