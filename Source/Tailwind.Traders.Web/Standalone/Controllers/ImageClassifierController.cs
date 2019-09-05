@@ -26,7 +26,7 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
         {
             var products = await imageSearchService.GetProducts(file.OpenReadStream());
             if (products.SearchResults.Any())
-                return Ok(products);
+                return Ok(products.SearchResults);
             return Ok(new {error = $"No search results found for predicted tag: '{products.PredictedSearchTerm}'"});
         }
     }
