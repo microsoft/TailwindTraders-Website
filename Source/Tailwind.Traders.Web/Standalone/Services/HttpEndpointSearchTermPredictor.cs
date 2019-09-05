@@ -11,18 +11,19 @@ using System;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {
     public class HttpEndpointSearchTermPredictor : IImageSearchTermPredictor
     {
-        private readonly IConfiguration config;
+        private readonly ILogger<HttpEndpointSearchTermPredictor> logger;
         private readonly string imageEndpoint;
         private readonly CloudStorageAccount storageAccount;
 
-        public HttpEndpointSearchTermPredictor(IConfiguration config)
+        public HttpEndpointSearchTermPredictor(IConfiguration config, ILogger<HttpEndpointSearchTermPredictor> logger)
         {
-            this.config = config;
+            this.logger = logger;
             this.imageEndpoint = config["ImagePredictorEndpoint"];
             if (!CloudStorageAccount.TryParse(config["StorageConnectionString"], out this.storageAccount)) {
                 throw new ArgumentException("No 'StorageConnectionString' setting has been configured");
@@ -31,6 +32,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
 
         async Task<string> IImageSearchTermPredictor.PredictSearchTerm(Stream imageStream)
         {
+            var eventId = new EventId();
             IImageFormat imageFormat;
             var image = Image.Load(imageStream, out imageFormat);
 
@@ -51,6 +53,8 @@ namespace Tailwind.Traders.Web.Standalone.Services
             blobStream.Seek(0,SeekOrigin.Begin);
             await cloudBlockBlob.UploadFromStreamAsync(blobStream);
 
+            logger.LogInformation(eventId, "Image uploaded to {StorageUrl}", cloudBlockBlob.Uri.AbsoluteUri);
+
             // pass the file to the endpoint
             var fullEndpoint = imageEndpoint + cloudBlockBlob.Uri.AbsoluteUri;
             HttpClient client = new HttpClient();
@@ -61,7 +65,10 @@ namespace Tailwind.Traders.Web.Standalone.Services
             var serializer = new DataContractJsonSerializer(typeof(ImageRecognitionResult));
             var resultObject = (ImageRecognitionResult)serializer.ReadObject(responseBody);
 
-            return await Task.FromResult(resultObject.prediction);
+            logger.LogInformation(eventId, "Result prediction: {prediction} with confidence - hammer: {hammerconf}, wrench: {wrenchconf}", 
+                resultObject.prediction, resultObject.scores.hammer, resultObject.scores.wrench);
+
+            return await Task.FromResult(resultObject.prediction);;
         }
     }
 
@@ -78,8 +85,8 @@ namespace Tailwind.Traders.Web.Standalone.Services
     [DataContract]
     public class PredictionScores {
         [DataMember]
-        public decimal hammers { get; set; }
+        public decimal hammer { get; set; }
         [DataMember]
-        public decimal wrenches { get; set; }
+        public decimal wrench { get; set; }
     }
 }
