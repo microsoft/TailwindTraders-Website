@@ -1,13 +1,10 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics.Tensors;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.ML;
-using Microsoft.ML.Data;
-using Microsoft.ML.Transforms.Onnx;
+using Microsoft.ML.OnnxRuntime;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Processing;
@@ -17,38 +14,31 @@ namespace Tailwind.Traders.Web.Standalone.Services
 {
     public class OnnxImageSearchTermPredictor : IImageSearchTermPredictor
     {
-        private readonly PredictionEngine<ImageInput, ImagePrediction> engine;
         private readonly ILogger<OnnxImageSearchTermPredictor> logger;
+        private readonly InferenceSession session;
 
         public OnnxImageSearchTermPredictor(IHostingEnvironment environment, ILogger<OnnxImageSearchTermPredictor> logger)
         {
             this.logger = logger;
-            logger.LogInformation("ctor");
-            engine = LoadModel(
-                Path.Combine(environment.ContentRootPath, "Standalone/OnnxModels/products.onnx"));
+            var filePath = Path.Combine(environment.ContentRootPath, "Standalone/OnnxModels/products.onnx");
+            //var file = System.IO.File.ReadAllBytes(filePath);
+            session = new InferenceSession(filePath);
         }
 
         public Task<string> PredictSearchTerm(Stream imageStream)
         {
             DenseTensor<float> data = ConvertImageToTensor(imageStream);
-            var input = new ImageInput { Data = data.ToArray() };
-            ImagePrediction output;
-
-            logger.LogInformation("predict");
-            // TODO: Figure out if Predict is thread-safe
-            lock (engine)
+            var input = NamedOnnxValue.CreateFromTensor<float>("data", data);
+            using (var output = session.Run(new[] { input }))
             {
-                output = engine.Predict(input);
+                var prediction = output.First(i => i.Name == "classLabel").AsEnumerable<string>().First();
+                return Task.FromResult(prediction);
             }
-            var prediction = output.Prediction.FirstOrDefault();
-            logger.LogInformation(prediction);
-            return Task.FromResult(prediction);
         }
 
         private DenseTensor<float> ConvertImageToTensor(Stream imageStream)
         {
-            logger.LogInformation("ConvertImageToTensor");
-            var data = new DenseTensor<float>(new[] { 3, 224, 224 });
+            var data = new DenseTensor<float>(new[] { 1, 3, 224, 224 });
             using (var image = Image.Load(imageStream))
             {
                 image.Mutate(ctx => ctx.Resize(new ResizeOptions
@@ -61,43 +51,13 @@ namespace Tailwind.Traders.Web.Standalone.Services
                     for (var y = 0; y < image.Height; y++)
                     {
                         var color = image.GetPixelRowSpan(y)[x];
-                        data[0, x, y] = color.B;
-                        data[1, x, y] = color.G;
-                        data[2, x, y] = color.R;
+                        data[0, 0, x, y] = color.B;
+                        data[0, 1, x, y] = color.G;
+                        data[0, 2, x, y] = color.R;
                     }
                 }
             }
-
             return data;
         }
-
-        private PredictionEngine<ImageInput, ImagePrediction> LoadModel(string onnxModelFilePath)
-        {
-            var ctx = new MLContext();
-            var dataView = ctx.Data.LoadFromEnumerable(new List<ImageInput>());
-            var pipeline = ctx.Transforms.ApplyOnnxModel(
-                modelFile: onnxModelFilePath, 
-                outputColumnNames: new[] { "classLabel", "loss" }, inputColumnNames: new[] { "data" });
-
-            var model = pipeline.Fit(dataView);
-            return ctx.Model.CreatePredictionEngine<ImageInput, ImagePrediction>(model);
-        }
-    }
-
-    public class ImagePrediction
-    {
-        [ColumnName("classLabel")]
-        [VectorType]
-        public string[] Prediction;
-
-        [OnnxSequenceType(typeof(IDictionary<string, float>))]
-        public IEnumerable<IDictionary<string, float>> loss;
-    }
-
-    public class ImageInput
-    {
-        [VectorType(3, 224, 224)]
-        [ColumnName("data")]
-        public float[] Data { get; set; }
     }
 }
