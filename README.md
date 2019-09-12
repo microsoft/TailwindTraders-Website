@@ -4,18 +4,18 @@
 
 [![Build status](https://dev.azure.com/TailwindTraders/Website/_apis/build/status/Website-CI)](https://dev.azure.com/TailwindTraders/Website/_build?definitionId=22)
 
-You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com) 
+You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com)
 
 # Repositories
 
 For this demo reference, we built several consumer and line-of-business applications and a set of backend services. You can find all repositories in the following locations:
 
-* [Tailwind Traders](https://github.com/Microsoft/TailwindTraders)
-* [Backend (AKS)](https://github.com/Microsoft/TailwindTraders-Backend)
-* [Website (ASP.NET & React)](https://github.com/Microsoft/TailwindTraders-Website)
-* [Desktop (WinForms & WPF -.NET Core)](https://github.com/Microsoft/TailwindTraders-Desktop)
-* [Rewards (ASP.NET Framework)](https://github.com/Microsoft/TailwindTraders-Rewards)
-* [Mobile (Xamarin Forms 4.0)](https://github.com/Microsoft/TailwindTraders-Mobile)
+- [Tailwind Traders](https://github.com/Microsoft/TailwindTraders)
+- [Backend (AKS)](https://github.com/Microsoft/TailwindTraders-Backend)
+- [Website (ASP.NET & React)](https://github.com/Microsoft/TailwindTraders-Website)
+- [Desktop (WinForms & WPF -.NET Core)](https://github.com/Microsoft/TailwindTraders-Desktop)
+- [Rewards (ASP.NET Framework)](https://github.com/Microsoft/TailwindTraders-Rewards)
+- [Mobile (Xamarin Forms 4.0)](https://github.com/Microsoft/TailwindTraders-Mobile)
 
 # Deploy to Azure
 
@@ -45,8 +45,8 @@ Please follow these steps to deploy the web in the same AKS where Backend is run
 
 You need to build & push the docker image for the web. You can use `docker-compose` for this task. You **must set two environment variables** before launching compose:
 
-* `TAG`: Tag to use for the generated docker image.
-* `REPOSITORY`: Must be the login server of the ACR where Backend is installed.
+- `TAG`: Tag to use for the generated docker image.
+- `REGISTRY`: Must be the login server of the ACR where Backend is installed.
 
 Then you need to login into the ACR by typing: `docker login -u <username> -p <password> <acr-login-server>` where `<username>` and `<password>` are the ACR credentials.
 
@@ -66,13 +66,13 @@ docker-compose push
 
 To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Deploy` folder. This script have following parameters:
 
-* `-aksName`: Name of the AKS (same AKS where Backend is)
-* `-resourceGroup`: Resource group of the AKS
-* `-acrName`: ACR where image is pushed. Has to be the same ACR where Backend images are.
-* `-tag`: Tag to use for the Docker image of the Web
-* `-valueSFile`: YAML files containing the values. Defaults to `gvalues.yaml`. You can use the provided `gvalues.yaml` as-is, so don't need to specify this parameter.
-* `-b2cValuesFile`: YAML file with the B2C configuration values. Defaults to `values.b2c.yaml`. If B2C login is needed, you must fill the values in the file in order to configure it.
-* `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
+- `-aksName`: Name of the AKS (same AKS where Backend is)
+- `-resourceGroup`: Resource group of the AKS
+- `-acrName`: ACR where image is pushed. Has to be the same ACR where Backend images are.
+- `-tag`: Tag to use for the Docker image of the Web
+- `-valueSFile`: YAML files containing the values. Defaults to `gvalues.yaml`. You can use the provided `gvalues.yaml` as-is, so don't need to specify this parameter.
+- `-b2cValuesFile`: YAML file with the B2C configuration values. Defaults to `values.b2c.yaml`. If B2C login is needed, you must fill the values in the file in order to configure it.
+- `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
 
 To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
 
@@ -91,34 +91,36 @@ Steps to search:
 ![Start Smart Shopping Button](Documents/Images/Docs/Start_Smart_Shopping_Button.PNG)
 
 2. Select a photo to upload and send it.
-    * If website has more than 1 suggested products
-        * Website redirect to suggested products.
-    * If website has only a one suggested product.
-        * Website redirects to details of product.
+   - If website has more than 1 suggested products
+     - Website redirect to suggested products.
+   - If website has only a one suggested product.
+     - Website redirects to details of product.
 
 To use this search, you can use the images in:
 
-* [Documents/Images/TestImages](Documents/Images/TestImages)
-
+- [Documents/Images/TestImages](Documents/Images/TestImages)
 
 ### Rechargable screwdriver sample
+
 If you select the [Electric Screwdriver](Documents/Images/TestImages/electric_screwdriver.jpg) should be appears 3 suggested products similar to:
 
 ![Rechargeable Screwdriver Suggested Products](Documents/Images/Docs/rechargeable_Screwdriver_Suggested_Products.PNG)
 
 ### Multi-tool plier sample
+
 If you select the [Multi-Tool Plier](Documents/Images/TestImages/multi-tool_plier.jpg) should be appears 3 suggested products similar to:
 
 ![Multi-Tool Plier Suggested Products](Documents/Images/Docs/multi-tool_plier_Suggested_Products.PNG)
 
 ### Hard hat sample
+
 If you select the [Hard Hat](Documents/Images/TestImages/hard_hat.jpg) should be redirect to product detail, beacuse only have a 1 suggested product:
 
 ![Hard Hat Suggested Product Detail](Documents/Images/Docs/hard_Hat_Suggested_Product_Detail.PNG)
 
 # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
