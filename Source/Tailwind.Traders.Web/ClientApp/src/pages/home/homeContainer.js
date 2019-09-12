@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
-
-import Home from "./home";
-import { ProductService } from "../../services";
-
-import Powertools from "../../assets/images/home_powertools.jpg";
-import Plumbing from "../../assets/images/home_plumbing.jpg";
-import Garden from "../../assets/images/home_gardencenter.jpg";
 import Electrical from "../../assets/images/home_electrical.jpg";
-import recommended from "./components/recommended/recommended";
+import Garden from "../../assets/images/home_gardencenter.jpg";
+import Plumbing from "../../assets/images/home_plumbing.jpg";
+import Powertools from "../../assets/images/home_powertools.jpg";
+import { ProductService } from "../../services";
+import Home from "./home";
+
+
 
 class HomeContainer extends Component {
     constructor() {
@@ -69,28 +68,23 @@ class HomeContainer extends Component {
     }
 
     updateProducts(data) {
-        var recommended = this.state.recommendedProducts;//[...this.state.recommendedProducts];
-        var tmp = recommended[0];
-        var curHeroIndex = recommended.findIndex(obj => obj.title === data.rewardActionId);
-        var hero = recommended[curHeroIndex];
-        recommended[curHeroIndex].title = tmp.title;
-        recommended[curHeroIndex].imageUrl = tmp.imageUrl;
-        recommended[curHeroIndex].url = tmp.url;
-        recommended[0].title = hero.title;
-        recommended[0].imageUrl = hero.imageUrl;
-        recommended[0].url = hero.url;
+        var cssEnum = ["grid__item-a", "grid__item-b", "grid__item-c", "grid__item-d"];
 
-        //var tmp = recommendedProductClone[recommendedProductsClone.findIndex(obj => obj.title === data.rewardActionId)];
-        //recommendedProductClone[0] = 
-        ////var recommendedProducts = this.state.recommendedProducts;
-        //for (i = 0; i < ranking.length; i++) {
-        //    var index = recommendedProductsClone.findIndex(obj => obj.title === ranking[i].id);
+        var recommendSource = this.state.recommendedProducts;
+        var newHeroIndex = recommendSource.findIndex(obj => obj.title === data.rewardActionId);
 
-        //    recommended[i].title = recommendedProductsClone[index].title;
-        //    recommended[i].imageUrl = recommendedProductsClone[index].imageUrl;
-        //    recommended[i].url = recommendedProductsClone[index].url;
-        //}
-        return recommended;
+        var newRecommend = [];
+        var counter;
+        for (counter = 0; counter < recommendSource.length; counter++) {
+            newRecommend.push(Object.assign({}, recommendSource[newHeroIndex % recommendSource.length]));
+            newHeroIndex++;
+        }
+
+        newRecommend.map((category, index) => {
+            category.cssClass = cssEnum[index]
+        })
+
+        return newRecommend;
     }
 
     async renderPopularProducts(token) {
