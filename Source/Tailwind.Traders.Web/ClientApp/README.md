@@ -1307,19 +1307,15 @@ Then, on the server, you can replace `__SERVER_DATA__` with a JSON of real data 
 
 An optional feature on the site is to enable Azure Personalizer to configure the order in which recommended products appear on the landing page. Below are the instructions to enable this feature:
 
-1. Create a resource for Personalizer using the Azure portal or Azure CLI on your local machine. You can also:
+1. Create an instance of Azure Cognitive Service Personalizer through the Azure portal or Azure CLI on your local machine.
 
-	-Get a trial key valid for 7 days for free. After signing up, it will be available on the Azure website.
-
-	-View your resource on the Azure portal.
-
-2. After you get a key from your trial subscription or resource, create two environment variables:
+2. Obtain the API key and endpoint for your Personalizer instance through the Azure portal, and create two environment variables:
 
 	-PERSONALIZER_RESOURCE_KEY for the resource key.
 
 	-PERSONALIZER_RESOURCE_ENDPOINT for the resource endpoint.
 
-After the environment variables are set, the Personalizer recommendation will determine which product is displayed in the hero position.
+After the environment variables are set, the Personalizer recommendation will determine which product is displayed in the hero position on the home page.
 
 ## Running Tests
 
