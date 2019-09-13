@@ -1,12 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function handleClickReward(cssClass, eventId) {
-    if (cssClass === "grid__item-a") {
-        fetch('/api/Personalizer/reward');
-            //.then()
-            //.catch(console.error("Failed to send reward"));
+async function handleClickReward(cssClass, eventId) {
+    if (eventId !== "") {
+        var rsp;
+        if (cssClass === "grid__item-a") {
+            rsp = await postReward(`/api/Personalizer/reward/${eventId}`, 1);
+        } else {
+            rsp = await postReward(`/api/Personalizer/reward/${eventId}`, -0.5);
+        }
+        if (!rsp.ok) {
+            console.error("Failed to send reward: " + rsp.error);
+        } else {
+            console.log(`Reward sent. EventId: ${eventId}`);
+        }
     }
+}
+
+async function postReward(url, rewardValue) {
+    var reward = { value: rewardValue };
+    var rsp = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reward)
+    })
+    return rsp;
 }
 
 const RecommendedItem = ({ title, imageUrl, cssClass, url, eventId }) => {
@@ -19,6 +39,5 @@ const RecommendedItem = ({ title, imageUrl, cssClass, url, eventId }) => {
         </div>
     )
 };
-
 
 export default RecommendedItem;

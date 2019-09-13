@@ -16,7 +16,7 @@ namespace Tailwind.Traders.Web.Controllers
 
         public PersonalizerController()
         {
-            _personalizerClient = GetPersonalizerClient(ServiceEndpoint);
+            _personalizerClient = GetPersonalizerClient(ApiKey, ServiceEndpoint);
         }
 
         [HttpGet("Rank")]
@@ -29,43 +29,37 @@ namespace Tailwind.Traders.Web.Controllers
                 response = _personalizerClient?.Rank(request);
                 return Ok(response);
             }
-            catch
+            catch (Exception e)
             {
-                return StatusCode(500);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpPost("Reward")]
-        public IActionResult Post()
+        [HttpPost("Reward/{eventId}")]
+        public IActionResult Post([FromRoute]string eventId, [FromBody]RewardRequest reward)
         {
-            float reward = 1;
             try
             {
-                _personalizerClient?.Reward(Guid.NewGuid().ToString(), new RewardRequest(reward));
+                _personalizerClient?.Reward(eventId, reward);
                 return Ok();
             }
-            catch
+            catch (Exception e)
             {
-                return StatusCode(500);
+                return BadRequest(e.Message);
             }
         }
 
-        private PersonalizerClient GetPersonalizerClient(string url)
+        private PersonalizerClient GetPersonalizerClient(string apiKey, string url)
         {
-            PersonalizerClient client;
-            try
+            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(url))
             {
-                var credentials = new ApiKeyServiceClientCredentials(ApiKey);
-                client = new PersonalizerClient(new ApiKeyServiceClientCredentials(ApiKey))
-                {
-                    Endpoint = url
-                };
+                return null;
             }
-            catch
+
+            return new PersonalizerClient(new ApiKeyServiceClientCredentials(apiKey))
             {
-                client = null;
-            }
-            return client;
+                Endpoint = url
+            };
         }
 
         private RankRequest GetRankRequest()
@@ -81,8 +75,6 @@ namespace Tailwind.Traders.Web.Controllers
                 new { weekday = dayOfWeek },
                 new { userOS = osInfo }
             };
-
-            string eventId = Guid.NewGuid().ToString();
 
             IList<object> gardenCenterFeatures = new List<object>()
             {
@@ -115,7 +107,7 @@ namespace Tailwind.Traders.Web.Controllers
                 new RankableAction("Plumbing", plumbingFeatures),
             };
 
-            return new RankRequest(actions, currentContext, eventId: eventId);
+            return new RankRequest(actions, currentContext);
         }
     }
 }

@@ -7,8 +7,6 @@ import Powertools from "../../assets/images/home_powertools.jpg";
 import { ProductService } from "../../services";
 import Home from "./home";
 
-
-
 class HomeContainer extends Component {
     constructor() {
         super();
@@ -49,7 +47,6 @@ class HomeContainer extends Component {
     }
 
     async componentDidMount() {
-
         if (this.props.userInfo.loggedIn) {
             await this.renderPopularProducts()
         }
@@ -62,34 +59,15 @@ class HomeContainer extends Component {
         }
     }
 
-    handleErrors(response) {
-        if (!response.ok) {
-            throw Error(response.statusText);
-        }
-        return response;
-    }
-
     async getRank() {
         const response = await fetch('/api/Personalizer/rank');
+        if (!response.ok) {
+            console.error(response.error);
+            return;
+        }
         const data = await response.json();
-        let newRanking = this.updateProducts(data);
-        this.setState({ recommendedProducts: newRanking });
-
-        //const response = await fetch('/api/Personalizer/rank');
-        //try {
-        //    this.handleErrors(response);
-        //    let newRanking = this.updateProducts(response.json());
-        //    this.setState({ recommendedProducts: newRanking });
-        //} catch{
-        //    console.error(response.error);
-        //}
-        //.then((response) => {
-        //    this.handleErrors(response);
-        //    let newRanking = this.updateProducts(response.json());
-        //    this.setState({ recommendedProducts: newRanking });
-        //})
-        //.then(console.log("ok"))
-        //.catch(error => console.log(error));
+        console.log(`Rank request sent. EventId: ${data.eventId}`);
+        this.setState({ recommendedProducts: this.updateProducts(data) });
     }
 
     updateProducts(data) {
@@ -104,7 +82,6 @@ class HomeContainer extends Component {
             newRecommend.push(Object.assign({}, recommendSource[newHeroIndex % recommendSource.length]));
             newHeroIndex++;
         }
-
         newRecommend.map((category, index) => {
             category.cssClass = cssEnum[index];
             category.eventId = data.eventId;
