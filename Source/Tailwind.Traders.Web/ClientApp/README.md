@@ -55,6 +55,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Generating Dynamic `<meta>` Tags on the Server](#generating-dynamic-meta-tags-on-the-server)
 - [Pre-Rendering into Static HTML Files](#pre-rendering-into-static-html-files)
 - [Injecting Data from the Server into the Page](#injecting-data-from-the-server-into-the-page)
+- [Enabling Azure Personalizer Recommendations](#enabling-azure-personalizer-recommendations)
 - [Running Tests](#running-tests)
   - [Filename Conventions](#filename-conventions)
   - [Command Line Interface](#command-line-interface)
@@ -1301,6 +1302,24 @@ Similarly to the previous section, you can leave some placeholders in the HTML t
 ```
 
 Then, on the server, you can replace `__SERVER_DATA__` with a JSON of real data right before sending the response. The client code can then read `window.SERVER_DATA` to use it. **Make sure to [sanitize the JSON before sending it to the client](https://medium.com/node-security/the-most-common-xss-vulnerability-in-react-js-applications-2bdffbcc1fa0) as it makes your app vulnerable to XSS attacks.**
+
+## Enabling Azure Personalizer Recommendations
+
+An optional feature on the site is to enable Azure Personalizer to configure the order in which recommended products appear on the landing page. Below are the instructions to enable this feature:
+
+1. Create a resource for Personalizer using the Azure portal or Azure CLI on your local machine. You can also:
+
+	-Get a trial key valid for 7 days for free. After signing up, it will be available on the Azure website.
+
+	-View your resource on the Azure portal.
+
+2. After you get a key from your trial subscription or resource, create two environment variables:
+
+	-PERSONALIZER_RESOURCE_KEY for the resource key.
+
+	-PERSONALIZER_RESOURCE_ENDPOINT for the resource endpoint.
+
+After the environment variables are set, the Personalizer recommendation will determine which product is displayed in the hero position.
 
 ## Running Tests
 
