@@ -23,8 +23,31 @@ namespace Tailwind.Traders.Web.Controllers
         public IActionResult Get()
         {
             RankRequest request = GetRankRequest();
-            RankResponse response = _personalizerClient.Rank(request);
-            return Ok(response);
+            RankResponse response;
+            try
+            {
+                response = _personalizerClient?.Rank(request);
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost("Reward")]
+        public IActionResult Post()
+        {
+            float reward = 1;
+            try
+            {
+                _personalizerClient?.Reward(Guid.NewGuid().ToString(), new RewardRequest(reward));
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         private PersonalizerClient GetPersonalizerClient(string url)

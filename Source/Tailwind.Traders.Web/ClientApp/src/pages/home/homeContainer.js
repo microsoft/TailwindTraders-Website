@@ -18,25 +18,29 @@ class HomeContainer extends Component {
                     title: "Power Tools",
                     imageUrl: Powertools,
                     cssClass: "grid__item-a",
-                    url: "/list/kitchen"
+                    url: "/list/kitchen",
+                    eventId: ""
                 },
                 {
                     title: "Electrical",
                     imageUrl: Electrical,
                     cssClass: "grid__item-b",
-                    url: "/list/home"
+                    url: "/list/home",
+                    eventId: ""
                 },
                 {
                     title: "Garden Center",
                     imageUrl: Garden,
                     cssClass: "grid__item-c",
-                    url: "/list/gardening"
+                    url: "/list/gardening",
+                    eventId: ""
                 },
                 {
                     title: "Plumbing",
                     imageUrl: Plumbing,
                     cssClass: "grid__item-d",
-                    url: "/list/diytools"
+                    url: "/list/diytools",
+                    eventId: ""
                 }
             ],
             popularProducts: [],
@@ -58,13 +62,34 @@ class HomeContainer extends Component {
         }
     }
 
+    handleErrors(response) {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response;
+    }
+
     async getRank() {
-        // TODO get route dynamically
         const response = await fetch('/api/Personalizer/rank');
         const data = await response.json();
-        console.log();
         let newRanking = this.updateProducts(data);
         this.setState({ recommendedProducts: newRanking });
+
+        //const response = await fetch('/api/Personalizer/rank');
+        //try {
+        //    this.handleErrors(response);
+        //    let newRanking = this.updateProducts(response.json());
+        //    this.setState({ recommendedProducts: newRanking });
+        //} catch{
+        //    console.error(response.error);
+        //}
+        //.then((response) => {
+        //    this.handleErrors(response);
+        //    let newRanking = this.updateProducts(response.json());
+        //    this.setState({ recommendedProducts: newRanking });
+        //})
+        //.then(console.log("ok"))
+        //.catch(error => console.log(error));
     }
 
     updateProducts(data) {
@@ -81,7 +106,8 @@ class HomeContainer extends Component {
         }
 
         newRecommend.map((category, index) => {
-            category.cssClass = cssEnum[index]
+            category.cssClass = cssEnum[index];
+            category.eventId = data.eventId;
         })
 
         return newRecommend;
