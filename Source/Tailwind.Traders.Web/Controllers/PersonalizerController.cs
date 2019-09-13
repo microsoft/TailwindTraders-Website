@@ -3,6 +3,8 @@ using Microsoft.Azure.CognitiveServices.Personalizer;
 using Microsoft.Azure.CognitiveServices.Personalizer.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Tailwind.Traders.Web.Controllers
 {
@@ -10,19 +12,57 @@ namespace Tailwind.Traders.Web.Controllers
     [Route("api/[controller]")]
     public class PersonalizerController : Controller
     {
+        private const string powerTools = "Power Tools";
+        private const string gardenCenter = "Garden Center";
+        private const string electrical = "Electrical";
+        private const string plumbing = "Plumbing";
         private PersonalizerClient _personalizerClient;
+        Dictionary<string, IList<object>> featureMap;
         private static readonly string ApiKey = Environment.GetEnvironmentVariable("PERSONALIZER_RESOURCE_KEY");
         private static readonly string ServiceEndpoint = Environment.GetEnvironmentVariable("PERSONALIZER_RESOURCE_ENDPOINT");
 
         public PersonalizerController()
         {
             _personalizerClient = GetPersonalizerClient(ApiKey, ServiceEndpoint);
+            featureMap = new Dictionary<string, IList<object>>();
+
+            IList<object> gardenCenterFeatures = new List<object>()
+            {
+                new { avgPrice = 10 },
+                new { categorySize = 50 },
+                new { location = "outdoors" }
+            };
+
+            IList<object> powerToolsFeatures = new List<object>()
+            {
+                new { avgPrice = 20 },
+                new { categorySize = 100 },
+                new { childproof = false },
+                new { location = "indoors" }
+            };
+            IList<object> plumbingFeatures = new List<object>()
+            {
+                new { avgPrice = 30 },
+                new { categorySize = 150 },
+                new { location = "indoors" }
+            };
+            IList<object> electricalFeatures = new List<object>()
+            {
+                new { avgPrice = 40 },
+                new { categorySize = 200 },
+                new { location = "indoors" }
+            };
+
+            featureMap.Add(powerTools, powerToolsFeatures);
+            featureMap.Add(gardenCenter, gardenCenterFeatures);
+            featureMap.Add(electrical, electricalFeatures);
+            featureMap.Add(plumbing, plumbingFeatures);
         }
 
-        [HttpGet("Rank")]
-        public IActionResult Get()
+        [HttpPost("Rank")]
+        public IActionResult PostRank([FromBody]RankCategories rankCategories)
         {
-            RankRequest request = GetRankRequest();
+            RankRequest request = GetRankRequest(rankCategories);
             RankResponse response;
             try
             {
@@ -36,7 +76,7 @@ namespace Tailwind.Traders.Web.Controllers
         }
 
         [HttpPost("Reward/{eventId}")]
-        public IActionResult Post([FromRoute]string eventId, [FromBody]RewardRequest reward)
+        public IActionResult PostReward([FromRoute]string eventId, [FromBody]RewardRequest reward)
         {
             try
             {
@@ -62,12 +102,13 @@ namespace Tailwind.Traders.Web.Controllers
             };
         }
 
-        private RankRequest GetRankRequest()
+        private RankRequest GetRankRequest(RankCategories rankCategories)
         {
             string timeOfDay = DateTime.Now.Hour.ToString();
             string dayOfWeek = DateTime.Now.DayOfWeek.ToString();
             string userAgent = Request.Headers["User-Agent"].ToString();
-            string osInfo = userAgent.Substring(userAgent.IndexOf("(") + 1, userAgent.IndexOf(")"));
+            Regex osRegex = new Regex(@"\([^\)]*\)");
+            string osInfo = osRegex.Match(userAgent).Groups[0].Value;
 
             IList<object> currentContext = new List<object>()
             {
@@ -76,38 +117,17 @@ namespace Tailwind.Traders.Web.Controllers
                 new { userOS = osInfo }
             };
 
-            IList<object> gardenCenterFeatures = new List<object>()
-            {
-                new { avgPrice = 10 },
-                new { categorySize = 50 }
-            };
-
-            IList<object> powerToolsFeatures = new List<object>()
-            {
-                new { avgPrice = 20 },
-                new { categorySize = 100 },
-                new { childproof = false }
-            };
-            IList<object> plumbingFeatures = new List<object>()
-            {
-                new { avgPrice = 30 },
-                new { categorySize = 150 }
-            };
-            IList<object> electricalFeatures = new List<object>()
-            {
-                new { avgPrice = 40 },
-                new { categorySize = 200 }
-            };
-
-            IList<RankableAction> actions = new List<RankableAction>()
-            {
-                new RankableAction("Garden Center", gardenCenterFeatures),
-                new RankableAction("Power Tools", powerToolsFeatures),
-                new RankableAction("Electrical", electricalFeatures),
-                new RankableAction("Plumbing", plumbingFeatures),
-            };
+            IList<RankableAction> actions = rankCategories.Categories.Select(category =>
+             {
+                 return new RankableAction(category, featureMap.GetValueOrDefault(category, new List<object>()));
+             }).ToList();
 
             return new RankRequest(actions, currentContext);
         }
+    }
+
+    public class RankCategories
+    {
+        public IList<string> Categories;
     }
 }

@@ -11,35 +11,33 @@ class HomeContainer extends Component {
     constructor() {
         super();
         this.state = {
+
             recommendedProducts: [
                 {
                     title: "Power Tools",
                     imageUrl: Powertools,
                     cssClass: "grid__item-a",
-                    url: "/list/kitchen",
-                    eventId: ""
-                },
-                {
-                    title: "Electrical",
-                    imageUrl: Electrical,
-                    cssClass: "grid__item-b",
-                    url: "/list/home",
-                    eventId: ""
-                },
-                {
-                    title: "Garden Center",
-                    imageUrl: Garden,
-                    cssClass: "grid__item-c",
-                    url: "/list/gardening",
-                    eventId: ""
+                    url: "/list/diytools"
                 },
                 {
                     title: "Plumbing",
                     imageUrl: Plumbing,
+                    cssClass: "grid__item-b",
+                    url: "/list/kitchen"
+                },
+                {
+                    title: "Electrical",
+                    imageUrl: Electrical,
+                    cssClass: "grid__item-c",
+                    url: "/list/home"
+                },
+                {
+                    title: "Garden Center",
+                    imageUrl: Garden,
                     cssClass: "grid__item-d",
-                    url: "/list/diytools",
-                    eventId: ""
-                }
+                    url: "/list/gardening"
+
+                },
             ],
             popularProducts: [],
             loading: true,
@@ -60,14 +58,25 @@ class HomeContainer extends Component {
     }
 
     async getRank() {
-        const response = await fetch('/api/Personalizer/rank');
+        var categories = { categories: this.state.recommendedProducts.map((product) => { return product.title }) };
+        const response = await fetch("/api/personalizer/rank", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(categories)
+        })
         if (!response.ok) {
             console.error(response.error);
             return;
         }
-        const data = await response.json();
-        console.log(`Rank request sent. EventId: ${data.eventId}`);
-        this.setState({ recommendedProducts: this.updateProducts(data) });
+        if (response.statusText==="No Content") {
+            return;
+        } else {
+            const data = await response.json();
+            console.log(`Rank request sent. EventId: ${data.eventId}`);
+            this.setState({ recommendedProducts: this.updateProducts(data) });
+        }
     }
 
     updateProducts(data) {
@@ -79,9 +88,13 @@ class HomeContainer extends Component {
         var newRecommend = [];
         var counter;
         for (counter = 0; counter < recommendSource.length; counter++) {
-            newRecommend.push(Object.assign({}, recommendSource[newHeroIndex % recommendSource.length]));
-            newHeroIndex++;
+            newRecommend.push(Object.assign({}, recommendSource[counter]));
         }
+
+        var temp = newRecommend[0];
+        newRecommend[0] = newRecommend[newHeroIndex];
+        newRecommend[newHeroIndex] = temp;
+
         newRecommend.map((category, index) => {
             category.cssClass = cssEnum[index];
             category.eventId = data.eventId;
