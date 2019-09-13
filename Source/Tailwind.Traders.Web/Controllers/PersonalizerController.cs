@@ -23,7 +23,7 @@ namespace Tailwind.Traders.Web.Controllers
 
         public PersonalizerController()
         {
-            _personalizerClient = GetPersonalizerClient(ApiKey, ServiceEndpoint);
+            _personalizerClient = CreatePersonalizerClient(ApiKey, ServiceEndpoint);
             featureMap = new Dictionary<string, IList<object>>();
 
             IList<object> gardenCenterFeatures = new List<object>()
@@ -62,7 +62,7 @@ namespace Tailwind.Traders.Web.Controllers
         [HttpPost("Rank")]
         public IActionResult PostRank([FromBody]RankCategories rankCategories)
         {
-            RankRequest request = GetRankRequest(rankCategories);
+            RankRequest request = CreateRankRequest(rankCategories);
             RankResponse response;
             try
             {
@@ -89,7 +89,7 @@ namespace Tailwind.Traders.Web.Controllers
             }
         }
 
-        private PersonalizerClient GetPersonalizerClient(string apiKey, string url)
+        private PersonalizerClient CreatePersonalizerClient(string apiKey, string url)
         {
             if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(url))
             {
@@ -102,13 +102,13 @@ namespace Tailwind.Traders.Web.Controllers
             };
         }
 
-        private RankRequest GetRankRequest(RankCategories rankCategories)
+        private RankRequest CreateRankRequest(RankCategories rankCategories)
         {
             string timeOfDay = DateTime.Now.Hour.ToString();
             string dayOfWeek = DateTime.Now.DayOfWeek.ToString();
             string userAgent = Request.Headers["User-Agent"].ToString();
-            Regex osRegex = new Regex(@"\([^\)]*\)");
-            string osInfo = osRegex.Match(userAgent).Groups[0].Value;
+            Regex osRegex = new Regex(@"\(([^\)]*)\)");
+            string osInfo = osRegex.Match(userAgent).Groups[1].Value;
 
             IList<object> currentContext = new List<object>()
             {

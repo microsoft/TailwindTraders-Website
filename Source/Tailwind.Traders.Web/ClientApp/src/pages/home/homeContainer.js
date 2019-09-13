@@ -36,7 +36,6 @@ class HomeContainer extends Component {
                     imageUrl: Garden,
                     cssClass: "grid__item-d",
                     url: "/list/gardening"
-
                 },
             ],
             popularProducts: [],
@@ -70,16 +69,16 @@ class HomeContainer extends Component {
             console.error(response.error);
             return;
         }
-        if (response.statusText==="No Content") {
+        if (response.statusText === "No Content") {
             return;
         } else {
             const data = await response.json();
             console.log(`Rank request sent. EventId: ${data.eventId}`);
-            this.setState({ recommendedProducts: this.updateProducts(data) });
+            this.setState({ recommendedProducts: this.getRerankedProducts(data) });
         }
     }
 
-    updateProducts(data) {
+    getRerankedProducts(data) {
         var cssEnum = ["grid__item-a", "grid__item-b", "grid__item-c", "grid__item-d"];
 
         var recommendSource = this.state.recommendedProducts;
@@ -91,9 +90,7 @@ class HomeContainer extends Component {
             newRecommend.push(Object.assign({}, recommendSource[counter]));
         }
 
-        var temp = newRecommend[0];
-        newRecommend[0] = newRecommend[newHeroIndex];
-        newRecommend[newHeroIndex] = temp;
+        newRecommend.unshift(newRecommend.splice(newHeroIndex, 1)[0]);
 
         newRecommend.map((category, index) => {
             category.cssClass = cssEnum[index];
