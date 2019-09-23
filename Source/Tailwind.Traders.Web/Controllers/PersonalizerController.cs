@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.Personalizer;
 using Microsoft.Azure.CognitiveServices.Personalizer.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,16 @@ namespace Tailwind.Traders.Web.Controllers
         private const string gardenCenter = "Garden Center";
         private const string electrical = "Electrical";
         private const string plumbing = "Plumbing";
-        private PersonalizerClient _personalizerClient;
+        private PersonalizerClient personalizerClient;
         Dictionary<string, IList<object>> featureMap;
-        private static readonly string ApiKey = Environment.GetEnvironmentVariable("PERSONALIZER_RESOURCE_KEY");
-        private static readonly string ServiceEndpoint = Environment.GetEnvironmentVariable("PERSONALIZER_RESOURCE_ENDPOINT");
+        private string apiKey;
+        private string serviceEndpoint;
 
-        public PersonalizerController()
+        public PersonalizerController(IConfiguration configuration)
         {
-            _personalizerClient = CreatePersonalizerClient(ApiKey, ServiceEndpoint);
+            this.apiKey = configuration["Personalizer:ApiKey"];
+            this.serviceEndpoint = configuration["Personalizer:Endpoint"];
+            personalizerClient = CreatePersonalizerClient(apiKey, serviceEndpoint);
             featureMap = new Dictionary<string, IList<object>>();
 
             IList<object> gardenCenterFeatures = new List<object>()
@@ -66,7 +69,7 @@ namespace Tailwind.Traders.Web.Controllers
             RankResponse response;
             try
             {
-                response = _personalizerClient?.Rank(request);
+                response = personalizerClient?.Rank(request);
                 return Ok(response);
             }
             catch (Exception e)
@@ -80,7 +83,7 @@ namespace Tailwind.Traders.Web.Controllers
         {
             try
             {
-                _personalizerClient?.Reward(eventId, reward);
+                personalizerClient?.Reward(eventId, reward);
                 return Ok();
             }
             catch (Exception e)
