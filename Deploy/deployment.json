@@ -26,15 +26,19 @@
       "type": "string",
       "defaultValue": "msfttailwindtraders/tailwindtraderswebsite:latest"
     },
-    "apiBaseUrl" : {
+    "apiBaseUrl": {
       "type": "string",
       "defaultValue": "https://f5dc03f4e99349f6b467.eastus.aksapp.io"
-    }    
+    },
+    "personalizerAccount": {
+      "type": "string"
+    }
   },
   "variables": {
     "website_name": "[concat('tailwindtraders',uniqueString(resourceGroup().id))]",
     "plan_name": "[concat('ttappserviceplan',uniqueString(resourceGroup().id))]",
-    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]"
+    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]",
+    "personalizer_id": "[concat(resourceGroup().id,'/providers/','Microsoft.CognitiveServices/accounts/', parameters('personalizerAccount'))]"
   },
   "resources": [
     {
@@ -73,8 +77,15 @@
             {
               "name": "ApiUrlShoppingCart",
               "value": "[concat(parameters('apiBaseUrl'), '/cart-api')]"
+            },
+            {
+              "name": "Personalizer:ApiKey",
+              "value": "[listKeys(variables('personalizer_id'),'2016-02-01-preview').key1]"
+            },
+            {
+              "name": "Personalizer:Endpoint",
+              "value": "[reference(variables('personalizer_id'),'2016-02-01-preview').endpoint]"
             }
-            
           ],
           "appCommandLine": "",
           "linuxFxVersion": "[concat('DOCKER|', parameters('dockerimage'))]"
@@ -83,7 +94,8 @@
         "hostingEnvironment": ""
       },
       "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]"
+        "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]",
+        "[concat('Microsoft.CognitiveServices/accounts'), [parameters('personalizerAccount')]]"
       ]
     },
     {
@@ -103,6 +115,17 @@
         "hostingEnvironment": "",
         "reserved": true
       }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('personalizerAccount')]",
+      "location": "westus2",
+      "sku": {
+        "name": "F0"
+      },
+      "kind": "Personalizer",
+      "properties": {}
     }
   ],
   "outputs": {
