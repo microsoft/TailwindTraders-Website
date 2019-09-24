@@ -31,7 +31,8 @@
       "defaultValue": "https://f5dc03f4e99349f6b467.eastus.aksapp.io"
     },
     "personalizerAccount": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "mandyweupers"
     }
   },
   "variables": {
@@ -95,7 +96,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]",
-        "[concat('Microsoft.CognitiveServices/accounts'), [parameters('personalizerAccount')]]"
+        "[concat('Microsoft.CognitiveServices/accounts/', parameters('personalizerAccount'))]"
       ]
     },
     {
@@ -122,7 +123,7 @@
       "name": "[parameters('personalizerAccount')]",
       "location": "westus2",
       "sku": {
-        "name": "F0"
+        "name": "S0"
       },
       "kind": "Personalizer",
       "properties": {}

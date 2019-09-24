@@ -34,6 +34,8 @@ namespace Tailwind.Traders.Web
 
         public void UseDevspacesName(string devspacesName) => DevspacesName = devspacesName;
 
+        public Personalizer Personalizer { get; set; }
+
         public Settings Clone()
         {
             var clone = new Settings() 
@@ -84,5 +86,11 @@ namespace Tailwind.Traders.Web
         public string MongoServerName { get; set; }
         public string CustomText { get; set; }
         public bool ShowDebug { get; set; }
+    }
+
+    public class Personalizer
+    {
+        public string ApiKey { get; set; }
+        public string Endpoint { get; set; }
     }
 }

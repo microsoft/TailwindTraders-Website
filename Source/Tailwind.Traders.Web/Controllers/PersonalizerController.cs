@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.Personalizer;
 using Microsoft.Azure.CognitiveServices.Personalizer.Models;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +22,10 @@ namespace Tailwind.Traders.Web.Controllers
         private string apiKey;
         private string serviceEndpoint;
 
-        public PersonalizerController(IConfiguration configuration)
+        public PersonalizerController(IOptionsSnapshot<Settings> settings)
         {
-            this.apiKey = configuration["Personalizer:ApiKey"];
-            this.serviceEndpoint = configuration["Personalizer:Endpoint"];
+            this.apiKey = settings.Value.Personalizer.ApiKey;
+            this.serviceEndpoint = settings.Value.Personalizer.Endpoint;
             personalizerClient = CreatePersonalizerClient(apiKey, serviceEndpoint);
             featureMap = new Dictionary<string, IList<object>>();
 
