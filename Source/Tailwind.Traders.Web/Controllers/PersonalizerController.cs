@@ -19,14 +19,10 @@ namespace Tailwind.Traders.Web.Controllers
         private const string plumbing = "Plumbing";
         private PersonalizerClient personalizerClient;
         Dictionary<string, IList<object>> featureMap;
-        private string apiKey;
-        private string serviceEndpoint;
 
         public PersonalizerController(IOptionsSnapshot<Settings> settings)
         {
-            this.apiKey = settings.Value.Personalizer.ApiKey;
-            this.serviceEndpoint = settings.Value.Personalizer.Endpoint;
-            personalizerClient = CreatePersonalizerClient(apiKey, serviceEndpoint);
+            personalizerClient = CreatePersonalizerClient(settings.Value.Personalizer.ApiKey, settings.Value.Personalizer.Endpoint);
             featureMap = new Dictionary<string, IList<object>>();
 
             IList<object> gardenCenterFeatures = new List<object>()

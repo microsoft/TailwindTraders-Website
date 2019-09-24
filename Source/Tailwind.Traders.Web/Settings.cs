@@ -34,7 +34,7 @@ namespace Tailwind.Traders.Web
 
         public void UseDevspacesName(string devspacesName) => DevspacesName = devspacesName;
 
-        public Personalizer Personalizer { get; set; }
+        public PersonalizerSettings Personalizer { get; set; }
 
         public Settings Clone()
         {
@@ -88,7 +88,7 @@ namespace Tailwind.Traders.Web
         public bool ShowDebug { get; set; }
     }
 
-    public class Personalizer
+    public class PersonalizerSettings
     {
         public string ApiKey { get; set; }
         public string Endpoint { get; set; }
