@@ -26,24 +26,17 @@ namespace Tailwind.Traders.Web.Standalone.Services
                 PredictedSearchTerm = searchTerm
             };
 
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                result.SearchResults = new List<SearchProductItem>();
-            }
-            else
-            {
-                var products = await productService.GetProducts(searchTerm: searchTerm);
+            var products = await productService.GetProducts(searchTerm: searchTerm);
 
-                var searchResults = products.Select(p => new SearchProductItem
-                {
-                    Id = p.Id,
-                    ImageUrl = p.ImageUrl,
-                    Name = p.Name,
-                    Price = (float)p.Price
-                });
-                result.SearchResults = searchResults;
-            }
-            
+            var searchResults = products.Select(p => new SearchProductItem
+            {
+                Id = p.Id,
+                ImageUrl = p.ImageUrl,
+                Name = p.Name,
+                Price = (float)p.Price
+            });
+            result.SearchResults = searchResults;
+
             return result;
         }
     }
