@@ -13,6 +13,8 @@ class HomeContainer extends Component {
         this.state = {
 
             recommendedProducts: [
+            ],
+            defaultProducts: [
                 {
                     title: "Power Tools",
                     imageUrl: Powertools,
@@ -36,7 +38,7 @@ class HomeContainer extends Component {
                     imageUrl: Garden,
                     cssClass: "grid__item-d",
                     url: "/list/gardening"
-                },
+                }
             ],
             popularProducts: [],
             loading: true,
@@ -57,7 +59,7 @@ class HomeContainer extends Component {
     }
 
     async getRank() {
-        var categories = { categories: this.state.recommendedProducts.map((product) => { return product.title }) };
+        var categories = { categories: this.state.defaultProducts.map((product) => { return product.title }) };
         const response = await fetch("/api/personalizer/rank", {
             method: "POST",
             headers: {
@@ -65,11 +67,11 @@ class HomeContainer extends Component {
             },
             body: JSON.stringify(categories)
         })
-        if (!response.ok) {
-            console.error(response.error);
-            return;
-        }
-        if (response.statusText === "No Content") {
+        if (!response.ok || response.statusText === "No Content") {
+            if (response.error) {
+                console.error(response.error);
+            }
+            this.setState({ recommendedProducts: this.state.defaultProducts });
             return;
         } else {
             const data = await response.json();
@@ -81,7 +83,7 @@ class HomeContainer extends Component {
     getRerankedProducts(data) {
         var cssEnum = ["grid__item-a", "grid__item-b", "grid__item-c", "grid__item-d"];
 
-        var recommendSource = this.state.recommendedProducts;
+        var recommendSource = this.state.defaultProducts;
         var newHeroIndex = recommendSource.findIndex(obj => obj.title === data.rewardActionId);
 
         var newRecommend = [];
