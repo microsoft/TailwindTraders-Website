@@ -32,14 +32,14 @@
     },
     "enablePersonalizer": {
       "type": "bool",
-      "defaultValue":  false
+      "defaultValue": false
     }
   },
   "variables": {
     "website_name": "[concat('tailwindtraders',uniqueString(resourceGroup().id))]",
     "plan_name": "[concat('ttappserviceplan',uniqueString(resourceGroup().id))]",
     "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]",
-    "personalizer_name": "[concat('Microsoft.CognitiveServices/accounts/',  variables('website_name'))]"
+    "personalizer_name": "[concat('Microsoft.CognitiveServices/accounts/', variables('website_name'))]"
   },
   "resources": [
     {
@@ -96,7 +96,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]",
-        "[concat('Microsoft.CognitiveServices/accounts/',  variables('website_name'))]"
+        "[concat('Microsoft.CognitiveServices/accounts/', variables('website_name'))]"
       ]
     },
     {
@@ -119,6 +119,7 @@
     },
     {
       "type": "Microsoft.CognitiveServices/accounts",
+      "condition": "[parameters('enablePersonalizer')]",
       "apiVersion": "2016-02-01-preview",
       "name": "[variables('website_name')]",
       "location": "[resourceGroup().location]",
