@@ -20,19 +20,26 @@ class UploadFile extends Component {
         
         ProductService.getRelatedProducts(formData, this.props.userInfo.token)
             .then((relatedProducts) => {
-                if (relatedProducts.length > 1) {
+                if (relatedProducts.error) {
+                    Alert.error(relatedProducts.error, {
+                        position: "top",
+                        effect: "scale",
+                        beep: true,
+                        timeout: 6000,
+                    });
+                } else if (relatedProducts.length > 1) {
                     this.props.history.push({
                         pathname: "/suggested-products-list",
                         state: { relatedProducts },
                     });
-                }else {
+                } else {
                     this.props.history.push({
                         pathname: `/product/detail/${relatedProducts[0].id}`,
                     });
                 }
             })
             .catch(() => {
-                Alert.error("There was an error uploading the image, please try again", {
+                Alert.error("There was an error uploading the image, please try again.", {
                     position: "top",
                     effect: "scale",
                     beep: true,
