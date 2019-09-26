@@ -59,7 +59,17 @@ namespace Tailwind.Traders.Web.Standalone
             services.AddSingleton(mongoClient);
 
             services.AddTransient<IProductService, ProductService>();
-            services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();
+            
+            var useCustomVisionApi = !string.IsNullOrEmpty(config["ImagePredictorEndpoint"]);
+            if (useCustomVisionApi)
+            {
+                services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();
+            }
+            else
+            {
+                services.AddSingleton<IImageSearchTermPredictor, OnnxImageSearchTermPredictor>();
+            }
+            
             services.AddTransient<IImageSearchService, ImageSearchService>();
 
             // demo only, do not do this in real life!
