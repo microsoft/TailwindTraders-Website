@@ -7,6 +7,6 @@ namespace Tailwind.Traders.Web.Standalone
 {
     public interface IImageSearchService
     {
-        Task<IEnumerable<SearchProductItem>> GetProducts(Stream imageStream);
+        Task<ImageSearchResult> GetProducts(Stream imageStream);
     }
 }

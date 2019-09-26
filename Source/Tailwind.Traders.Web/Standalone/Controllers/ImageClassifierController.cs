@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,9 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
         public async Task<IActionResult> PostImage(IFormFile file)
         {
             var products = await imageSearchService.GetProducts(file.OpenReadStream());
-            return Ok(products);
+            if (products.SearchResults.Any())
+                return Ok(products.SearchResults);
+            return Ok(new {error = $"No search results found for predicted tag: '{products.PredictedSearchTerm}'"});
         }
     }
 }
