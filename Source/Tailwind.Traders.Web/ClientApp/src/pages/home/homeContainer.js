@@ -11,7 +11,6 @@ class HomeContainer extends Component {
     constructor() {
         super();
         this.state = {
-
             recommendedProducts: [
             ],
             defaultProducts: [
