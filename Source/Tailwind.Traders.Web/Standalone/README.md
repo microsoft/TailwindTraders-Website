@@ -97,9 +97,11 @@ To add custom text, set `DebugInformation__CustomText`.
 
 There are two implementations of the image search. One that uses an embedded ONNX model, and one that calls an HTTP Endpoint taking an image URL in the querystring.
 
-You can select the correct implementation for your needs using the `ConfigExtensions.cs` file by editing the dependency injection:
+You can select the correct implementation for your needs by setting the `ImagePredictorEndpoint` app setting:
+- **HTTP Endpoint** - set `ImagePredictorEndpoint` with the correct endpoint URL
+- **Embedded ONNX model** - do not set `ImagePredictorEndpoint` or set it to an empty string
 
-```services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();```
+Depending on the setting, the application will use `HttpEndpointSearchTermPredictor` or `OnnxImageSearchTermPredictor`.
 
 `HttpEndpointSearchTermPredictor` is the Http endpoint implementation and it uses the `ImagePredictorEndpoint` configuration setting. It also saves files in a `website-uploads` container of an Azure Blob Storage account. The connection string needs to be set in a `StorageConnectionString` configuration file.
 

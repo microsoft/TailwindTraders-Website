@@ -25,7 +25,14 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
         public async Task<IActionResult> PostImage(IFormFile file)
         {
             var products = await imageSearchService.GetProducts(file.OpenReadStream());
-            return Ok(products.SearchResults);
+            if (products.SearchResults.Any())
+            {
+                return Ok(products.SearchResults);
+            }
+            else
+            {
+                return NotFound($"No results found for \"{products.PredictedSearchTerm}\"");
+            }
         }
     }
 }
