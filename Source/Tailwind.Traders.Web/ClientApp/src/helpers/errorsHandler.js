@@ -11,7 +11,7 @@ function errorResponseHandler(error) {
 
     // otherwise, if has response show the error
     if (error.response) {
-        toast.error(error.response.statusText);
+        toast.error(error.response.data || error.response.statusText);
     }
 
     // check for errorHandle config
