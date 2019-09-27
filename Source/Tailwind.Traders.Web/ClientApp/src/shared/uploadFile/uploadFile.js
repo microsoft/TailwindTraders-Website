@@ -31,9 +31,8 @@ class UploadFile extends Component {
                     });
                 }
             })
-            .catch(err => {
-                err = err || "There was an error uploading the image, please try again";
-                Alert.error(err, {
+            .catch(() => {
+                Alert.error("There was an error uploading the image, please try again", {
                     position: "top",
                     effect: "scale",
                     beep: true,
