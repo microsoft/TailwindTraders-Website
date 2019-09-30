@@ -55,6 +55,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Generating Dynamic `<meta>` Tags on the Server](#generating-dynamic-meta-tags-on-the-server)
 - [Pre-Rendering into Static HTML Files](#pre-rendering-into-static-html-files)
 - [Injecting Data from the Server into the Page](#injecting-data-from-the-server-into-the-page)
+- [Enabling Azure Personalizer Recommendations](#enabling-azure-personalizer-recommendations)
 - [Running Tests](#running-tests)
   - [Filename Conventions](#filename-conventions)
   - [Command Line Interface](#command-line-interface)
@@ -1301,6 +1302,14 @@ Similarly to the previous section, you can leave some placeholders in the HTML t
 ```
 
 Then, on the server, you can replace `__SERVER_DATA__` with a JSON of real data right before sending the response. The client code can then read `window.SERVER_DATA` to use it. **Make sure to [sanitize the JSON before sending it to the client](https://medium.com/node-security/the-most-common-xss-vulnerability-in-react-js-applications-2bdffbcc1fa0) as it makes your app vulnerable to XSS attacks.**
+
+## Enabling Azure Personalizer Recommendations
+
+An optional feature on the site is to enable Azure Personalizer determine the order in which recommended products appear on the landing page. Below are the instructions to enable this feature:
+1. Create an instance of Azure Cognitive Service Personalizer through the Azure portal or Azure CLI on your local machine.
+2. Obtain the API key and endpoint for your Personalizer instance through the Azure portal, and set them in the fields Personalizer:ApiKey and Personalizer:Endpoint in appsettings.json
+
+Product categories will be displayed in static order if Personalizer is not set up.
 
 ## Running Tests
 

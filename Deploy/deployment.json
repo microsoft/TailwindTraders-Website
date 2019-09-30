@@ -26,15 +26,20 @@
       "type": "string",
       "defaultValue": "msfttailwindtraders/tailwindtraderswebsite:latest"
     },
-    "apiBaseUrl" : {
+    "apiBaseUrl": {
       "type": "string",
       "defaultValue": "https://f5dc03f4e99349f6b467.eastus.aksapp.io"
-    }    
+    },
+    "enablePersonalizer": {
+      "type": "bool",
+      "defaultValue": false
+    }
   },
   "variables": {
     "website_name": "[concat('tailwindtraders',uniqueString(resourceGroup().id))]",
     "plan_name": "[concat('ttappserviceplan',uniqueString(resourceGroup().id))]",
-    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]"
+    "acr_name": "[concat('ttacr',uniqueString(resourceGroup().id))]",
+    "personalizer_name": "[concat('Microsoft.CognitiveServices/accounts/', variables('website_name'))]"
   },
   "resources": [
     {
@@ -73,8 +78,15 @@
             {
               "name": "ApiUrlShoppingCart",
               "value": "[concat(parameters('apiBaseUrl'), '/cart-api')]"
+            },
+            {
+              "name": "Personalizer__ApiKey",
+              "value": "[if(parameters('enablePersonalizer'), listKeys(variables('personalizer_name'),'2016-02-01-preview').key1, '')]"
+            },
+            {
+              "name": "Personalizer__Endpoint",
+              "value": "[if(parameters('enablePersonalizer'), reference(variables('personalizer_name'),'2016-02-01-preview').endpoint, '')]"
             }
-            
           ],
           "appCommandLine": "",
           "linuxFxVersion": "[concat('DOCKER|', parameters('dockerimage'))]"
@@ -83,7 +95,8 @@
         "hostingEnvironment": ""
       },
       "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]"
+        "[concat('Microsoft.Web/serverfarms/', variables('plan_name'))]",
+        "[concat('Microsoft.CognitiveServices/accounts/', variables('website_name'))]"
       ]
     },
     {
@@ -103,6 +116,18 @@
         "hostingEnvironment": "",
         "reserved": true
       }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "condition": "[parameters('enablePersonalizer')]",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[variables('website_name')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "Personalizer",
+      "properties": {}
     }
   ],
   "outputs": {
