@@ -3,12 +3,8 @@ import { Link } from "react-router-dom";
 
 async function handleClickReward(cssClass, eventId) {
     if (eventId) {
-        var rsp;
-        if (cssClass === "grid__item-a") {
-            rsp = await postReward(`/api/Personalizer/reward/${eventId}`, 1);
-        } else {
-            rsp = await postReward(`/api/Personalizer/reward/${eventId}`, 0);
-        }
+        var rewardValue = (cssClass === "grid__item-a") ? 1 : 0;
+        var rsp = await postReward(`/api/Personalizer/reward/${eventId}`, rewardValue);
         if (!rsp.ok) {
             console.error("Failed to send reward: " + rsp.error);
         }
