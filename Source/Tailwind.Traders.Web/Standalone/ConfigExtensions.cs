@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 using Tailwind.Traders.Web.Standalone.Data;
+using Tailwind.Traders.Web.Standalone.Services;
 
 namespace Tailwind.Traders.Web.Standalone
 {
@@ -56,6 +57,20 @@ namespace Tailwind.Traders.Web.Standalone
             };
             var mongoClient = new MongoClient(mongoClientSettings);
             services.AddSingleton(mongoClient);
+
+            services.AddTransient<IProductService, ProductService>();
+            
+            var useCustomVisionApi = !string.IsNullOrEmpty(config["ImagePredictorEndpoint"]);
+            if (useCustomVisionApi)
+            {
+                services.AddSingleton<IImageSearchTermPredictor, HttpEndpointSearchTermPredictor>();
+            }
+            else
+            {
+                services.AddSingleton<IImageSearchTermPredictor, OnnxImageSearchTermPredictor>();
+            }
+            
+            services.AddTransient<IImageSearchService, ImageSearchService>();
 
             // demo only, do not do this in real life!
             const string defaultSecurityKey = Constants.DefaultJwtSigningKey;

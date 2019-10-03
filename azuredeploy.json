@@ -140,6 +140,10 @@
             {
               "name": "SqlConnectionString",
               "value": "[if(equals(parameters('deploymentMode'), 'standalone'), concat('Server=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlDatabaseName'), ';Persist Security Info=False;User ID=', parameters('sqlLogin'), ';Password=', parameters('sqlPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'), '')]"
+            },
+            {
+              "name": "productImagesUrl",
+              "value": "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/product-images/product-details"
             }
           ],
           "metadata": [
