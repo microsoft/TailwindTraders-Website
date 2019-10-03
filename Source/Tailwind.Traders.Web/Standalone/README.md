@@ -92,3 +92,17 @@ You can add a debug header to the page. The header displays database server info
 To enable the debug header, set `DebugInformation__ShowDebug` to `true`.
 
 To add custom text, set `DebugInformation__CustomText`.
+
+### Changing the Image Search feature
+
+There are two implementations of the image search. One that uses an embedded ONNX model, and one that calls an HTTP Endpoint taking an image URL in the querystring.
+
+You can select the correct implementation for your needs by setting the `ImagePredictorEndpoint` app setting:
+- **HTTP Endpoint** - set `ImagePredictorEndpoint` with the correct endpoint URL
+- **Embedded ONNX model** - do not set `ImagePredictorEndpoint` or set it to an empty string
+
+Depending on the setting, the application will use `HttpEndpointSearchTermPredictor` or `OnnxImageSearchTermPredictor`.
+
+`HttpEndpointSearchTermPredictor` is the Http endpoint implementation and it uses the `ImagePredictorEndpoint` configuration setting. It also saves files in a `website-uploads` container of an Azure Blob Storage account. The connection string needs to be set in a `StorageConnectionString` configuration file.
+
+`OnnxImageSearchTermPredictor` is the implementation that uses an ONNX model. It expects a model file to be present at `Standalone/OnnxModels/products.onnx`.
