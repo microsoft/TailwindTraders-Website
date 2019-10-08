@@ -42,14 +42,14 @@ The standalone version requires a couple of databases:
 
 Click this button to deploy the application in "Standalone" or "Frontend Only" mode.
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/?repository=https://github.com/Microsoft/TailwindTraders-Website/tree/master)
+[![Deploy to Azure](Documents/Images/deploy-to-azure.png)](https://portal.azure.com/?feature.customportal=false#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2Fazuredeploy.json)
 
 #### Standalone
 
 This method deploys the Tailwind Traders website with a SQL DB and Cosmos DB, and does not depend on backend microservices.
 
 - Select `standalone`
-- Ensure you select a region where you're allowed to deploy SQL Databases and App Services, each of those services have restrictions for internal subs.
+- Ensure you select a region where you're allowed to deploy SQL Databases and App Services, each of those services have restrictions for internal subscriptions (`eastus` seems to work).
 - Use a short name (< 20 characters), that name is used to generate resource names. Each resource has different naming restrictions. Stick to lower case characters, numbers, and dashes.
 - Enter a strong password for SQL, but do NOT use `;` (this is a separator in SQL connection strings)
 
