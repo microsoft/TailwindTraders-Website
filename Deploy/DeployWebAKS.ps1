@@ -3,7 +3,6 @@ Param(
     [parameter(Mandatory=$false)][string]$aksName,
     [parameter(Mandatory=$false)][string]$resourceGroup,
     [parameter(Mandatory=$false)][string]$acrName,
-    [parameter(Mandatory=$false)][string]$acrLogin,
     [parameter(Mandatory=$false)][string]$tag="latest",
     [parameter(Mandatory=$false)][string]$valueSFile = "gvalues.yaml",
     [parameter(Mandatory=$false)][string]$b2cValuesFile = "values.b2c.yaml",
@@ -92,10 +91,23 @@ if ($tlsEnv -ne "custom") {
 
 validate
 
+## Install app-insights extension
+az extension add --name application-insights
+
+## Getting App Insights instrumentation key
+$appinsightsId=$(az monitor app-insights component show --app tt-app-insights -g $resourceGroup -o json | ConvertFrom-Json).instrumentationKey
+
+if ($appinsights) {
+    Write-Host "App Insights Instrumentation Key: $($appinsights)" -ForegroundColor Yellow
+}
+else {
+    $appinsightsId=""
+}
+
 Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
-$command = createHelmCommand "helm install --name $name -f $valuesFile -f $b2cValuesFile --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag"  "web" 
+$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
 cmd /c "$command"
 Pop-Location
 
