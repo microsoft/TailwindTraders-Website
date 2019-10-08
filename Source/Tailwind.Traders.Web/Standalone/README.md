@@ -42,7 +42,7 @@ The standalone version requires a couple of databases:
 
 Click this button to deploy the application in "Standalone" or "Frontend Only" mode.
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/?repository=https://github.com/Microsoft/TailwindTraders-Website/tree/master)
 
 #### Standalone
 
