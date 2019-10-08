@@ -38,9 +38,29 @@ The standalone version requires a couple of databases:
     dotnet bin/Release/netcoreapp2.1/publish/Tailwind.Traders.Web.dll
     ```
 
-### Deploy to Azure App Service
+### Deploy to Azure App Service (automatic deployment)
 
-> **Deploy to Azure button** - Go to [this page](https://gist.github.com/anthonychu/9ab34d2991fb5c1c0c29faeebbe43a51#file-tailwind-deployments-md) for the latest deploy button(s)
+Click this button to deploy the application in "Standalone" or "Frontend Only" mode.
+
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/)
+
+#### Standalone
+
+This method deploys the Tailwind Traders website with a SQL DB and Cosmos DB, and does not depend on backend microservices.
+
+- Select `standalone`
+- Ensure you select a region where you're allowed to deploy SQL Databases and App Services, each of those services have restrictions for internal subs.
+- Use a short name (< 20 characters), that name is used to generate resource names. Each resource has different naming restrictions. Stick to lower case characters, numbers, and dashes.
+- Enter a strong password for SQL, but do NOT use `;` (this is a separator in SQL connection strings)
+
+#### Frontend Only
+
+This method deploys the Tailwind Traders website and calls backend services hosted somewhere else.
+
+- Select `frontendOnly`
+- You can leave the SQL login information blank
+
+### Deploy to Azure App Service (manual deployment)
 
 1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 2.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
 
