@@ -38,6 +38,7 @@ Please follow these steps to deploy the web in the same AKS where Backend is run
 1. **You must have an AKS with all the Tailwind Traders Backend Up & Running**. Please follow the instructions on [Tailwind Traders Backend repo](https://github.com/Microsoft/TailwindTraders-Backend/) to deploy the backend on AKS.
 
 1. **You can't install the web on a AKS Before installing the Backend on it**. This is because some configuration steps that are done when installing the Backend are needed.
+1. **OPTIONAL** _Only if you want to use Application Insights_ Get installed the app-insights extension for az monitor. 
 
 > Note: This document assumes you have the backend installed on an AKS and the `kubectl` is configured against this cluster.
 
@@ -73,6 +74,7 @@ To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Depl
 - `-valueSFile`: YAML files containing the values. Defaults to `gvalues.yaml`. You can use the provided `gvalues.yaml` as-is, so don't need to specify this parameter.
 - `-b2cValuesFile`: YAML file with the B2C configuration values. Defaults to `values.b2c.yaml`. If B2C login is needed, you must fill the values in the file in order to configure it.
 - `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
+- `-appInsightsName`: Application Insights' name for monitoring purposes. Please, be sure you've [installed the az monitor's `application-insights` extension](https://docs.microsoft.com/en-us/cli/azure/extension?view=azure-cli-latest).
 
 To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
 
