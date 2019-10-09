@@ -11,6 +11,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+  APPINSIGHTS_INSTRUMENTATIONKEY: {{ .Values.inf.appinsights.id }}
   ApiUrl:  {{.Values.ingress.protocol}}://{{ $apihost }}{{ .Values.inf.ingress.webbff.path }}/v1
   ApiUrlShoppingCart: {{.Values.ingress.protocol}}://{{ $apihost }}{{ .Values.inf.ingress.cart.path }}  
   UseB2C: {{ .Values.B2C.UseB2C | quote }}
