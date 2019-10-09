@@ -3,14 +3,14 @@ Param(
     [parameter(Mandatory=$false)][string]$aksName,
     [parameter(Mandatory=$false)][string]$resourceGroup,
     [parameter(Mandatory=$false)][string]$acrName,
-    [parameter(Mandatory=$false)][string]$acrLogin,
     [parameter(Mandatory=$false)][string]$tag="latest",
     [parameter(Mandatory=$false)][string]$valueSFile = "gvalues.yaml",
     [parameter(Mandatory=$false)][string]$b2cValuesFile = "values.b2c.yaml",
     [parameter(Mandatory=$false)][string]$afHost = "http://your-product-visits-af-here",
     [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none','custom', IgnoreCase=$false)]$tlsEnv = "none",
     [parameter(Mandatory=$false)][string]$tlsHost="",
-    [parameter(Mandatory=$false)][string]$tlsSecretName=""
+    [parameter(Mandatory=$false)][string]$tlsSecretName="",
+    [parameter(Mandatory=$false)][string]$appInsightsName=""
 )
 
 function validate {
@@ -92,10 +92,22 @@ if ($tlsEnv -ne "custom") {
 
 validate
 
+$appinsightsId=""
+
+## Getting App Insights instrumentation key, if required
+if (-not [string]::IsNullOrEmpty($appInsightsName)) {
+    $appinsightsConfig=$(az monitor app-insights component show --app $appInsightsName -g $resourceGroup -o json | ConvertFrom-Json)
+
+    if ($appinsightsConfig) {
+        $appinsightsId = $appinsightsConfig.instrumentationKey
+        Write-Host "App Insights Instrumentation Key: $($appinsightsId)" -ForegroundColor Yellow    
+    }
+}
+
 Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
-$command = createHelmCommand "helm install --name $name -f $valuesFile -f $b2cValuesFile --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag"  "web" 
+$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
 cmd /c "$command"
 Pop-Location
 
