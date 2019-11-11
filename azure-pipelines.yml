@@ -1,7 +1,7 @@
 variables:
   azureSubscription: Azure SP TTapp_pavander
   resourcegroup: tailwindtraders-rg
-  location: West-Europe
+  location: westeurope
   ImageName: website
 
 steps:
