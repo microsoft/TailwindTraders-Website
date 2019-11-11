@@ -1,5 +1,5 @@
 variables:
-  azureSubscription: TTapp_pavander
+  azureSubscription: Azure SP TTapp_pavander
   resourcegroup: tailwindtraders-rg
   location: West-Europe
   ImageName: website
