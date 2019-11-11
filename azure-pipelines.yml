@@ -1,5 +1,5 @@
 variables:
-  azureSubscription: Microsoft Azure Internal Consumption
+  azureSubscription: 0eb49d19-cb9e-43b2-90e0-ec9298d36203
   resourcegroup: tailwindtraders-rg
   location: West-Europe
   ImageName: website
