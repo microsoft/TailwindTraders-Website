@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/mtjw/TailwindAzDOG/_apis/build/status/MarkWme.TailwindTraders-Website?branchName=master)](https://dev.azure.com/mtjw/TailwindAzDOG/_build/latest?definitionId=63&branchName=master)
+
 # Tailwind Traders Website
 
 ![Tailwind Traders Website](Documents/Images/Website.png)
