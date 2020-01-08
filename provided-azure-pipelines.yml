@@ -28,7 +28,7 @@ stages:
 
     - task: UseNode@1
       inputs:
-        versionSpec: '10.x'
+        version: '10.x'
         
     - task: VSBuild@1
       inputs:
