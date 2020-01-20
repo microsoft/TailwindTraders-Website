@@ -1,0 +1,8 @@
+version: 1
+update_configs:
+  - package_manager: "javascript"
+    directory: "/Source/Tailwind.Traders.Web/ClientApp"
+    update_schedule: "live"
+  - package_manager: "dotnet:nuget"
+    directory: "/Source/Tailwind.Traders.Web"
+    update_schedule: "live"
