@@ -27,15 +27,15 @@ When you deploy this website to Azure you can define the [Backend](https://githu
 
 > Note: you can change the InstrumentationKey of the **Application Insight** that is configured by default.
 
-In order to change the backend, set `apiBaseUrl` parameter on the ARM template provided to the url where your aks is configured.
+If you want to update the application to use your own [backend](https://github.com/Microsoft/TailwindTraders-Backend), set `apiBaseUrl` parameter on the ARM template provided to the url where your aks is configured.
 
-e.g. In order to know your aks route, if configured with `addon-http-application-routing` ingress class (as it's by default) you could run 
+e.g. In order to know your AKS route you could run the following command:
 
-```
+```bash
 az aks show -n <aks-name> -g <resource-group> --query "addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName"
 ```
 
-And it will return your base TailwindTraders-Backend url.
+And it will return your base [TailwindTraders-Backend](https://github.com/Microsoft/TailwindTraders-Backend) url. Note that this will work only if your Backend is configured with the `addon-http-application-routing` ingress class (as it's by default).
 
 # Deploy as part of AKS (Azure Kubernetes Service)
 
