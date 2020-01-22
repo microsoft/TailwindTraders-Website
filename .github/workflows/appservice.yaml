@@ -33,6 +33,7 @@ jobs:
 
     - uses: azure/appservice-settings@v1
       with:
+        app-name: ${{ secrets.WEBAPP_NAME }}
         app-settings-json: '${{ secrets.APP_SETTINGS }}'
 
 
