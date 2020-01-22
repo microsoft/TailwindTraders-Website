@@ -16,6 +16,7 @@ jobs:
     
     # dotnet build and publish
     - name: Build with dotnet
+      working-directory: Source/Tailwind.Traders.Web
       run: dotnet build --configuration Release
     - name: dotnet publish
       run: |
