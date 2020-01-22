@@ -7,6 +7,10 @@ jobs:
 
     - uses: actions/checkout@master
 
+    - uses: azure/login@v1
+      with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
@@ -27,12 +31,17 @@ jobs:
       run: |
         dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
 
+    - uses: azure/appservice-settings@v1
+      with:
+        app-settings-json: '${{ secrets.APP_SETTINGS }}'
+
+
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v1
-      env:
-        ApiUrl: ${{ secrets.API_URL}}
-        ApiUrlShoppingCart: ${{ secrets.API_URL_SHOPPING_CART}}
+      # env:
+      #   ApiUrl: ${{ secrets.API_URL}}
+      #   ApiUrlShoppingCart: ${{ secrets.API_URL_SHOPPING_CART}}
       with: 
         app-name: ${{ secrets.WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        # publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
