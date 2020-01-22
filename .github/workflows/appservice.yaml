@@ -7,7 +7,16 @@ jobs:
 
     # checkout the repo
     - uses: actions/checkout@master
-    
+
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.15.3
+
+    - name: Install dependencies in client app
+      working-directory: Source/Tailwind.Traders.Web/ClientApp
+      run: npm install
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
