@@ -28,8 +28,9 @@ jobs:
       working-directory: Source/Tailwind.Traders.Web
       run: dotnet build --configuration Release
     - name: dotnet publish
+      working-directory: Source/Tailwind.Traders.Web
       run: |
-        dotnet publish -c Release -o Source/Tailwind.Traders.Web
+        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v1
       with: 
