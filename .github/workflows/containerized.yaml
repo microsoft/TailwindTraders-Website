@@ -6,7 +6,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    # checkout the repo
     - name: 'Checkout Github Action' 
       uses: actions/checkout@master
     
@@ -20,11 +19,14 @@ jobs:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    
-    - run: |
-        docker build ./Source/Tailwind.Traders.Web -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/tailwindtradersweb:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/tailwindtradersweb:${{ github.sha }} 
-      
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Docker build and push
+      working-directory: Source/Tailwind.Traders.Web
+      run: | 
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/tailwindtradersweb:gh-${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/tailwindtradersweb:gh-${{ github.sha }} 
+
     - uses: azure/webapps-container-deploy@v1
       with:
         app-name: ttwebcontainer
