@@ -9,7 +9,7 @@ jobs:
 
     - uses: azure/login@v1
       with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
     - name: Use Node.js
       uses: actions/setup-node@v1
