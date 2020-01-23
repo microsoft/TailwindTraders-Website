@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
+
     - name: Docker build and push
       working-directory: Source/Tailwind.Traders.Web
       run: | 
@@ -35,3 +35,4 @@ jobs:
     - name: Azure logout
       run: |
         az logout
+
