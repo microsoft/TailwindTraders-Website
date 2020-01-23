@@ -42,3 +42,7 @@ jobs:
       with: 
         app-name: ${{ secrets.WEBAPP_NAME }}
         package: ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
+
+    - name: Azure logout
+      run: |
+        az logout
