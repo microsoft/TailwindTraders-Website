@@ -1,3 +1,8 @@
+ARG sdkTag=3.0
+ARG runtimeTag=3.0
+ARG image=mcr.microsoft.com/dotnet/core/aspnet
+ARG sdkImage=mcr.microsoft.com/dotnet/core/sdk
+
 FROM node:10-alpine as build-node
 WORKDIR /ClientApp
 COPY ClientApp/package.json .
@@ -6,7 +11,7 @@ RUN npm install
 COPY ClientApp/ . 
 RUN npm run build
 
-FROM microsoft/dotnet:2.2.100-preview3-sdk-stretch as build-net
+FROM ${sdkImage}:${sdkTag} as build-net
 ENV BuildingDocker true
 ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
@@ -16,7 +21,7 @@ COPY . .
 RUN dotnet build
 RUN dotnet publish -o /ttweb
 
-FROM microsoft/dotnet:2.1-aspnetcore-runtime as runtime
+FROM ${image}:${runtimeTag} as runtime
 WORKDIR /web
 COPY --from=build-net /ttweb .
 COPY --from=build-node /ClientApp/build ./ClientApp/build
