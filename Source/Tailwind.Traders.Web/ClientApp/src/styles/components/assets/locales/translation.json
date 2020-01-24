@@ -1,0 +1,89 @@
+{
+    "en": {
+      "translation": {
+        "home.hero.shiping": "Free Shipping",
+        "home.hero.orders": "For $100 or more orders",
+
+        "home.recommended.recommended": "Recommended",
+        "home.recommended.uploadPhotoTitle": "By uploading a photo",
+        "home.recommended.uploadPhotoSubtitle": "start smart shopping",
+
+        "home.popular.products": "Popular Products",
+        "home.recommended.products": "Recommended products",
+        "home.getapp.title": "Get your mobile App",
+        "home.getapp.subtitle": "Try our smart shopping app for easy planning",
+        "home.getapp.appStoreImg": "Download Tailwind Traders for iOS",
+        "home.getapp.googlePlayImg": "Download Tailwind Traders for Android",
+
+        "mycoupons.title": "My coupons",
+        "mycoupons.subtitle": "Personalized coupons for you based on your purchase history and interest",
+        "mycoupons.big.noCoupons": "This user does not have available big coupons",
+        "mycoupons.small.noCoupons": "This user does not have available small coupons",
+        "mycoupons.smallcoupons.until": "Until",
+        "mycoupons.RecentSearchedProducts.title": "Based on your recent searches",
+
+        "list.aside.tools": "Cordless Power Tools",
+        "list.aside.brands": "Brands",
+        "list.aside.price": "Price",
+        "list.aside.rating": "Rating",
+        "list.aside.more": "Show more",
+        "list.aside.close": "Close",
+        "list.aside.filtersTitle": "Filters",
+
+        "shared.header.homeAppliances": "Home Appliances",
+        "shared.header.sink": "Sink",
+        "shared.header.home": "Home",
+        "shared.header.gardening": "Gardening",
+        "shared.header.decor": "Decor",
+        "shared.header.kitchen": "Kitchen Accessories",
+        "shared.header.diytools": "DIY Tools",
+        "shared.header.profile": "Profile",
+        "shared.header.logout": "Logout",
+        "shared.header.loginMicrosoft": "Login with Microsoft account",
+        "shared.header.or": "or",
+        "shared.header.login": "Login",
+        "shared.header.email": "Email",
+        "shared.header.emailPlaceholder": "admin@tailwindtraders.com",
+        "shared.header.password": "Password",
+        "shared.header.passwordPlaceholder": "••••••••",
+
+        "shared.login.claim": "Log in to add your products to the cart and enjoy the purchase!",
+        "shared.login.B2CButton": "Tailwind Traders Login",
+
+        "shared.banner.uploadPhotoTitle": "upload new photo",
+        "shared.banner.disclaimer": "Based on your photo we found these products for you",
+        "shared.banner.info": "Not what you are looking for?",
+
+        "shared.footer.link": "Tailwind Traders",
+        "shared.footer.link2": "Terms & Conditions",
+        "shared.footer.link3": "Privacy Policy",
+        "shared.footer.link4": "Help",
+        "shared.footer.link5": "Contact",
+        "shared.footer.disclaimer": "This site was built for demonstration purposes only.",
+
+        "shared.addToList": "Add to list",
+        "shared.seeMyCoupons": "See my coupons",
+
+        "detail.addToCart": "Add to Cart",
+        "detail.inStock": "In Stock",
+        "detail.outStock": "Out of Stock",
+        "detail.tagName1": "Aisle 12",
+        "detail.tagName2": "Bin 5",
+        "detail.shoppingCart": "Shopping Cart",
+
+        "profile.name": "Name",
+        "profile.address": "Address",
+        "profile.phoneNumber": "Phone number",
+        "profile.email": "Email adress",
+        "profile.customer.title": "Customer Information",
+        "profile.cupons.title": "My Coupons",
+        "profile.cupons.noCupons": "No coupons for default users",
+        "profile.cupons.seeAll": "See All",
+        "profile.history.title": "My Purchase History",
+        "profile.recommended.title": "Recommended For You",
+        "profile.favorite.title": "Favorite Categories",
+
+        "shoppingCart.title": "Your shopping cart"
+      }
+    }
+}

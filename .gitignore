@@ -334,3 +334,4 @@ ASALocalRun/
 # Custom helm config
 Deploy/helm/__values/*
 !Deploy/helm/__values/readme.txt
+/Source/Tailwind.Traders.Web/.vscode
