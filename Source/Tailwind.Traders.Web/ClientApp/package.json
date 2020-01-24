@@ -15,7 +15,7 @@
     "node-sass": "^4.9.4",
     "prop-types": "^15.6.2",
     "qs": "^6.5.2",
-    "react": "^16.5.2",
+    "react": "^16.12.0",
     "react-a11y-dialog": "^4.1.0",
     "react-dom": "^16.5.2",
     "react-i18next": "^8.1.0",
