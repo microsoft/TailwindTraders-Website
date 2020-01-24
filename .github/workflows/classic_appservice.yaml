@@ -1,0 +1,53 @@
+name: Web regular AppService
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@master
+
+    - uses: azure/login@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.15.3
+    - name: Install dependencies in client app
+      working-directory: Source/Tailwind.Traders.Web/ClientApp
+      run: npm install
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.400
+    - name: Build with dotnet
+      working-directory: Source/Tailwind.Traders.Web
+      run: dotnet build --configuration Release
+    - name: dotnet publish
+      working-directory: Source/Tailwind.Traders.Web
+      run: |
+        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
+
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+        app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
+
+
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v1
+      with: 
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+        package: ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
+
+    - name: Azure logout
+      run: |
+        az logout
