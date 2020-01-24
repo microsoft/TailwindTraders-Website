@@ -2,7 +2,7 @@ name: Web regular AppService
 
 on:
   push:
-    paths:
+    branches:
       - master
 
 jobs:
