@@ -14,15 +14,15 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="12.1.2" />
-    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Personalizer" Version="0.8.0-preview" />
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.0.0" />
-    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="0.5.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.2" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="0.5.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
   </ItemGroup>
 

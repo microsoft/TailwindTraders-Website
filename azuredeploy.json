@@ -24,13 +24,17 @@
       "type": "securestring",
       "defaultValue": ""
     },
+    "enablePersonalizer": {
+      "type": "bool",
+      "defaultValue": false
+    },
     "repoUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/anthonychu/TailwindTraders-Website"
+      "defaultValue": "https://github.com/microsoft/TailwindTraders-Website"
     },
     "branch": {
       "type": "string",
-      "defaultValue": "monolith"
+      "defaultValue": "master"
     }
   },
   "variables": {
@@ -42,9 +46,9 @@
     "serverFarmResourceGroup": "[resourceGroup().name]",
     "alwaysOn": true,
     "sku": "PremiumV2",
-    "skuCode": "P1v2",
-    "workerSize": "3",
-    "workerSizeId": "3",
+    "skuCode": "P2v2",
+    "workerSize": "4",
+    "workerSizeId": "4",
     "numberOfWorkers": "1",
     "currentStack": "dotnetcore",
     "appInsightsName": "[variables('name')]",
@@ -79,7 +83,8 @@
         "[concat('microsoft.insights/components/', variables('appInsightsName'))]",
         "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]",
         "[concat('Microsoft.Sql/servers/', variables('sqlServerName'), '/databases/', variables('sqlDatabaseName'))]",
-        "[concat('Microsoft.DocumentDB/databaseAccounts/', variables('cosmosAccountName'))]"
+        "[concat('Microsoft.DocumentDB/databaseAccounts/', variables('cosmosAccountName'))]",
+        "[concat('Microsoft.CognitiveServices/accounts/', variables('name'))]"
       ],
       "properties": {
         "name": "[variables('name')]",
@@ -143,7 +148,15 @@
             },
             {
               "name": "productImagesUrl",
-              "value": "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/product-images/product-details"
+              "value": "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Deploy/tailwindtraders-images/product-detail"
+            },
+            {
+              "name": "Personalizer__ApiKey",
+              "value": "[if(parameters('enablePersonalizer'), listKeys(concat('Microsoft.CognitiveServices/accounts/', variables('name')),'2016-02-01-preview').key1, '')]"
+            },
+            {
+              "name": "Personalizer__Endpoint",
+              "value": "[if(parameters('enablePersonalizer'), reference(concat('Microsoft.CognitiveServices/accounts/', variables('name')),'2016-02-01-preview').endpoint, '')]"
             }
           ],
           "metadata": [
@@ -297,6 +310,18 @@
 				},
 				"options": { "throughput": "400" }
 			}
-		}
+		},
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "condition": "[parameters('enablePersonalizer')]",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[variables('name')]",
+      "location": "westus2",
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "Personalizer",
+      "properties": {}
+    }
   ]
 }
