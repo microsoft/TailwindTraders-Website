@@ -42,7 +42,11 @@ jobs:
         app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
 
 
+<<<<<<< HEAD
     - name: Run Azure webapp deploy action
+=======
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+>>>>>>> 315a6ec0274cf9400fa831160d1aff5dcfb70165
       uses: azure/webapps-deploy@v1
       with: 
         app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
