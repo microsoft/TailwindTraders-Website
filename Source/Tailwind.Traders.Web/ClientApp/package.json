@@ -19,7 +19,7 @@
     "react-a11y-dialog": "^4.1.0",
     "react-dom": "^16.5.2",
     "react-i18next": "^8.1.0",
-    "react-redux": "^6.0.0",
+    "react-redux": "^7.2.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-s-alert": "^1.4.1",
