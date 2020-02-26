@@ -167,7 +167,7 @@
           ],
           "alwaysOn": "[variables('alwaysOn')]"
         },
-        "serverFarmId": "[concat('/subscriptions/', variables('subscriptionId'),'/resourcegroups/', variables('serverFarmResourceGroup'), '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "hostingEnvironment": "[variables('hostingEnvironment')]",
         "clientAffinityEnabled": true
       },
