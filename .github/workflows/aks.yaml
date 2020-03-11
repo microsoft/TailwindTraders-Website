@@ -51,7 +51,5 @@ jobs:
         export PATH=/usr/local/bin/helm
 
     - name: Install Helm Chart
-      shell: pwsh
-
       run: |
         helm upgrade --install tailwindtraders-web ./Deploy/helm/web -f ./Deploy/helm/gvalues.yaml -f ./Deploy/helm/values.b2c.yaml  --set ingress.hosts={$aksHost}  --set ingress.protocol=https --set ingress.tls[0].hosts={$aksHost}  --set ingress.tls[0].secretName=$tlsSecretName --set image.repository=tailwindtraders/web --set image.tag=gh-${{ github.sha }}
