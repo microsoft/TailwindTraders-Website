@@ -1,0 +1,43 @@
+name: Deploy in a containerized App Service
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@master
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Docker build and push
+      working-directory: Source/Tailwind.Traders.Web
+      run: | 
+        docker build . --build-arg sdkTag=2.1 --build-arg runtimeTag=2.1 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
+        docker push tailwindtraders/web:gh-${{ github.sha }}
+
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ secrets.CONTAINER_APPSERVICE_NAME }}
+        app-settings-json: '${{ secrets.CONTAINER_APP_SETTINGS }}'
+
+    - uses: azure/webapps-container-deploy@v1
+      with:
+        app-name: ${{ secrets.CONTAINER_APPSERVICE_NAME }}
+        images: 'tailwindtraders/web:gh-${{ github.sha }}'
+    
+    - name: Azure logout
+      run: |
+        az logout

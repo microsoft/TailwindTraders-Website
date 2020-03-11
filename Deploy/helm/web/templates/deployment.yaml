@@ -21,12 +21,14 @@ spec:
         app: {{ template "tt-web.name" . }}
         release: {{ .Release.Name }}
     spec:
+      {{ if .Values.inf.sa -}}
       serviceAccountName: {{ .Values.inf.sa }}
       {{ if .Values.imagePullSecrets -}}
       imagePullSecrets:
       {{ range .Values.imagePullSecrets -}}
         - name: {{ .name }}
       {{- end -}}
+      {{- end }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
