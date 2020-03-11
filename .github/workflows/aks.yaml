@@ -13,10 +13,6 @@ on:
 
 jobs:
   buildpush:
-    env:
-      # TT public environment variables. Please edit to match your environment 
-      akshost: ${{ secrets.AKS_HOST_NAME }}              # AKS HOST NAME: You must use your AKS DNS name
-      tlsSecretName: ${{ secrets.AKS_TLS_SECRET_NAME }}  # AKS SECRET NAME HAVING THE TLS CERT
     runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v1
@@ -52,4 +48,4 @@ jobs:
 
     - name: Install Helm Chart
       run: |
-        helm upgrade --install tailwindtraders-web ./Deploy/helm/web -f ./Deploy/helm/gvalues.yaml -f ./Deploy/helm/values.b2c.yaml  --set ingress.hosts={$aksHost}  --set ingress.protocol=https --set ingress.tls[0].hosts={$aksHost}  --set ingress.tls[0].secretName=$ --set image.repository=tailwindtraders/web --set image.tag=gh-${{ github.sha }}
+        helm upgrade --install tailwindtraders-web ./Deploy/helm/web -f ./Deploy/helm/gvalues.yaml -f ./Deploy/helm/values.b2c.yaml  --set ingress.hosts={${{ secrets.AKS_HOST_NAME }}}  --set ingress.protocol=https --set ingress.tls[0].hosts={${{ secrets.AKS_HOST_NAME }}}  --set ingress.tls[0].secretName=${{ secrets.AKS_TLS_SECRET_NAME }} --set image.repository=tailwindtraders/web --set image.tag=gh-${{ github.sha }}
