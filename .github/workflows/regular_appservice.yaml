@@ -3,7 +3,7 @@ name: Web regular AppService
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-deploy:

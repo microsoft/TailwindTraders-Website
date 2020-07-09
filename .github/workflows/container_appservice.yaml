@@ -3,7 +3,7 @@ name: Deploy in a containerized App Service
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-deploy:

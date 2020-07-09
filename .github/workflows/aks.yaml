@@ -9,7 +9,7 @@ name: Web in AKS
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   buildpush:
