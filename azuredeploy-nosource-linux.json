@@ -38,7 +38,7 @@
       },
       "hostingPlanKind": {
         "type": "string",
-        "defaultValue": "linux"
+        "defaultValue": ""
       }
     },
     "variables": {
@@ -185,7 +185,6 @@
         "tags": {},
         "dependsOn": [],
         "properties": {
-          "reserved": true,
           "name": "[variables('hostingPlanName')]",
           "workerSize": "[variables('workerSize')]",
           "workerSizeId": "[variables('workerSizeId')]",
