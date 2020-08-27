@@ -35,6 +35,10 @@
     "branch": {
       "type": "string",
       "defaultValue": "master"
+    },
+    "sourceControl": {
+      "type": "bool",
+      "defaultValue": true
     }
   },
   "variables": {
@@ -173,6 +177,7 @@
       },
       "resources": [
         {
+          "condition": "[parameters('sourceControl')]",
           "apiVersion": "2015-08-01",
           "name": "web",
           "type": "sourcecontrols",
