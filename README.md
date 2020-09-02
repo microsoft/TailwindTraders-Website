@@ -2,7 +2,11 @@
 
 ![Tailwind Traders Website](Documents/Images/Website.png)
 
-[![Build status](https://dev.azure.com/TailwindTraders/Website/_apis/build/status/Website-CI)](https://dev.azure.com/TailwindTraders/Website/_build?definitionId=22)
+## Build Status
+
+![Web regular AppService](https://github.com/microsoft/TailwindTraders-Website/workflows/Web%20regular%20AppService/badge.svg)
+![Web in AKS](https://github.com/microsoft/TailwindTraders-Website/workflows/Web%20in%20AKS/badge.svg)
+![Deploy in a containerized App Service](https://github.com/microsoft/TailwindTraders-Website/workflows/Deploy%20in%20a%20containerized%20App%20Service/badge.svg)
 
 You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com)
 
