@@ -39,6 +39,14 @@
     "sourceControl": {
       "type": "bool",
       "defaultValue": true
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "PremiumV2"
+    },
+    "skuCode": {
+      "type": "string",
+      "defaultValue": "P2v2"
     }
   },
   "variables": {
@@ -49,8 +57,6 @@
     "hostingPlanName": "[concat(variables('name'), '-plan')]",
     "serverFarmResourceGroup": "[resourceGroup().name]",
     "alwaysOn": true,
-    "sku": "PremiumV2",
-    "skuCode": "P2v2",
     "workerSize": "4",
     "workerSizeId": "4",
     "numberOfWorkers": "1",
@@ -208,8 +214,8 @@
         "hostingEnvironment": "[variables('hostingEnvironment')]"
       },
       "sku": {
-        "Tier": "[variables('sku')]",
-        "Name": "[variables('skuCode')]"
+        "Tier": "[parameters('sku')]",
+        "Name": "[parameters('skuCode')]"
       }
     },
     {
