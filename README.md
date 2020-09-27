@@ -23,15 +23,15 @@ For this demo reference, we built several consumer and line-of-business applicat
 
 # Deploy to Azure
 
-With the following ARM template you can automate the creation of the resources for this website.
+With the following ARM template, you can automate the creation of the resources for this website.
 
 [![Deploy to Azure](Documents/Images/deploy-to-azure.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmain%2FDeploy%2Fdeployment.json)
 
-When you deploy this website to Azure you can define the [Backend](https://github.com/Microsoft/TailwindTraders-Backend) you want to use in case you have deploy your own backend. By defaults it is configured the public Backend environment provided by Microsoft.
+When you deploy this website to Azure you can define the [Backend](https://github.com/Microsoft/TailwindTraders-Backend) you want to use in case you have to deploy your own backend. By defaults, it is configured the public Backend environment provided by Microsoft.
 
 > Note: you can change the InstrumentationKey of the **Application Insight** that is configured by default.
 
-If you want to update the application to use your own [backend](https://github.com/Microsoft/TailwindTraders-Backend), set `apiBaseUrl` parameter on the ARM template provided to the url where your aks is configured.
+If you want to update the application to use your own [backend](https://github.com/Microsoft/TailwindTraders-Backend), set the `apiBaseUrl` parameter on the ARM template provided to the URL where your aks is configured.
 
 e.g. In order to know your AKS route you could run the following command:
 
@@ -39,19 +39,19 @@ e.g. In order to know your AKS route you could run the following command:
 az aks show -n <aks-name> -g <resource-group> --query "addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName"
 ```
 
-And it will return your base [TailwindTraders-Backend](https://github.com/Microsoft/TailwindTraders-Backend) url. Note that this will work only if your Backend is configured with the `addon-http-application-routing` ingress class (as it's by default).
+And it will return your base [TailwindTraders-Backend](https://github.com/Microsoft/TailwindTraders-Backend) URL. Note that this will work only if your Backend is configured with the `addon-http-application-routing` ingress class (as it's by default).
 
 # Deploy as part of AKS (Azure Kubernetes Service)
 
 Please follow these steps to deploy the web in the same AKS where Backend is running instead of deploying to an App Service.
 
-**Note**: Website supports [Devspaces deployment](./Documents/Devspaces.md).
+**Note**: The website supports [Devspaces deployment](./Documents/Devspaces.md).
 
 ## Pre-Requisites:
 
 1. **You must have an AKS with all the Tailwind Traders Backend Up & Running**. Please follow the instructions on [Tailwind Traders Backend repo](https://github.com/Microsoft/TailwindTraders-Backend/) to deploy the backend on AKS.
 
-1. **You can't install the web on a AKS Before installing the Backend on it**. This is because some configuration steps that are done when installing the Backend are needed.
+1. **You can't install the web on an AKS Before installing the Backend on it**. This is because some configuration steps that are done when installing the Backend are needed.
 
 > Note: This document assumes you have the backend installed on an AKS and the `kubectl` is configured against this cluster.
 
@@ -78,17 +78,17 @@ docker-compose push
 
 ## Deploy the image on the cluster using Helm
 
-To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Deploy` folder. This script have following parameters:
+To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Deploy` folder. This script has the following parameters:
 
 - `-aksName`: Name of the AKS (same AKS where Backend is)
 - `-resourceGroup`: Resource group of the AKS
-- `-acrName`: ACR where image is pushed. Has to be the same ACR where Backend images are.
+- `-acrName`: ACR where the image is pushed. Has to be the same ACR where Backend images are.
 - `-tag`: Tag to use for the Docker image of the Web
 - `-valueSFile`: YAML files containing the values. Defaults to `gvalues.yaml`. You can use the provided `gvalues.yaml` as-is, so don't need to specify this parameter.
-- `-b2cValuesFile`: YAML file with the B2C configuration values. Defaults to `values.b2c.yaml`. If B2C login is needed, you must fill the values in the file in order to configure it.
+- `-b2cValuesFile`: YAML file with the B2C configuration values. Defaults to `values.b2c.yaml`. If a B2C login is needed, you must fill the values in the file to configure it.
 - `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
 - `-appInsightsName`: Application Insights' name for monitoring purposes. 
-  > **Note** The DeployWebAKS.ps1 uses, only if -appInsightsName is paseed, the _application-insights_ CLI extension to find the application insights id. Install it with `az extension add --name application-insights` if you pass it.
+  > **Note** The DeployWebAKS.ps1 uses, only if -appInsightsName is passed, the _application-insights_ CLI extension to find the application insights id. Install it with `az extension add --name application-insights` if you pass it.
 
 To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
 
@@ -98,47 +98,47 @@ To install the web in AKS my-aks using production TLS certificates, located in r
 
 # How to use the product search by photo
 
-To use the product search, we need to upload a photo, the website redirects to suggested products showing 3 products or less, except if only suggest 1 product. When you have only 1 suggested product, the website redirects to detail of product.
+To use the product search, we need to upload a photo, the website redirects to suggested products showing 3 products or less, except if only suggest 1 product. When you have only 1 suggested product, the website redirects to detail of the product.
 
 Steps to search:
 
-1. In home of the website, click in the "Start smart shopping" button.
+1. In-home of the website, click in the "Start smart shopping" button.
 
 ![Start Smart Shopping Button](Documents/Images/Docs/Start_Smart_Shopping_Button.PNG)
 
 2. Select a photo to upload and send it.
-   - If website has more than 1 suggested products
+   - If the website has more than 1 suggested products
      - Website redirect to suggested products.
-   - If website has only a one suggested product.
-     - Website redirects to details of product.
+   - If the website has only one suggested product.
+     - Website redirects to details of the product.
 
 To use this search, you can use the images in:
 
 - [Documents/Images/TestImages](Documents/Images/TestImages)
 
-### Rechargable screwdriver sample
+### Rechargeable screwdriver sample
 
-If you select the [Electric Screwdriver](Documents/Images/TestImages/electric_screwdriver.jpg) should be appears 3 suggested products similar to:
+If you select the [Electric Screwdriver](Documents/Images/TestImages/electric_screwdriver.jpg) should appear 3 suggested products similar to:
 
 ![Rechargeable Screwdriver Suggested Products](Documents/Images/Docs/rechargeable_Screwdriver_Suggested_Products.PNG)
 
 ### Multi-tool plier sample
 
-If you select the [Multi-Tool Plier](Documents/Images/TestImages/multi-tool_plier.jpg) should be appears 3 suggested products similar to:
+If you select the [Multi-Tool Plier](Documents/Images/TestImages/multi-tool_plier.jpg) should appear 3 suggested products similar to:
 
 ![Multi-Tool Plier Suggested Products](Documents/Images/Docs/multi-tool_plier_Suggested_Products.PNG)
 
 ### Hard hat sample
 
-If you select the [Hard Hat](Documents/Images/TestImages/hard_hat.jpg) should be redirect to product detail, beacuse only have a 1 suggested product:
+If you select the [Hard Hat](Documents/Images/TestImages/hard_hat.jpg) should be redirected to product detail, because only have a 1 suggested product:
 
 ![Hard Hat Suggested Product Detail](Documents/Images/Docs/hard_Hat_Suggested_Product_Detail.PNG)
 
 # Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+Contributor License Agreement (CLA) declaring that you have the right to and do, grant us
+the right to use your contribution. For details, visit https://cla.microsoft.com.
 
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
