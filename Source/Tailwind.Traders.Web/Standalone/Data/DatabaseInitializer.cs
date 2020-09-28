@@ -37,15 +37,15 @@ namespace Tailwind.Traders.Web.Standalone.Data
                 if (await IsDatabaseEmpty(conn))
                 {
                     await CreateBrandsTable(conn);
-                    await SeedTable(conn, "Brands", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductBrands.csv");
+                    await SeedTable(conn, "Brands", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductBrands.csv");
                     await CreateTypesTable(conn);
-                    await SeedTable(conn, "Types", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTypes.csv");
+                    await SeedTable(conn, "Types", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTypes.csv");
                     await CreateTagsTable(conn);
-                    await SeedTable(conn, "Tags", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTags.csv");
+                    await SeedTable(conn, "Tags", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTags.csv");
                     await CreateFeaturesTable(conn);
-                    await SeedTable(conn, "Features", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductFeatures.csv");
+                    await SeedTable(conn, "Features", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductFeatures.csv");
                     await CreateProductsTable(conn);
-                    await SeedTable(conn, "Products", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductItems.csv");
+                    await SeedTable(conn, "Products", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductItems.csv");
 
                     logger.LogInformation("Seeding completed.");
                 }
