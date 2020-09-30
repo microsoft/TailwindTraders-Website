@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Personalizer" Version="0.8.0-preview" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.2" />
-    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="0.5.1" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.5.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
   </ItemGroup>
