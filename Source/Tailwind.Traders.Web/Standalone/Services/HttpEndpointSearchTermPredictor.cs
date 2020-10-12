@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
@@ -12,6 +11,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 using Microsoft.Extensions.Logging;
+using SixLabors.Primitives;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {

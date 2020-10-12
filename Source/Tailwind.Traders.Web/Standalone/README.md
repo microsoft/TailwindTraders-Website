@@ -80,7 +80,7 @@ This method deploys the Tailwind Traders website and calls backend services host
 
 ### SQL Database
 
-On application startup, if `SqlConnectionString` is set, it will check if that database has tables. If not, it will create tables and seed them with data from CSV files downloaded from [here](https://github.com/microsoft/TailwindTraders-Backend/tree/master/Source/Services/Tailwind.Traders.Product.Api/Setup).
+On application startup, if `SqlConnectionString` is set, it will check if that database has tables. If not, it will create tables and seed them with data from CSV files downloaded from [here](https://github.com/microsoft/TailwindTraders-Backend/tree/main/Source/Services/Tailwind.Traders.Product.Api/Setup).
 
 To reseed the database, you'll need to drop all tables in the DB and run the app again.
 
