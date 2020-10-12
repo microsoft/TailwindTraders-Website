@@ -25,7 +25,7 @@ jobs:
     - name: Docker build and push
       working-directory: Source/Tailwind.Traders.Web
       run: |
-        docker build . --build-arg sdkTag=2.1 --build-arg runtimeTag=2.1 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
+        docker build . --build-arg sdkTag=3.1 --build-arg runtimeTag=3.1 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
         docker push tailwindtraders/web:gh-${{ github.sha }}
 
     - uses: azure/login@v1

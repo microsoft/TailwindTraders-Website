@@ -16,18 +16,10 @@ jobs:
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.15.3
     - name: Install dependencies in client app
       working-directory: Source/Tailwind.Traders.Web/ClientApp
       run: npm install
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.400
     - name: Build with dotnet
       working-directory: Source/Tailwind.Traders.Web
       run: dotnet build --configuration Release
@@ -44,7 +36,7 @@ jobs:
 
     - name: Run Azure webapp deploy action
       uses: azure/webapps-deploy@v1
-      with: 
+      with:
         app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
         package: ${{env.DOTNET_ROOT}}/Source/Tailwind.Traders.Web
 

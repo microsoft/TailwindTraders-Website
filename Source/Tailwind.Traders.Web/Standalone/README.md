@@ -18,9 +18,9 @@ The standalone version requires a couple of databases:
 
 ### Local
 
-1. The app requires .NET Core SDK 2.1 or later
+1. The app requires .NET Core SDK 3.1 or later
 
-1. Publish the app (by default, it goes into `bin/Release/netcoreapp2.1/publish`)
+1. Publish the app (by default, it goes into `bin/Release/netcoreapp3.1/publish`)
     ```bash
     dotnet publish -c Release
     ```
@@ -35,7 +35,7 @@ The standalone version requires a couple of databases:
 
 1. Run the app
     ```bash
-    dotnet bin/Release/netcoreapp2.1/publish/Tailwind.Traders.Web.dll
+    dotnet bin/Release/netcoreapp3.1/publish/Tailwind.Traders.Web.dll
     ```
 
 ### Deploy to Azure App Service (automatic deployment)
@@ -62,7 +62,7 @@ This method deploys the Tailwind Traders website and calls backend services host
 
 ### Deploy to Azure App Service (manual deployment)
 
-1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 2.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
+1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 3.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
 
 1. Configure these app settings (place all of them in the Application Settings section, *not* Connection Strings)
     - Configure the frontend to call APIs on this app

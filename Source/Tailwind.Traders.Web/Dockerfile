@@ -1,5 +1,5 @@
-ARG sdkTag=2.1
-ARG runtimeTag=2.1
+ARG sdkTag=3.1
+ARG runtimeTag=3.1
 ARG image=mcr.microsoft.com/dotnet/core/aspnet
 ARG sdkImage=mcr.microsoft.com/dotnet/core/sdk
 
@@ -8,7 +8,7 @@ WORKDIR /ClientApp
 COPY ClientApp/package.json .
 COPY ClientApp/package-lock.json .
 RUN npm install
-COPY ClientApp/ . 
+COPY ClientApp/ .
 RUN npm run build
 
 FROM ${sdkImage}:${sdkTag} as build-net
