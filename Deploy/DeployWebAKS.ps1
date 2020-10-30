@@ -90,7 +90,6 @@ function createHelmCommand([string]$command, $chart) {
     }
 
     $newcmd = "$newcmd $chart"
-    Write-Host "newcmd $newcmd" -ForegroundColor Yellow
     return $newcmd;
 }
 
@@ -123,7 +122,15 @@ else {
     $aksHost = $tlsHost
 }
 
-if ($build) {    
+if ($build) {   
+    # Connecting kubectl to AKS
+    Write-Host "Retrieving Aks Name" -ForegroundColor Yellow
+    $aksName = $(az aks list -g $resourceGroup -o json | ConvertFrom-Json).name
+    Write-Host "The name of your AKS: $aksName" -ForegroundColor Yellow
+
+    Write-Host "Retrieving credentials" -ForegroundColor Yellow
+    az aks get-credentials -n $aksName -g $resourceGroup 
+
     buildPushImageDocker
 }
 
@@ -145,10 +152,7 @@ Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
 $command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts='{$aksHost}' --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
-Write-Host "command $command" -ForegroundColor Yellow
-
 Invoke-Expression "$command"
-# bin/bash -c "$command"
 
 Pop-Location
 
