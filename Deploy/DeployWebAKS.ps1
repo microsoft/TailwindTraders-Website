@@ -144,7 +144,7 @@ if (-not [string]::IsNullOrEmpty($appInsightsName)) {
 Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
-$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
+$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts='{$aksHost}' --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
 Write-Host "command $command" -ForegroundColor Yellow
 
 Invoke-Expression "$command"
