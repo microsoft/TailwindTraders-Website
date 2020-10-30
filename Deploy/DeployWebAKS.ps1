@@ -83,13 +83,14 @@ function createHelmCommand([string]$command, $chart) {
     $newcmd = $command
 
     if (-not [string]::IsNullOrEmpty($tlsSecretNameToUse)) {
-        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts={$aksHost}"
+        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts='{$aksHost}'"
     }
     else {
         $newcmd = "$newcmd --set ingress.protocol=http"
     }
 
     $newcmd = "$newcmd $chart"
+    Write-Host "newcmd $newcmd" -ForegroundColor Yellow
     return $newcmd;
 }
 
@@ -144,7 +145,10 @@ Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
 $command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts={$aksHost} --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
-bin/bash -c "$command"
+Write-Host "command $command" -ForegroundColor Yellow
+
+Invoke-Expression "$command"
+# bin/bash -c "$command"
 
 Pop-Location
 
