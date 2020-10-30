@@ -11,7 +11,7 @@ Param(
     [parameter(Mandatory = $false)][string]$tlsHost = "",
     [parameter(Mandatory = $false)][string]$tlsSecretName = "",
     [parameter(Mandatory = $false)][string]$appInsightsName = "",    
-    [parameter(Mandatory = $false)][string]$build = $false,
+    [parameter(Mandatory = $false)][bool]$build = $false,
     [parameter(Mandatory = $false)][string]$subscription = ""
 )
 
@@ -46,8 +46,8 @@ function validate {
 }
 
 function buildPushImageDocker() {
-    Push-Location $($MyInvocation.InvocationName | Split-Path)
-    $sourceFolder = $(./Join-Path-Recursively.ps1 -pathParts .., Source)  
+    $sourceFolder = $(./Join-Path-Recursively.ps1 -pathParts .., Source) 
+    Write-Host "Source Folder $sourceFolder" -ForegroundColor Yellow
 
     Write-Host "Getting info from ACR $resourceGroup/$acrName" -ForegroundColor Yellow    
     $acrCredentials = $(az acr credential show -g $resourceGroup -n $acrName -o json | ConvertFrom-Json)
@@ -103,6 +103,8 @@ Write-Host " AKS to use: $aksName in RG $resourceGroup and ACR $acrName"  -Foreg
 Write-Host " Images tag: $tag"  -ForegroundColor Red
 Write-Host " TLS/SSL environment to enable: $tlsEnv"  -ForegroundColor Red
 Write-Host " --------------------------------------------------------" 
+
+Push-Location $($MyInvocation.InvocationName | Split-Path)
 
 if ($build -and ([string]::IsNullOrEmpty($acrName))) {
     $acrName = $(az acr list --resource-group $resourceGroup --subscription $subscription -o json | ConvertFrom-Json).name    
