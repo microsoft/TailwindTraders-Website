@@ -1,10 +1,10 @@
 # Devspaces Support
 
-Tailwind Traders Website supports Azure Dev Spaces deployment. 
+Tailwind Traders Website supports Azure Dev Spaces deployment.
 
 ## Requirements
 
-* AKS cluster **with the Backend deployed in a Dev Space**. Please follow the [Dev Spaces Backend documentation](https://github.com/Microsoft/TailwindTraders-Backend/blob/master/Documents/Devspaces.md). The website **must be deployed in a Dev Space that has the backend deployed or in a child one**.
+* AKS cluster **with the Backend deployed in a Dev Space**. Please follow the [Dev Spaces Backend documentation](https://github.com/Microsoft/TailwindTraders-Backend/blob/main/Documents/Devspaces.md). The website **must be deployed in a Dev Space that has the backend deployed or in a child one**.
 
 ## Deploying the web
 

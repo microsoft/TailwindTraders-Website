@@ -1,17 +1,17 @@
 name: Build check on PR
 
-on: 
+on:
   pull_request:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:    
-    - name: 'Checkout Github Action' 
+    steps:
+    - name: 'Checkout Github Action'
       uses: actions/checkout@master
 
     - name: Docker build
       working-directory: Source/Tailwind.Traders.Web
-      run: | 
-        docker build . --build-arg sdkTag=2.1 --build-arg runtimeTag=2.1 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
+      run: |
+        docker build . --build-arg sdkTag=3.1 --build-arg runtimeTag=3.1 -t tailwindtraders/web:gh-${{ github.sha }} -t latest

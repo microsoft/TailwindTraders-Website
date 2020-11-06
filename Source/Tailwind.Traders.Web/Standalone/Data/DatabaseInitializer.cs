@@ -1,5 +1,6 @@
 using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -31,30 +32,28 @@ namespace Tailwind.Traders.Web.Standalone.Data
             }
 
             logger.LogInformation("Checking if database needs seeding...");
-            using (var conn = new SqlConnection(connectionString))
+            using var conn = new SqlConnection(connectionString);
+            await conn.OpenAsync();
+            if (await IsDatabaseEmpty(conn))
             {
-                await conn.OpenAsync();
-                if (await IsDatabaseEmpty(conn))
-                {
-                    await CreateBrandsTable(conn);
-                    await SeedTable(conn, "Brands", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductBrands.csv");
-                    await CreateTypesTable(conn);
-                    await SeedTable(conn, "Types", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTypes.csv");
-                    await CreateTagsTable(conn);
-                    await SeedTable(conn, "Tags", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTags.csv");
-                    await CreateFeaturesTable(conn);
-                    await SeedTable(conn, "Features", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductFeatures.csv");
-                    await CreateProductsTable(conn);
-                    await SeedTable(conn, "Products", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductItems.csv");
+                await CreateBrandsTable(conn);
+                await SeedTable(conn, "Brands", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductBrands.csv");
+                await CreateTypesTable(conn);
+                await SeedTable(conn, "Types", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTypes.csv");
+                await CreateTagsTable(conn);
+                await SeedTable(conn, "Tags", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductTags.csv");
+                await CreateFeaturesTable(conn);
+                await SeedTable(conn, "Features", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductFeatures.csv");
+                await CreateProductsTable(conn);
+                await SeedTable(conn, "Products", "https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/main/Source/Services/Tailwind.Traders.Product.Api/Setup/ProductItems.csv");
 
-                    logger.LogInformation("Seeding completed.");
-                }
-                else
-                {
-                    logger.LogInformation("Seeding not required.");
-                }
-                conn.Close();
+                logger.LogInformation("Seeding completed.");
             }
+            else
+            {
+                logger.LogInformation("Seeding not required.");
+            }
+            conn.Close();
         }
 
         private Task CreateBrandsTable(SqlConnection conn)
@@ -122,36 +121,31 @@ namespace Tailwind.Traders.Web.Standalone.Data
 
         private async Task SeedTable(SqlConnection conn, string tableName, string csvUrl)
         {
-            using (var httpClient = new HttpClient())
+            using var httpClient = new HttpClient();
+            var csv = await httpClient.GetStreamAsync(csvUrl);
+
+            using var stringReader = new StreamReader(csv);
+            using var csvReader = new CsvReader(stringReader);
+            csvReader.Read();
+            csvReader.ReadHeader();
+            var headers = csvReader.Context.HeaderRecord;
+
+            while (csvReader.Read())
             {
-                var csv = await httpClient.GetStringAsync(csvUrl);
+                var sql = new StringBuilder();
+                sql.Append($"INSERT INTO {tableName} (");
+                sql.Append(string.Join(", ", headers));
+                sql.Append(") VALUES (");
+                sql.Append(string.Join(", ", headers.Select(h => "@" + h)));
+                sql.Append(")");
 
-                using (var stringReader = new StringReader(csv))
-                using (var csvReader = new CsvReader(stringReader))
+                var command = new SqlCommand(sql.ToString(), conn);
+                foreach (var header in headers)
                 {
-                    csvReader.Read();
-                    csvReader.ReadHeader();
-                    var headers = csvReader.Context.HeaderRecord;
-
-                    while (csvReader.Read())
-                    {
-                        var sql = new StringBuilder();
-                        sql.Append($"INSERT INTO {tableName} (");
-                        sql.Append(string.Join(", ", headers));
-                        sql.Append(") VALUES (");
-                        sql.Append(string.Join(", ", headers.Select(h => "@" + h)));
-                        sql.Append(")");
-
-                        var command = new SqlCommand(sql.ToString(), conn);
-                        foreach (var header in headers)
-                        {
-                            command.Parameters.AddWithValue("@" + header, csvReader.GetField(header));
-                        }
-
-                        await command.ExecuteNonQueryAsync();
-                    }
+                    command.Parameters.AddWithValue("@" + header, csvReader.GetField(header));
                 }
 
+                await command.ExecuteNonQueryAsync();
             }
         }
 
