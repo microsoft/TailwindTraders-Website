@@ -18,9 +18,9 @@ The standalone version requires a couple of databases:
 
 ### Local
 
-1. The app requires .NET Core SDK 2.1 or later
+1. The app requires .NET Core SDK 3.1 or later
 
-1. Publish the app (by default, it goes into `bin/Release/netcoreapp2.1/publish`)
+1. Publish the app (by default, it goes into `bin/Release/netcoreapp3.1/publish`)
     ```bash
     dotnet publish -c Release
     ```
@@ -35,14 +35,14 @@ The standalone version requires a couple of databases:
 
 1. Run the app
     ```bash
-    dotnet bin/Release/netcoreapp2.1/publish/Tailwind.Traders.Web.dll
+    dotnet bin/Release/netcoreapp3.1/publish/Tailwind.Traders.Web.dll
     ```
 
 ### Deploy to Azure App Service (automatic deployment)
 
 Click this button to deploy the application in "Standalone" or "Frontend Only" mode.
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://portal.azure.com/?feature.customportal=false#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2Fazuredeploy.json)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://portal.azure.com/?feature.customportal=false#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmain%2Fazuredeploy.json)
 
 #### Standalone
 
@@ -62,7 +62,7 @@ This method deploys the Tailwind Traders website and calls backend services host
 
 ### Deploy to Azure App Service (manual deployment)
 
-1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 2.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
+1. Create a Web App (tested with Windows, but Linux should work too). If you need to select a stack, select ASP.NET Core 3.1. For the build to go faster, select at least an S1, ideally a Premium SKU.
 
 1. Configure these app settings (place all of them in the Application Settings section, *not* Connection Strings)
     - Configure the frontend to call APIs on this app
@@ -80,7 +80,7 @@ This method deploys the Tailwind Traders website and calls backend services host
 
 ### SQL Database
 
-On application startup, if `SqlConnectionString` is set, it will check if that database has tables. If not, it will create tables and seed them with data from CSV files downloaded from [here](https://github.com/microsoft/TailwindTraders-Backend/tree/master/Source/Services/Tailwind.Traders.Product.Api/Setup).
+On application startup, if `SqlConnectionString` is set, it will check if that database has tables. If not, it will create tables and seed them with data from CSV files downloaded from [here](https://github.com/microsoft/TailwindTraders-Backend/tree/main/Source/Services/Tailwind.Traders.Product.Api/Setup).
 
 To reseed the database, you'll need to drop all tables in the DB and run the app again.
 

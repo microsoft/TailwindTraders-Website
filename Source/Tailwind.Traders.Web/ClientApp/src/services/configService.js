@@ -37,9 +37,13 @@ const ConfigService = {
             this._apiUrl = settingsResponse.data.apiUrl;
             this._apiUrlShoppingCart = settingsResponse.data.apiUrlShoppingCart;
             this._UseB2C = settingsResponse.data.useB2C;
-            this._B2cAuthority = settingsResponse.data.b2CAuth.authority;
-            this._B2cClientId = settingsResponse.data.b2CAuth.clientId;
-            this._B2cScopes = settingsResponse.data.b2CAuth.scopes;
+
+            if(this._UseB2C) {
+                this._B2cAuthority = settingsResponse.data.b2CAuth.authority;
+                this._B2cClientId = settingsResponse.data.b2CAuth.clientId;
+                this._B2cScopes = settingsResponse.data.b2CAuth.scopes;
+            }
+
             this._devspacesName = settingsResponse.data.devspacesName;
             this._applicationInsightsIntrumentationKey = settingsResponse.data.applicationInsights.instrumentationKey;
             this._debugInformation = settingsResponse.data.debugInformation;

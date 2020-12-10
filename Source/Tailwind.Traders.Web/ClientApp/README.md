@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md).
+You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packages/cra-template/template/README.md).
 
 ## Table of Contents
 
@@ -2302,14 +2302,14 @@ The `predeploy` script will run automatically before `deploy` is run.
 If you are deploying to a GitHub user page instead of a project page you'll need to make two
 additional modifications:
 
-1. First, change your repository's source branch to be any branch other than **master**.
-1. Additionally, tweak your `package.json` scripts to push deployments to **master**:
+1. First, change your repository's source branch to be any branch other than **main**.
+1. Additionally, tweak your `package.json` scripts to push deployments to **main**:
 
 ```diff
   "scripts": {
     "predeploy": "npm run build",
 -   "deploy": "gh-pages -d build",
-+   "deploy": "gh-pages -b master -d build",
++   "deploy": "gh-pages -b main -d build",
 ```
 
 #### Step 3: Deploy the site by running `npm run deploy`
