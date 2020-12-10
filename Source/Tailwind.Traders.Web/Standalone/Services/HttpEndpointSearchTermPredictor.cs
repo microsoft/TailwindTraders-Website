@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 using Microsoft.Extensions.Logging;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Specialized;
+using SixLabors.Primitives;
 
 namespace Tailwind.Traders.Web.Standalone.Services
 {
@@ -19,13 +19,18 @@ namespace Tailwind.Traders.Web.Standalone.Services
     {
         private readonly ILogger<HttpEndpointSearchTermPredictor> logger;
         private readonly string imageEndpoint;
-        private readonly CloudStorageAccount storageAccount;
+        private readonly BlobServiceClient blobServiceClient;
 
         public HttpEndpointSearchTermPredictor(IConfiguration config, ILogger<HttpEndpointSearchTermPredictor> logger)
         {
             this.logger = logger;
             this.imageEndpoint = config["ImagePredictorEndpoint"];
-            if (!CloudStorageAccount.TryParse(config["StorageConnectionString"], out this.storageAccount)) {
+            try
+            {
+                blobServiceClient = new BlobServiceClient(config["StorageConnectionString"]);
+            }
+            catch (ArgumentException)
+            {
                 throw new ArgumentException("No 'StorageConnectionString' setting has been configured");
             }
         }
@@ -44,14 +49,13 @@ namespace Tailwind.Traders.Web.Standalone.Services
                 }));
             
             // upload the file
-            var cloudBlobClient = storageAccount.CreateCloudBlobClient();
-            var cloudBlobContainer = cloudBlobClient.GetContainerReference("website-uploads");
+            var blobContainerClient = blobServiceClient.GetBlobContainerClient("website-uploads");
             var filename = Guid.NewGuid().ToString() + ".jpg";
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(filename);
+            var cloudBlockBlob = blobContainerClient.GetBlockBlobClient(filename);
             var blobStream = new MemoryStream();
             resizedImage.SaveAsJpeg(blobStream);
             blobStream.Seek(0,SeekOrigin.Begin);
-            await cloudBlockBlob.UploadFromStreamAsync(blobStream);
+            await cloudBlockBlob.UploadAsync(blobStream);
 
             logger.LogInformation(eventId, "Image uploaded to {StorageUrl}", cloudBlockBlob.Uri.AbsoluteUri);
 

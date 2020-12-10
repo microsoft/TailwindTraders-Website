@@ -1,10 +1,10 @@
 using System.IO;
 using System.Linq;
-using System.Numerics.Tensors;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Processing;
@@ -17,7 +17,7 @@ namespace Tailwind.Traders.Web.Standalone.Services
         private readonly ILogger<OnnxImageSearchTermPredictor> logger;
         private readonly InferenceSession session;
 
-        public OnnxImageSearchTermPredictor(IHostingEnvironment environment, ILogger<OnnxImageSearchTermPredictor> logger)
+        public OnnxImageSearchTermPredictor(IWebHostEnvironment environment, ILogger<OnnxImageSearchTermPredictor> logger)
         {
             this.logger = logger;
             var filePath = Path.Combine(environment.ContentRootPath, "Standalone/OnnxModels/products.onnx");
@@ -29,11 +29,9 @@ namespace Tailwind.Traders.Web.Standalone.Services
         {
             DenseTensor<float> data = ConvertImageToTensor(imageStream);
             var input = NamedOnnxValue.CreateFromTensor<float>("data", data);
-            using (var output = session.Run(new[] { input }))
-            {
-                var prediction = output.First(i => i.Name == "classLabel").AsEnumerable<string>().First();
-                return Task.FromResult(prediction);
-            }
+            using var output = session.Run(new[] { input });
+            var prediction = output.First(i => i.Name == "classLabel").AsEnumerable<string>().First();
+            return Task.FromResult(prediction);
         }
 
         private DenseTensor<float> ConvertImageToTensor(Stream imageStream)
