@@ -28,7 +28,9 @@ const ProductService = {
             }
         }
 
-        const response = await axios.get(`${ConfigService._apiUrl}/products/?`, params, ConfigService.HeadersConfig(), { errorHandle: false });
+        Object.assign(params,ConfigService.HeadersConfig());
+
+        const response = await axios.get(`${ConfigService._apiUrl}/products/?`, params, { errorHandle: false });
         return response;
     },
 

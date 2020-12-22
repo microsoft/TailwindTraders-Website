@@ -13,7 +13,7 @@ const B2cScopes = process.env.REACT_APP_B2CSCOPES;
 const _HeadersConfig = (token, devspaces = undefined) => {
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
     if (devspaces) {
-        headers['azds-route-as'] = devspaces;
+        headers['kubernetes-route-as'] = devspaces;
     }
 
     return { headers: headers };
