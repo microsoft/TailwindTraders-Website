@@ -34,7 +34,7 @@ namespace Tailwind.Traders.Web.Controllers
         public ActionResult<Settings> GetSettings()
         {
             var settings = _settings;
-            if (Request.Headers.TryGetValue("azds-route-as", out var devspaceName)) 
+            if (Request.Headers.TryGetValue("kubernetes-route-as", out var devspaceName)) 
             {
                 settings = _settings.Clone();
                 settings.UseDevspacesName(devspaceName.FirstOrDefault() ?? string.Empty);
