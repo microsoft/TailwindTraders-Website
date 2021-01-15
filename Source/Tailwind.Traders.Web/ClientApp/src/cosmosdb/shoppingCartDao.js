@@ -33,9 +33,9 @@ class ShoppingCartDao {
         if (!this.container) {
             throw new Error("Collection is not initialized.");
         }
-        const { result: results } = await this.container.items
+        const { resources: results } = await this.container.items
             .query(querySpec)
-            .toArray();
+            .fetchAll();
         return results;
     }
 
