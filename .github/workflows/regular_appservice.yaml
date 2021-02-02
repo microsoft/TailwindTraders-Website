@@ -12,7 +12,7 @@ jobs:
 
     - uses: actions/checkout@master
 
-    - name: Install dependencies in client app
+    - name: Install dependencies in client app.
       working-directory: Source/Tailwind.Traders.Web/ClientApp
       run: npm install
 
