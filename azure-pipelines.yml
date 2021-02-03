@@ -11,10 +11,10 @@ pool:
 
 stages:
 
-- stage: Tailwind Webapp CI
+- stage: CI-Tailwind-Webapp
 
   jobs:
-  - job: Build_Webapp
+  - job: Build-Webapp
 
     steps:
     - task: Npm@1
@@ -38,10 +38,10 @@ stages:
         modifyOutputPath: false
         workingDirectory: 'Source/Tailwind.Traders.Web'
 
-- stage: Tailwind Webapp CD
+- stage: CD-Tailwind-Webapp
 
   jobs:
-  - job: Deploy_Webapp
+  - job: Deploy-Webapp
 
     steps:
     - task: AzureRmWebAppDeployment@4
