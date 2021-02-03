@@ -44,12 +44,6 @@ stages:
         artifact: 'webapp'
         publishLocation: 'pipeline'
 
-- stage: CD_Tailwind_Webapp
-
-  jobs:
-  - job: Deploy_Webapp
-
-    steps:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
@@ -57,3 +51,9 @@ stages:
         appType: 'webApp'
         WebAppName: 'tt-webside'
         packageForLinux: 'webapp'
+
+- stage: CD_Tailwind_Webapp
+
+  jobs:
+  - job: Deploy_Webapp
+
