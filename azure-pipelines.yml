@@ -56,4 +56,4 @@ stages:
         azureSubscription: 'ARM-TailWindRG'
         appType: 'webApp'
         WebAppName: 'tt-webside'
-        packageForLinux: '$(Pipeline.Workspace)/webapp'
+        packageForLinux: 'webapp'
