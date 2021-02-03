@@ -9,33 +9,45 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- stage: Tailwind Webapp CI
 
-- task: Npm@1
-  displayName: Install dependencies in client app 
-  inputs:
-    command: 'install'
-    workingDir: 'Source/Tailwind.Traders.Web/ClientApp'
+  jobs:
+  - job: Build_Webapp
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: '--configuration Release'
-    workingDirectory: 'Source/Tailwind.Traders.Web'
+    steps:
+    - task: Npm@1
+      displayName: Install dependencies in client app 
+      inputs:
+        command: 'install'
+        workingDir: 'Source/Tailwind.Traders.Web/ClientApp'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    arguments: '-c Release -o publish'
-    zipAfterPublish: false
-    modifyOutputPath: false
-    workingDirectory: 'Source/Tailwind.Traders.Web'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        arguments: '--configuration Release'
+        workingDirectory: 'Source/Tailwind.Traders.Web'
 
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        arguments: '-c Release -o publish'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        workingDirectory: 'Source/Tailwind.Traders.Web'
+
+- stage: Tailwind Webapp CD
+
+  jobs:
+  - job: Deploy_Webapp
+
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'ARM-TailWindRG'
+        appType: 'webApp'
+        WebAppName: 'tt-webside'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
