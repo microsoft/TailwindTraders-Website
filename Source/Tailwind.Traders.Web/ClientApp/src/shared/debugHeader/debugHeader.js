@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import { ConfigService } from "../../services";
 import { withNamespaces } from "react-i18next";
-
-import { ReactComponent as Logo } from "../../assets/images/logo-horizontal.svg";
 
 class DebugHeader extends Component {
     constructor() {
