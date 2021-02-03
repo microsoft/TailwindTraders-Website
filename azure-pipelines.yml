@@ -17,3 +17,25 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- task: Npm@1
+  displayName: Install dependencies in client app 
+  inputs:
+    command: 'install'
+    workingDir: 'Source/Tailwind.Traders.Web/ClientApp'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: '--configuration Release'
+    workingDirectory: 'Source/Tailwind.Traders.Web'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    arguments: '-c Release -o publish'
+    zipAfterPublish: false
+    modifyOutputPath: false
+    workingDirectory: 'Source/Tailwind.Traders.Web'
+
