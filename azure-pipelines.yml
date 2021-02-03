@@ -40,7 +40,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/Source/Tailwind.Traders.Web/publish'
+        targetPath: 'Source/Tailwind.Traders.Web/publish'
         artifact: 'webapp'
         publishLocation: 'pipeline'
 
