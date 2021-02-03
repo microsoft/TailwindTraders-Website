@@ -93,7 +93,7 @@ class HomeContainer extends Component {
 
         newRecommend.unshift(newRecommend.splice(newHeroIndex, 1)[0]);
 
-        newRecommend.map((category, index) => {
+        newRecommend.forEach((category, index) => {
             category.cssClass = cssEnum[index];
             category.eventId = data.eventId;
         })
