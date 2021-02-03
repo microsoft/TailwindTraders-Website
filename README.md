@@ -45,7 +45,7 @@ And it will return your base [TailwindTraders-Backend](https://github.com/Micros
 
 Please follow these steps to deploy the web in the same AKS where Backend is running instead of deploying to an App Service.
 
-**Note**: Website supports [Devspaces deployment](./Documents/Devspaces.md).
+**Note**: Website supports [Bridge to Kubernetes Deployment](https://github.com/Microsoft/TailwindTraders-Backend/README.md#running-using-bridge-to-kubernetes).
 
 ## Pre-Requisites:
 

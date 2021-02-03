@@ -57,7 +57,7 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
 
             return Created("/api/v1/shoppingcart", new
             {
-                message = "Product added on shopping cart",
+                message = "Product added to shopping cart",
                 id = guid
             });
         }

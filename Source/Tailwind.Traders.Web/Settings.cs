@@ -6,7 +6,7 @@ namespace Tailwind.Traders.Web
     {
         public Settings()
         {
-            DevspacesName = string.Empty;
+            LPKRouteHeader = string.Empty;
         }
         public string Auth  {get; set;}
         public string ApiUrl {get; set;}
@@ -28,11 +28,12 @@ namespace Tailwind.Traders.Web
         public bool ByPassShoppingCartApi {get; set;}
 
         // This is set by the SettingsController, do not set via config because will be overriden
-        public string DevspacesName {get; private set;}
+        
+        public string LPKRouteHeader { get; private set; }
 
         public string ProductImagesUrl { get; set; }
 
-        public void UseDevspacesName(string devspacesName) => DevspacesName = devspacesName;
+        public void UselpkRouteHeader(string lpkRouteHeader) => LPKRouteHeader = lpkRouteHeader;
 
         public PersonalizerSettings Personalizer { get; set; }
 
