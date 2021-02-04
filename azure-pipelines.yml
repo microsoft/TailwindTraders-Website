@@ -40,7 +40,8 @@ stages:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/publish'
-        publishLocation: 'pipeline'
+        artifactName: 'webapp'
+        artifactType: 'pipeline'
 
     - task: Bash@3
       inputs:
@@ -50,7 +51,7 @@ stages:
           
           echo '### default LS'
           pwd
-          ls -al
+          ls -al $(Pipeline.Workspace)
           
           echo '### pipe ##### $(Pipeline.Workspace)'
           ls -al $(Pipeline.Workspace)/publish
