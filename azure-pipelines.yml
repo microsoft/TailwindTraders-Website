@@ -61,5 +61,5 @@ stages:
                 azureSubscription: 'ARM-TailWindRG'
                 appType: 'webApp'
                 WebAppName: 'tt-webside'
-                packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+                packageForLinux: '$(Pipeline.Workspace)/**/*.zip'
 
