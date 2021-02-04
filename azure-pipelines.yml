@@ -34,14 +34,12 @@ stages:
         command: 'publish'
         publishWebProjects: false
         arguments: '-c Release -o $(Pipeline.Workspace)/publish'
-        zipAfterPublish: false
         modifyOutputPath: false
         workingDirectory: 'Source/Tailwind.Traders.Web'
 
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/publish'
-        artifact: 'webapp'
         publishLocation: 'pipeline'
 
     - task: Bash@3
@@ -54,7 +52,7 @@ stages:
           pwd
           ls -al
           
-          echo '### pipe'
+          echo '### pipe ##### $(Pipeline.Workspace)'
           ls -al $(Pipeline.Workspace)/publish
 
     - task: AzureRmWebAppDeployment@4
