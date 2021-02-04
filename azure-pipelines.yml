@@ -62,7 +62,7 @@ stages:
         azureSubscription: 'ARM-TailWindRG'
         appType: 'webApp'
         WebAppName: 'tt-webside'
-        packageForLinux: '$(Pipeline.Workspace)/webapp/'
+        packageForLinux: '$(Pipeline.Workspace)/publish.zip'
 
 - stage: CD_Tailwind_Webapp
 
