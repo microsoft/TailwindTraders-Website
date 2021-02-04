@@ -33,14 +33,14 @@ stages:
       inputs:
         command: 'publish'
         publishWebProjects: false
-        arguments: '-c Release -o publish'
+        arguments: '-c Release -o $(Pipeline.Workspace)/publish'
         zipAfterPublish: false
         modifyOutputPath: false
         workingDirectory: 'Source/Tailwind.Traders.Web'
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: 'Source/Tailwind.Traders.Web/publish'
+        targetPath: '$(Pipeline.Workspace)/publish'
         artifact: 'webapp'
         publishLocation: 'pipeline'
 
@@ -50,7 +50,7 @@ stages:
         azureSubscription: 'ARM-TailWindRG'
         appType: 'webApp'
         WebAppName: 'tt-webside'
-        packageForLinux: 'webapp'
+        packageForLinux: '$(Pipeline.Workspace)/webapp'
 
 - stage: CD_Tailwind_Webapp
 
