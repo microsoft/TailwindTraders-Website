@@ -44,13 +44,26 @@ stages:
         artifact: 'webapp'
         publishLocation: 'pipeline'
 
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
+          
+          echo '### default LS'
+          pwd
+          ls -al
+          
+          echo '### pipe'
+          ls -al $(Pipeline.Workspace)
+
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
         azureSubscription: 'ARM-TailWindRG'
         appType: 'webApp'
         WebAppName: 'tt-webside'
-        packageForLinux: '$(Pipeline.Workspace)/webapp'
+        packageForLinux: '$(Pipeline.Workspace)/webapp/'
 
 - stage: CD_Tailwind_Webapp
 
