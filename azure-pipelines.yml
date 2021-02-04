@@ -48,6 +48,8 @@ stages:
   jobs:
   - deployment: Deploy_Webapp
 
+    environment: 'Prod-WebApp'
+    
     strategy:
       runOnce:
         deploy:
