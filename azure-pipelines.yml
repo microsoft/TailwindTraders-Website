@@ -46,5 +46,18 @@ stages:
 - stage: CD_Tailwind_Webapp
 
   jobs:
-  - job: Deploy_Webapp
+  - deployment: Deploy_Webapp
+
+    strategy:
+      runOnce:
+        deploy:
+        
+          steps:
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                ConnectionType: 'AzureRM'
+                azureSubscription: 'ARM-TailWindRG'
+                appType: 'webApp'
+                WebAppName: 'tt-webside'
+                packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
 
