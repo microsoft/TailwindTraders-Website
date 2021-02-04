@@ -55,7 +55,7 @@ stages:
           ls -al
           
           echo '### pipe'
-          ls -al $(Pipeline.Workspace)
+          ls -al $(Pipeline.Workspace)/publish
 
     - task: AzureRmWebAppDeployment@4
       inputs:
