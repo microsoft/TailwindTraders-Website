@@ -1,0 +1,65 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+
+- stage: CI_Tailwind_Webapp
+
+  jobs:
+  - job: Build_Webapp
+
+    steps:
+    - task: Npm@1
+      displayName: Install dependencies in client app 
+      inputs:
+        command: 'install'
+        workingDir: 'Source/Tailwind.Traders.Web/ClientApp'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        arguments: '--configuration Release'
+        workingDirectory: 'Source/Tailwind.Traders.Web'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        arguments: '-c Release -o $(Pipeline.Workspace)/publish'
+        modifyOutputPath: false
+        workingDirectory: 'Source/Tailwind.Traders.Web'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact'
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/publish'
+        artifact: webapp
+
+- stage: CD_Tailwind_Webapp
+
+  jobs:
+  - deployment: Deploy_Webapp
+
+    environment: 'Prod-WebApp'
+    
+    strategy:
+      runOnce:
+        deploy:
+        
+          steps:
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                ConnectionType: 'AzureRM'
+                azureSubscription: 'ARM-TailWindRG'
+                appType: 'webApp'
+                WebAppName: 'tt-webside'
+                packageForLinux: '$(Pipeline.Workspace)/**/*.zip'
+
