@@ -38,31 +38,10 @@ stages:
         workingDirectory: 'Source/Tailwind.Traders.Web'
 
     - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact'
       inputs:
         targetPath: '$(Pipeline.Workspace)/publish'
-        artifactName: 'webapp'
-        artifactType: 'pipeline'
-
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          # Write your commands here
-          
-          echo '### default LS'
-          pwd
-          ls -al $(Pipeline.Workspace)
-          
-          echo '### pipe ##### $(Pipeline.Workspace)'
-          ls -al $(Pipeline.Workspace)/publish
-
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'ARM-TailWindRG'
-        appType: 'webApp'
-        WebAppName: 'tt-webside'
-        packageForLinux: '$(Pipeline.Workspace)/publish.zip'
+        artifact: webapp
 
 - stage: CD_Tailwind_Webapp
 
