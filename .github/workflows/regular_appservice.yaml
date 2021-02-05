@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
@@ -22,10 +25,10 @@ jobs:
         dotnet build --configuration Release
         dotnet publish -c Release -o publish
 
-    # - uses: azure/appservice-settings@v1
-    #   with:
-    #     app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
-    #     app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+        app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
 
 
     - name: Run Azure webapp deploy action
