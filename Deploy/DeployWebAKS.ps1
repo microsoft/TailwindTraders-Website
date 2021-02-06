@@ -11,7 +11,7 @@ Param(
     [parameter(Mandatory = $false)][string]$tlsHost = "",
     [parameter(Mandatory = $false)][string]$tlsSecretName = "",
     [parameter(Mandatory = $false)][string]$appInsightsName = "",    
-    [parameter(Mandatory = $false)][bool]$build = $false,
+    [parameter(Mandatory = $false)][string]$build = $false,
     [parameter(Mandatory = $false)][string]$subscription = ""
 )
 
@@ -46,8 +46,8 @@ function validate {
 }
 
 function buildPushImageDocker() {
-    $sourceFolder = $(./Join-Path-Recursively.ps1 -pathParts .., Source) 
-    Write-Host "Source Folder $sourceFolder" -ForegroundColor Yellow
+    Push-Location $($MyInvocation.InvocationName | Split-Path)
+    $sourceFolder = $(./Join-Path-Recursively.ps1 -pathParts .., Source)  
 
     Write-Host "Getting info from ACR $resourceGroup/$acrName" -ForegroundColor Yellow    
     $acrCredentials = $(az acr credential show -g $resourceGroup -n $acrName -o json | ConvertFrom-Json)
@@ -83,7 +83,7 @@ function createHelmCommand([string]$command, $chart) {
     $newcmd = $command
 
     if (-not [string]::IsNullOrEmpty($tlsSecretNameToUse)) {
-        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts='{$aksHost}'"
+        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts={$aksHost}"
     }
     else {
         $newcmd = "$newcmd --set ingress.protocol=http"
@@ -104,8 +104,6 @@ Write-Host " Images tag: $tag"  -ForegroundColor Red
 Write-Host " TLS/SSL environment to enable: $tlsEnv"  -ForegroundColor Red
 Write-Host " --------------------------------------------------------" 
 
-Push-Location $($MyInvocation.InvocationName | Split-Path)
-
 if ($build -and ([string]::IsNullOrEmpty($acrName))) {
     $acrName = $(az acr list --resource-group $resourceGroup --subscription $subscription -o json | ConvertFrom-Json).name    
 }
@@ -122,15 +120,7 @@ else {
     $aksHost = $tlsHost
 }
 
-if ($build) {   
-    # Connecting kubectl to AKS
-    Write-Host "Retrieving Aks Name" -ForegroundColor Yellow
-    $aksName = $(az aks list -g $resourceGroup -o json | ConvertFrom-Json).name
-    Write-Host "The name of your AKS: $aksName" -ForegroundColor Yellow
-
-    Write-Host "Retrieving credentials" -ForegroundColor Yellow
-    az aks get-credentials -n $aksName -g $resourceGroup 
-
+if ($build) {    
     buildPushImageDocker
 }
 

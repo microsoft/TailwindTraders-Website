@@ -24,7 +24,7 @@ const CartService = {
         const product = products.find(product => product.id === detailProduct.id);
         if (product) {
             return this.updateQuantity(product._cdbid, product.qty + 1, token)
-                .then(() => ({message: "Product added on shopping cart"}))
+                .then(() => ({message: "Product added to shopping cart"}))
                 .catch(() => ({ errMessage: "The product could not be added to the cart" }))
         }
 

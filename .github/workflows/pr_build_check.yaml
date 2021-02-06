@@ -14,4 +14,4 @@ jobs:
     - name: Docker build
       working-directory: Source/Tailwind.Traders.Web
       run: |
-        docker build . --build-arg sdkTag=3.1 --build-arg runtimeTag=3.1 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
+        docker build . --build-arg sdkTag=5.0 --build-arg runtimeTag=5.0 -t tailwindtraders/web:gh-${{ github.sha }} -t latest

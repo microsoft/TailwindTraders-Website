@@ -1,0 +1,39 @@
+#-------------------------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
+#-------------------------------------------------------------------------------------------------------------
+
+version: '3'
+services:
+  web:
+    # Uncomment the next line to use a non-root user. On Linux, this will prevent
+    # new files getting created as root, but you may need to update the USER_UID
+    # and USER_GID in .devcontainer/Dockerfile to match your user if not 1000.
+    # user: node
+
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace
+    ports:
+      - 5000:5000
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+    
+    links:
+      - mongo
+      - sql
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+ 
+  sql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    restart: unless-stopped
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Twtraders123456!
+    
