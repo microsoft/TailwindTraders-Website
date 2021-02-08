@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import RecommendedItem from "./components/recommendedItem";
 import { UploadFile } from "../../../../shared/index";
@@ -33,4 +33,4 @@ const Recommended = ({ t, recommendedProductsData, loggedIn }) => {
     );
 };
 
-export default withNamespaces()(Recommended);
+export default withTranslation()(Recommended);

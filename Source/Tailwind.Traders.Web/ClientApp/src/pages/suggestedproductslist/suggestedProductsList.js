@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import { Card, UploadFile } from "../../shared";
 
@@ -20,7 +20,7 @@ class SuggestedProductsList extends Component {
     render() {
         const productsReceived = this.state.suggestedProductsList;
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <Fragment>
                         <div className="banner">
@@ -37,7 +37,7 @@ class SuggestedProductsList extends Component {
                         </div>
                     </Fragment>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }

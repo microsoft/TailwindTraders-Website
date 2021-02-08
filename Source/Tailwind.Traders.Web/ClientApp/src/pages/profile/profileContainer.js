@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import Profile from "./components/profile"
 import SmallCoupons from "../mycoupons/components/smallcoupons/smallCoupons";
@@ -71,7 +71,7 @@ class ProfileContainer extends Component {
         const { purchaseHistory, recommendedProducts, favoriteCatregories, profile } = this.state
         const isSmallCouponsAvailable = coupons && coupons.smallCoupons.length;
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <div className="profile">
                         <div className="grid-container">
@@ -111,7 +111,7 @@ class ProfileContainer extends Component {
                         </div>
                     </div>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }

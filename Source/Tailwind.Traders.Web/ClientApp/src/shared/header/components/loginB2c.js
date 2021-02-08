@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const LoginB2c = ({ t, onLoginClick }) => (
     <div className="modal-b2c">
@@ -11,4 +11,4 @@ const LoginB2c = ({ t, onLoginClick }) => (
     </div>
 );
 
-export default withNamespaces()(LoginB2c);
+export default withTranslation()(LoginB2c);

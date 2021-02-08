@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ConfigService } from "../../services";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 class DebugHeader extends Component {
     constructor() {
@@ -48,4 +48,4 @@ class DebugHeader extends Component {
 
 }
 
-export default withNamespaces()(DebugHeader);
+export default withTranslation()(DebugHeader);

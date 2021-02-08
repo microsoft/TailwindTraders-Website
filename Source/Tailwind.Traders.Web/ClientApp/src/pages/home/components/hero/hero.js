@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import { ReactComponent as Freeshipping } from "../../../../assets/images/icon-freeshipping.svg";
 import Herobg from "../../../../assets/images/herobg.jpg";
@@ -23,7 +23,7 @@ class Hero extends Component {
 
     render() {
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <div className="hero">
                         <div className="hero__banner">
@@ -43,7 +43,7 @@ class Hero extends Component {
                         </div>
                     </div>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }

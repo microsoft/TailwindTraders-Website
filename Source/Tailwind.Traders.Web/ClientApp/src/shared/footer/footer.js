@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import { ReactComponent as Logo } from "../../assets/images/logo-horizontal.svg";
 
@@ -20,4 +20,4 @@ const Footer = ({ t }) => {
     );
 };
 
-export default withNamespaces()(Footer);
+export default withTranslation()(Footer);

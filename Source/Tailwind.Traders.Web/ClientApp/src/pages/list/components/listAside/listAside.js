@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import CheckboxContainer from "./components/checkboxContainer";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import { ReactComponent as FilterImg } from "../../../../assets/images/icon-filter.svg";
 
@@ -60,7 +60,7 @@ class ListAside extends Component {
     render() {
         const { typesList, brandsList } = this.props;
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <aside className="list__aside">
                         <button className="btn btn--secondary btn--float" onClick={this.openFilterPanel}>
@@ -90,7 +90,7 @@ class ListAside extends Component {
                         )}
                     </aside>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }

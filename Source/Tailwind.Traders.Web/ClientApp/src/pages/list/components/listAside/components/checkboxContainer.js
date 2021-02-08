@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import Checkbox from "./checkbox";
 
@@ -24,7 +23,7 @@ class CheckboxContainer extends Component {
         const dataType = this.props.id;
 
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <div className="filter">
                         <legend className="filter__title">{title}</legend>
@@ -47,7 +46,7 @@ class CheckboxContainer extends Component {
                         <div className="filter__more">{t("list.aside.more")}</div>
                     </div>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }

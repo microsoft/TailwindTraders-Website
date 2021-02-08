@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 import { LoadingSpinner } from "../../shared";
 
 import { Popular } from "../home/components";
@@ -29,7 +29,7 @@ class Detail extends Component {
 
 
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <div className="detail">
                         <div className="detail__wrapper">
@@ -66,7 +66,7 @@ class Detail extends Component {
                         {hasRelatedDetailProducts ? <Popular relatedDetailProducts={relatedDetailProducts} /> : null}
                     </div>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { NamespacesConsumer } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 import { UserService, ConfigService } from '../../services';
 import AuthB2CService from '../../services/authB2CService';
@@ -98,7 +98,7 @@ class Header extends Component {
         const { profile } = this.state;
         const { loggedIn } = this.props.userInfo;
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <header className="header">
                         <Link to="/">
@@ -158,7 +158,7 @@ class Header extends Component {
                             : null}
                     </header>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }
