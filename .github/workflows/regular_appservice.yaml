@@ -2,20 +2,16 @@ name: .NET Core
 
 on:
   push:
-    branches: 
-    - main 
+    branches:
+      - main
+      - fix/std-cicd
   pull_request:
-    branches: 
-    - main 
+    branches:
+      - main
 
-env:
-  CI: false
-  AZURE_WEBAPP_NAME: demom4579  # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'd:\a\TailwindTraders-Website-Drop'    
-  AZURE_WEBAPP_PROJECT_PATH: 'd:\a\TailwindTraders-Website\TailwindTraders-Website\Source\Tailwind.Traders.Web\Tailwind.Traders.Web.csproj'    
 jobs:
-  build:
-    runs-on: windows-latest
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
 
     - uses: actions/checkout@master
@@ -29,24 +25,23 @@ jobs:
       run: |
         dotnet build --configuration Release
         dotnet publish -c Release -o publish
-
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
 
-    - uses: azure/appservice-settings@v1
-      with:
-        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
-        app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
+    # - uses: azure/appservice-settings@v1
+    #   with:
+    #     app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+    #     app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
 
 
-    - name: Run Azure webapp deploy action
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
-        package: Source/Tailwind.Traders.Web/publish
+    # - name: Run Azure webapp deploy action
+    #   uses: azure/webapps-deploy@v2
+    #   with:
+    #     app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
+    #     package: Source/Tailwind.Traders.Web/publish
         
     - name: Azure logout
       run: |
