@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 
 import { LoadingSpinner } from "../../shared/index";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import ShoppingCartCard from "./shoppingCartCard";
 import {  CartService } from '../../services';
@@ -90,7 +90,7 @@ class ShoppingCart extends Component {
     render() {
         const { shoppingCart, loading, isPulling } = this.state
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <Fragment>
                         {loading && isPulling ? <LoadingSpinner /> : <Fragment>
@@ -103,7 +103,7 @@ class ShoppingCart extends Component {
                         </Fragment>}
                     </Fragment>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }
