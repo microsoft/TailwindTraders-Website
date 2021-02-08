@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Translation } from 'react-i18next';
+import { Translation } from "react-i18next";
 
 import Checkbox from "./checkbox";
 
