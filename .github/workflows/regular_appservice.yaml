@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build-and-deploy:
@@ -25,23 +22,23 @@ jobs:
         dotnet build --configuration Release
         dotnet publish -c Release -o publish
 
-    # - name: 'Login via Azure CLI'
-    #   uses: azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
 
-    # - uses: azure/appservice-settings@v1
-    #   with:
-    #     app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
-    #     app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+        app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
 
-    # - name: Run Azure webapp deploy action
-    #   uses: azure/webapps-deploy@v2
-    #   with:
-    #     app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
-    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
-    #     package: Source/Tailwind.Traders.Web/publish
+    - name: Run Azure webapp deploy action
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
+        package: Source/Tailwind.Traders.Web/publish
         
-    # - name: Azure logout
-    #   run: |
-    #     az logout
+    - name: Azure logout
+      run: |
+        az logout
