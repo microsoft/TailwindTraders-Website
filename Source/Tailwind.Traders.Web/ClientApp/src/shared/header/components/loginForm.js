@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const LoginForm = ({ t, handleSubmit, keepInputEmail, keepInputPassword, text }) => (
     <form onSubmit={(event) => {
@@ -31,4 +31,4 @@ const LoginForm = ({ t, handleSubmit, keepInputEmail, keepInputPassword, text })
     </form>
 );
 
-export default withNamespaces()(LoginForm);
+export default withTranslation()(LoginForm);

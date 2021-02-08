@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const generateStyle = image => {
     return {
@@ -26,4 +26,4 @@ const SmallCouponItem = ({ t, image, discount, title, until, description }) => {
     );
 };
 
-export default withNamespaces()(SmallCouponItem);
+export default withTranslation()(SmallCouponItem);

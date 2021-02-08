@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const BigCoupon = ({ bigCoupon }) => {
     const sectionStyle = bigCoupon => {
@@ -19,4 +19,4 @@ const BigCoupon = ({ bigCoupon }) => {
     );
 };
 
-export default withNamespaces()(BigCoupon);
+export default withTranslation()(BigCoupon);

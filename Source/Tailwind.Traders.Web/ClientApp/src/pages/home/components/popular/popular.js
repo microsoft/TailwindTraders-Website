@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import { Card } from "../../../../shared";
 
@@ -23,5 +23,5 @@ const Popular = ({ t, popularProductsData, relatedDetailProducts }) => {
     );
 };
 
-export default withNamespaces()(Popular);
+export default withTranslation()(Popular);
 

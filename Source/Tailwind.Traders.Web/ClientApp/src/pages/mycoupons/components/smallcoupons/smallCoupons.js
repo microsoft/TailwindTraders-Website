@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import SmallCouponItem from "./components/smallCouponItem";
 
@@ -14,4 +14,4 @@ const SmallCoupons = ({ smallCoupons }) => {
     );
 };
 
-export default withNamespaces()(SmallCoupons);
+export default withTranslation()(SmallCoupons);

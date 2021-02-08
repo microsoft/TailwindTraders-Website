@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import { Card } from "../../../../shared";
 
@@ -17,4 +17,4 @@ const recommendedProducts = ({ t, recommendedProducts }) => {
     );
 };
 
-export default withNamespaces()(recommendedProducts);
+export default withTranslation()(recommendedProducts);

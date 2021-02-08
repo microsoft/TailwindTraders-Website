@@ -1,5 +1,5 @@
 import React from "react";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import UserPortrait from "../../../shared/header/components/userPortrait";
 
 const Profile = ({ t, name, address, phoneNumber, email, imageUrlMedium }) => {
@@ -25,4 +25,4 @@ const Profile = ({ t, name, address, phoneNumber, email, imageUrlMedium }) => {
     );
 };
 
-export default withNamespaces()(Profile);
+export default withTranslation()(Profile);

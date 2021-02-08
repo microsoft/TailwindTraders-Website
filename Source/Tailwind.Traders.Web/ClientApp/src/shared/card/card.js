@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const Card = ({ id, imageUrl, name, price, t }) => (
     <article className="card__item">
@@ -14,4 +14,4 @@ const Card = ({ id, imageUrl, name, price, t }) => (
     </article>
 );
 
-export default withNamespaces()(Card);
+export default withTranslation()(Card);

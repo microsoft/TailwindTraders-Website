@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import MockupSmall from "../../../../assets/images/Mockup_Small.png";
 import MockupSmall2 from "../../../../assets/images/Mockup_Small@2x.png";
@@ -40,4 +40,4 @@ const Getapp = ({ t }) => {
     );
 };
 
-export default withNamespaces()(Getapp);
+export default withTranslation()(Getapp);
