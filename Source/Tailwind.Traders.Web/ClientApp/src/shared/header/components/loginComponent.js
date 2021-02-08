@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { NamespacesConsumer } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 import Alert from 'react-s-alert';
 
@@ -129,7 +129,7 @@ class LoginComponent extends Component {
 
     render() {
         return (
-            <NamespacesConsumer>
+            <Translation>
                 {t => (
                     <div className={this.state.isModalOpened ? 'modal-overlay is-opened' : 'modal-overlay'}>
                         <Alert stack={{ limit: 1 }} />
@@ -147,7 +147,7 @@ class LoginComponent extends Component {
                         </div>
                     </div>
                 )}
-            </NamespacesConsumer>
+            </Translation>
         );
     }
 }
