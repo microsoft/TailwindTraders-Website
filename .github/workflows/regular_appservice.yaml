@@ -24,6 +24,7 @@ jobs:
       run: |
         dotnet build --configuration Release
         dotnet publish -c Release -o publish
+
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
