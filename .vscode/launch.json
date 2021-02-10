@@ -9,7 +9,7 @@
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
-        "program": "${workspaceFolder}/Source/Tailwind.Traders.Web/bin/Debug/netcoreapp2.1/Tailwind.Traders.Web.dll",
+        "program": "${workspaceFolder}/Source/Tailwind.Traders.Web/bin/Debug/net5.0/Tailwind.Traders.Web.dll",
         "args": [],
         "cwd": "${workspaceFolder}/Source/Tailwind.Traders.Web",
         "stopAtEntry": false,
