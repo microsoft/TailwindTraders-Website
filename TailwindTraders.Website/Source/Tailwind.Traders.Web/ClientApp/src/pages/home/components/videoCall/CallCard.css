@@ -1,0 +1,44 @@
+.lobby {
+  min-height: 450px;
+}
+
+.t-call-info {
+  margin-top: 18%;
+}
+
+.call-vid-grid {
+  display: grid;
+  grid-template-columns: 500px 500px;
+  place-content: center;
+  margin-top: 24px;
+}
+
+.call-options {
+  position: absolute;
+  right: 60px;
+  bottom: 140px;
+}
+
+.call-option-btn-ex {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.call-footer{
+    background-color: #2F4B66;
+}
+
+.mh-info-text{
+    min-height: 420px;
+}
+
+.localVideoRenderer{
+    width: 500px;
+    min-height: 420px;
+}
+
+.participant-stream-renderer{
+    min-height: 420px;
+    width: 500px;
+    object-fit: cover;
+}

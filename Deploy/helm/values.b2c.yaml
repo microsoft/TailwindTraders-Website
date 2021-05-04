@@ -1,6 +1,0 @@
-B2C:
-  UseB2C: "false"
-  ReactAppUseB2C: "false"
-  ClientId:
-  Authority:
-  Scopes:

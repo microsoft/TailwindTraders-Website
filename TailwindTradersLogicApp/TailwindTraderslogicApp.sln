@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "TailwindTraderslogicApp", "TailwindTraderslogicApp.deployproj", "{19CB32D1-7724-4A01-B990-36F67D5DC3AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19CB32D1-7724-4A01-B990-36F67D5DC3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19CB32D1-7724-4A01-B990-36F67D5DC3AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19CB32D1-7724-4A01-B990-36F67D5DC3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19CB32D1-7724-4A01-B990-36F67D5DC3AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {882A9AE2-53B8-42D2-8531-FD185DDB4AFE}
+	EndGlobalSection
+EndGlobal
