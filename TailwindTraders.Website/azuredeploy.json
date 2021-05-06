@@ -80,7 +80,8 @@
     "apiUrl": "[if(equals(parameters('deploymentMode'), 'standalone'), '/api/v1', 'https://f5dc03f4e99349f6b467.eastus.aksapp.io/webbff/v1')]",
     "apiUrlShoppingCart": "[if(equals(parameters('deploymentMode'), 'standalone'), '/api/v1', 'https://f5dc03f4e99349f6b467.eastus.aksapp.io/cart-api')]",
     "cosmosAccountName": "[concat(variables('name'), '-mongo')]",
-    "cosmosDatabaseName": "tailwind"
+    "cosmosDatabaseName": "tailwind",
+    "contosoACSName": "ContosoCRDemo"
   },
   "resources": [
     {
@@ -333,6 +334,15 @@
       },
       "kind": "Personalizer",
       "properties": {}
+    },
+    {
+      "type": "Microsoft.Communication/CommunicationServices",
+      "apiVersion": "2020-08-20",
+      "name": "[variables('contosoACSName')]",
+      "location": "global",
+      "properties": {
+          "dataLocation": "United States"
+      }
     }
   ]
 }
