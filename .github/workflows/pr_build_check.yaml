@@ -12,6 +12,6 @@ jobs:
       uses: actions/checkout@master
 
     - name: Docker build
-      working-directory: Source/Tailwind.Traders.Web
+      working-directory: TailwindTraders.Website/Source/Tailwind.Traders.Web
       run: |
         docker build . --build-arg sdkTag=5.0 --build-arg runtimeTag=5.0 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
