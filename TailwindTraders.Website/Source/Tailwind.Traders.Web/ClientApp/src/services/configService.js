@@ -1,7 +1,7 @@
 import axios from "axios";
 
 require("dotenv").config();
-const settingsUrl = "https://www.tailwindtraders.com/api/settings";
+const settingsUrl = "/api/settings";
 
 const APIUrl = process.env.REACT_APP_DEV_API_URL;
 const APIUrlShoppingCart = process.env.REACT_APP_API_URL_SHOPPINGCART;
