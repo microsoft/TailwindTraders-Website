@@ -28,6 +28,10 @@ env:
     - name: B2CAuth__ClientId
     - name: B2CAuth__Authority
     - name: B2CAuth__Scopes
+    - name: Acs__ConnectionString
+    - name: Acs__Resource
+    - name: LogicAppUrl
+    - name: Email
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Production

@@ -19,3 +19,7 @@ data:
   B2CAuth__ClientId: {{ .Values.B2C.ClientId | default "none" }} 
   B2CAuth__Authority: {{ .Values.B2C.Authority | default "none" }}
   B2CAuth__Scopes: {{ .Values.B2C.Scopes | default "none" }}
+  Acs__ConnectionString: {{ .Values.acsConnectionString | default "none" }}
+  Acs__Resource: {{ .Values.acsResource | default "none" }}
+  LogicAppUrl: {{ .Values.logicAppUrl | default "none" }}
+  Email: {{ .Values.email | default "none" }}
