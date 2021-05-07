@@ -1,0 +1,34 @@
+name: Deploy telephony bot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.15.0
+    
+    - name: 'npm install, build, and test'
+      run: |
+        npm install
+        node provisionComposer.js --subscriptionId=${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }} --name=Bot --appPassword=${{ secrets.AcsBotAppPassword }} --environment=prod --appId=${{ secrets.AcsBotAppId }} --tenantId=${{ secrets.AcsBotAppTenantId }}
+      working-directory:  TailwindTradersBotComposer/scripts
+
+    - name: Azure logout
+      run: |
+        az logout
