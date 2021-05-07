@@ -255,12 +255,12 @@
                     "$connections": {
                         "value": {
                             "azurecommunicationservicessms": {
-                                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'westus', '/managedApis/', 'azurecommunicationservicessms')]",
+                                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azurecommunicationservicessms')]",
                                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurecommunicationservicessms_1_Connection_Name'))]",
                                 "connectionName": "[parameters('azurecommunicationservicessms_1_Connection_Name')]"
                             },
                             "teams": {
-                                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'westus', '/managedApis/', 'teams')]",
+                                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'teams')]",
                                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('teams_1_Connection_Name'))]",
                                 "connectionName": "[parameters('teams_1_Connection_Name')]"
                             }
@@ -284,10 +284,10 @@
             "type": "MICROSOFT.WEB/CONNECTIONS",
             "apiVersion": "2018-07-01-preview",
             "name": "[parameters('teams_1_Connection_Name')]",
-            "location": "westus",
+            "location": "[parameters('LogicAppLocation')]",
             "properties": {
                 "api": {
-                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'westus', '/managedApis/', 'teams')]"
+                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'teams')]"
                 },
                 "displayName": "[parameters('teams_1_Connection_DisplayName')]",
                 "nonSecretParameterValues": {
@@ -299,10 +299,10 @@
             "type": "MICROSOFT.WEB/CONNECTIONS",
             "apiVersion": "2018-07-01-preview",
             "name": "[parameters('azurecommunicationservicessms_1_Connection_Name')]",
-            "location": "westus",
+            "location": "[parameters('LogicAppLocation')]",
             "properties": {
                 "api": {
-                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'westus', '/managedApis/', 'azurecommunicationservicessms')]"
+                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azurecommunicationservicessms')]"
                 },
                 "displayName": "[parameters('azurecommunicationservicessms_1_Connection_DisplayName')]",
                 "parameterValues": {
