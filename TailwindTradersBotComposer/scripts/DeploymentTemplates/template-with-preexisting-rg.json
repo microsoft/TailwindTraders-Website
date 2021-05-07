@@ -36,7 +36,7 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().name]"
+      "defaultValue": "ttbotdb"
     },
     "botId": {
       "type": "string",
@@ -57,7 +57,7 @@
     },
     "newAppServicePlanName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().name]",
+      "defaultValue": "ttbotplan",
       "metadata": {
         "description": "The name of the new App Service Plan."
       }
@@ -90,14 +90,14 @@
     },
     "newWebAppName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().name]",
+      "defaultValue": "ttbotweb",
       "metadata": {
         "description": "The globally unique name of the Web App. Defaults to the value passed in for \"botId\"."
       }
     },
     "appInsightsName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().name]"
+      "defaultValue": "ttbotinsights"
     },
     "location": {
       "type": "string",
@@ -113,11 +113,11 @@
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().name]"
+      "defaultValue": "ttbotstg"
     },
     "luisServiceName": {
       "type": "string",
-      "defaultValue": "[concat(resourceGroup().name, '-luis')]"
+      "defaultValue": "ttbotluis"
     },
     "luisServiceAuthoringSku": {
       "type": "string",
