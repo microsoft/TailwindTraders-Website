@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import callIcon from "../../../../assets/images/icon-call.svg";
 import "./chatBubble.css";
-import { constants } from "../../../../config";
+import { ConfigService } from "./../../../../services"
 
 class ChatBubble extends Component {
   constructor(props) {
@@ -23,11 +23,12 @@ class ChatBubble extends Component {
     } else {
       this.setState({ loadingChat: true });
     }
+
     axios
       .post(
-        constants.logicAppUrl,
+        ConfigService._logicAppUrl,
         {
-          email: constants.email,
+          email: ConfigService._email,
           headline: "Tailwind Traders Customer Support",
           summary: "Customer support",
           text: "Customer support",

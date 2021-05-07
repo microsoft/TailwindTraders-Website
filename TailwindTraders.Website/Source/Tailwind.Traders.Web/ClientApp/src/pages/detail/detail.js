@@ -6,8 +6,8 @@ import { LoadingSpinner } from "../../shared";
 
 import { Popular } from "../home/components";
 import axios from "axios";
-import { constants } from "../../config";
 import { withRouter } from "react-router-dom";
+import { ConfigService } from "./../../services";
 
 class Detail extends Component {
   constructor(props) {
@@ -26,8 +26,8 @@ class Detail extends Component {
     this.setState({ loadingMeeting: true });
 
     axios
-      .post(constants.logicAppUrl, {
-        email: constants.email,
+      .post(ConfigService._logicAppUrl, {
+        email: ConfigService._email,
         headline: "Tailwind Traders Customer Support",
         summary: "Customer support",
         text: "Customer support",

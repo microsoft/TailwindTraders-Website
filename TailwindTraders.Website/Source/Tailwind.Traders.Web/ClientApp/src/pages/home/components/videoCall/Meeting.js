@@ -7,13 +7,13 @@ import CallCard from "./CallCard";
 import { createClientLogger, setLogLevel } from "@azure/logger";
 import queryString from "query-string";
 import { Dropdown } from "@fluentui/react";
-import { constants } from "../../../../config";
+import { ConfigService } from "./../../../../services"
 
 export default class Meeting extends React.Component {
   constructor(props) {
     super(props);
     this.communicationIdentityClient = new CommunicationIdentityClient(
-      constants.connectionString
+      ConfigService._acsConnectionString
     );
     this.callClient = null;
     this.callAgent = null;

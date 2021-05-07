@@ -3,8 +3,8 @@ import { ChatClient } from "@azure/communication-chat";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import videoIcon from "../../../../assets/images/icon-video-on.svg";
 import sendIcon from "../../../../assets/images/icon-send.svg";
-import { constants } from "../../../../config";
 import "./chat.css";
+import { ConfigService } from "./../../../../services"
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -52,7 +52,7 @@ export default class Chat extends React.Component {
     this.setState(
       {
         chatClient: new ChatClient(
-          constants.acsResource,
+          ConfigService._acsResource,
           new AzureCommunicationTokenCredential(this.state.userDetails.token)
         ),
       },

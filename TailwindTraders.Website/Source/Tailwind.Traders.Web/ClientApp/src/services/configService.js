@@ -29,6 +29,10 @@ const ConfigService = {
   _B2cScopes: B2cScopes,
   _applicationInsightsIntrumentationKey: "",
   _debugInformation: {},
+  _acsConnectionString: "",
+  _acsResource: "",
+  _logicAppUrl: "",
+  _email: "",
 
   async loadSettings() {
     if (this._needLoadSettings) {
@@ -69,6 +73,10 @@ const ConfigService = {
       this._applicationInsightsIntrumentationKey =
         settingsResponse.data.applicationInsights.instrumentationKey;
       this._debugInformation = settingsResponse.data.debugInformation;
+      this._acsConnectionString = settingsResponse.data.acs.connectionString;
+      this._acsResource = settingsResponse.data.acs.resource;
+      this._logicAppUrl = settingsResponse.data.logicAppUrl;
+      this._email = settingsResponse.data.email;
     }
   },
 
