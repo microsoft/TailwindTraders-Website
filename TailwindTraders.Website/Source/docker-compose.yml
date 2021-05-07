@@ -12,5 +12,9 @@ services:
       - B2CAuth:ClientId=
       - B2CAuth:Authority=
       - B2CAuth:Scopes=
+      - Acs__ConnectionString=endpoint=
+      - Acs__Resource=
+      - Email=
+      - LogicAppUrl=
     ports:
       - "2000:80"
