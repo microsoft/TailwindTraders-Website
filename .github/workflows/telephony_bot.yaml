@@ -26,7 +26,7 @@ jobs:
     - name: 'npm install, build, and test'
       run: |
         npm install
-        node provisionComposer.js --subscriptionId=${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }} --name=Bot --appPassword=${{ secrets.AcsBotAppPassword }} --environment=prod --appId=${{ secrets.AcsBotAppId }} --tenantId=${{ secrets.AcsBotAppTenantId }}
+        node provisionComposer.js --subscriptionId=${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }} --name=Bot --appPassword=${{ secrets.BOT_APP_PASSWORD }} --environment=prod --appId=${{ secrets.BOT_APP_ID }} --tenantId=${{ secrets.BOT_TENANT_ID }}
       working-directory:  TailwindTradersBotComposer/scripts
 
     - name: Azure logout
