@@ -1,0 +1,368 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "TailwindTradeBot",
+      "description": "",
+      "id": "QBq0Xy"
+    }
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "GsJQ5G"
+          },
+          "assignments": [
+            {
+              "property": "user.finalnumber",
+              "value": "+"
+            },
+            {
+              "property": "user.loopindex",
+              "value": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13
+              ]
+            },
+            {
+              "property": "user.supportemail",
+              "value": "kushal@megdap.com"
+            },
+            {
+              "property": "user.transferphonenumber",
+              "value": "+1234567"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "wU4CwR"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_wU4CwR()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "user.textinput"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "0tqf14"
+          },
+          "condition": "equals(user.textinput,\"yes\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "aK6VcM"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_aK6VcM()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "user.helpinput"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "tbTbrs"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_tbTbrs()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "user.name"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "e5sloY"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_e5sloY()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "user.helpinput1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "tCykta"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_tCykta()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "user.toolsneeded"
+        },
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "e1s7BY"
+          },
+          "defaultLocale": "en-us",
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${ChoiceInput_Prompt_e1s7BY()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "choiceOptions": {
+            "includeNumbers": true
+          },
+          "property": "user.choice",
+          "choices": [
+            "voice call",
+            "video call",
+            "chat"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Q5iEDK"
+          },
+          "condition": "user.choice",
+          "cases": [
+            {
+              "value": "voice call",
+              "actions": []
+            },
+            {
+              "value": "video call",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "lbo5po"
+                  },
+                  "activity": "${SendActivity_lbo5po()}"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "R8DcqC"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "user.loopindex",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "47klg3"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 1,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "prompt": "${TextInput_Prompt_47klg3()}",
+                      "unrecognizedPrompt": "",
+                      "invalidPrompt": "",
+                      "defaultValueResponse": "",
+                      "property": "user.phonenumber"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "ZIRtcv"
+                      },
+                      "condition": "equals(user.phonenumber,\"#\")",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BreakLoop",
+                          "$designer": {
+                            "id": "9i0cYh"
+                          }
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "yW5goa"
+                          },
+                          "property": "user.finalnumber",
+                          "value": "${user.finalnumber}${user.phonenumber}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Kajfqm"
+                      },
+                      "property": "user.phonenumber",
+                      "value": "=null"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "fzVZDQ"
+                  },
+                  "activity": "${SendActivity_fzVZDQ()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "blp1nZ"
+                  },
+                  "method": "POST",
+                  "responseType": "json",
+                  "resultProperty": "dialog.api_response",
+                  "url": "https://prod-05.westus.logic.azure.com/workflows/b544c6e110c04ef283b76b80be635ae6/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TDbknT99-wtCvSrmIKqEftbsdFVFExjgZ20SkBomyYY",
+                  "body": {
+                    "email": "${user.supportemail}",
+                    "headline": "Appointment with Tailwind Traders Associate",
+                    "summary": "<b>Customer Name:</b> Scott Van Vliet<br/><b>Vehicle:</b> Fabrikam FP-150<br/><b>Customer Issue:</b> \"${user.toolsneeded}\"",
+                    "webAppMeetingDomain": "localhost:3000",
+                    "text": "Customer Name: Scott Van Vliet\nVehicle: Fabrikam FP-150\nCustomer Issue: ${user.toolsneeded}",
+                    "userPhone": "${user.finalnumber}",
+                    "isVideoCall": "true"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "xV8znq"
+                  },
+                  "condition": "dialog.api_response == 200",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "TDW66F"
+                      },
+                      "activity": "${SendActivity_TDW66F()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "kX3jUj"
+                      },
+                      "activity": "${SendActivity_kX3jUj()}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "chat",
+              "actions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "9G6XyM"
+                  },
+                  "method": "POST",
+                  "url": "https://prod-05.westus.logic.azure.com/workflows/b544c6e110c04ef283b76b80be635ae6/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TDbknT99-wtCvSrmIKqEftbsdFVFExjgZ20SkBomyYY",
+                  "body": {
+                    "email": "${user.supportemail}",
+                    "headline": "Appointment with Tailwind Traders Associate",
+                    "summary": "<b>Customer Name:</b> Scott Van Vliet<br/><b>Vehicle:</b> Fabrikam FP-150<br/><b>Customer Issue:</b> \"${user.toolsneeded}\"",
+                    "webAppMeetingDomain": "localhost:3000",
+                    "text": "Customer Name: Scott Van Vliet\nVehicle: Fabrikam FP-150\nCustomer Issue: ${user.toolsneeded}",
+                    "userPhone": "${user.finalnumber}",
+                    "isVideoCall": "false"
+                  },
+                  "resultProperty": "dialog.api.chatresponse"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "y4wOhU"
+                  },
+                  "condition": "dialog.api.chatresponse == 200",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Wy7Slg"
+                      },
+                      "activity": "${SendActivity_Wy7Slg()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "NYQSvD"
+                      },
+                      "activity": "${SendActivity_NYQSvD()}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "GZcL2T"
+          },
+          "properties": [
+            "user.supportemail",
+            "user.finalnumber",
+            "user.transferphonenumber"
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "TailwindTradeBot.lg",
+  "id": "TailwindTradeBot",
+  "recognizer": "TailwindTradeBot.lu.qna"
+}

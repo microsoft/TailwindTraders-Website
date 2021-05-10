@@ -1,0 +1,25 @@
+{{- $name := include "tt-web.fullname" . -}}
+{{- $apihost := include  "tt-web.apihost" . -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "tt-web.name" . }}
+    chart: {{ template "tt-web.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  APPINSIGHTS_INSTRUMENTATIONKEY: {{ .Values.inf.appinsights.id | default "none" }}
+  ApiUrl:  {{.Values.ingress.protocol}}://{{ $apihost }}{{ .Values.inf.ingress.webbff.path }}/v1
+  ApiUrlShoppingCart: {{.Values.ingress.protocol}}://{{ $apihost }}{{ .Values.inf.ingress.cart.path }}  
+  UseB2C: {{ .Values.B2C.UseB2C | quote }}
+  REACT_APP_USE_B2C: {{ .Values.B2C.ReactAppUseB2C | quote }}
+  B2CAuth__ClientId: {{ .Values.B2C.ClientId | default "none" }} 
+  B2CAuth__Authority: {{ .Values.B2C.Authority | default "none" }}
+  B2CAuth__Scopes: {{ .Values.B2C.Scopes | default "none" }}
+  Acs__ConnectionString: {{ .Values.acsConnectionString | default "none" }}
+  Acs__Resource: {{ .Values.acsResource | default "none" }}
+  LogicAppUrl: {{ .Values.logicAppUrl | default "none" }}
+  Email: {{ .Values.email | default "none" }}

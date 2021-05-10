@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  web:
+    image: ${REGISTRY:-tailwindtraders}/web:${TAG:-latest}
+    build:
+      context: Tailwind.Traders.Web
+      dockerfile: Dockerfile
+    environment:
+      - REACT_APP_USE_B2C=false
+      - UseB2C=false
+      - B2CAuth:ClientId=
+      - B2CAuth:Authority=
+      - B2CAuth:Scopes=
+      - Acs__ConnectionString=endpoint=
+      - Acs__Resource=
+      - Email=
+      - LogicAppUrl=
+    ports:
+      - "2000:80"

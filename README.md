@@ -2,11 +2,7 @@
 
 ![Tailwind Traders Website](Documents/Images/Website.png)
 
-## Build Status
-
-![Web regular AppService](https://github.com/microsoft/TailwindTraders-Website/workflows/Web%20regular%20AppService/badge.svg)
-![Web in AKS](https://github.com/microsoft/TailwindTraders-Website/workflows/Web%20in%20AKS/badge.svg)
-![Deploy in a containerized App Service](https://github.com/microsoft/TailwindTraders-Website/workflows/Deploy%20in%20a%20containerized%20App%20Service/badge.svg)
+[![Build status](https://dev.azure.com/TailwindTraders/Website/_apis/build/status/Website-CI)](https://dev.azure.com/TailwindTraders/Website/_build?definitionId=22)
 
 You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com)
 
@@ -25,7 +21,7 @@ For this demo reference, we built several consumer and line-of-business applicat
 
 With the following ARM template you can automate the creation of the resources for this website.
 
-[![Deploy to Azure](Documents/Images/deploy-to-azure.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmain%2FDeploy%2Fdeployment.json)
+[![Deploy to Azure](Documents/Images/deploy-to-azure.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2FDeploy%2Fdeployment.json)
 
 When you deploy this website to Azure you can define the [Backend](https://github.com/Microsoft/TailwindTraders-Backend) you want to use in case you have deploy your own backend. By defaults it is configured the public Backend environment provided by Microsoft.
 
@@ -41,11 +37,32 @@ az aks show -n <aks-name> -g <resource-group> --query "addonProfiles.httpApplica
 
 And it will return your base [TailwindTraders-Backend](https://github.com/Microsoft/TailwindTraders-Backend) url. Note that this will work only if your Backend is configured with the `addon-http-application-routing` ingress class (as it's by default).
 
+# Setting up Azure Communication Services
+
+Please follow these steps to setup the web to enable customer support chat and audio/video call flow.
+
+## Pre-Requisites:
+1. **You must have Azure Communication Services resource and  also the logic app setup.** Please follow the instructions on [Tailwind Traders Logic App](../TailwindTradersLogicApp) to deploy the logic app.
+2. A Microsoft Teams subscription to allow teams interoperability with Azure Communication Services.
+
+## Add config variables:
+Edit the following variables in the [appsettings.json](TailwindTraders.Website/Source/Tailwind.Traders.Web/appsettings.json) file.
+
+```
+{
+  connectionString: <ACS_CONNECTION_STRING>,
+  acsResource: <ACS_RESOURCE_URL>,
+  logicAppUrl: <LOGIC_APP_URL>,
+  email: <SUPPORT_EMAIL>,
+}
+```
+> Support email is the account which will receive a Flow bot message with the meeting details on Microsoft Teams.
+
 # Deploy as part of AKS (Azure Kubernetes Service)
 
 Please follow these steps to deploy the web in the same AKS where Backend is running instead of deploying to an App Service.
 
-**Note**: Website supports [Bridge to Kubernetes Deployment](https://github.com/Microsoft/TailwindTraders-Backend/README.md#running-using-bridge-to-kubernetes).
+**Note**: Website supports [Devspaces deployment](./Documents/Devspaces.md).
 
 ## Pre-Requisites:
 
@@ -89,12 +106,42 @@ To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Depl
 - `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
 - `-appInsightsName`: Application Insights' name for monitoring purposes. 
   > **Note** The DeployWebAKS.ps1 uses, only if -appInsightsName is paseed, the _application-insights_ CLI extension to find the application insights id. Install it with `az extension add --name application-insights` if you pass it.
+- `-acsConnectionString`: Acs connection string.
+- `-acsResource`: Acs endpoint.
+- `-logicAppUrl`: Logic app trigger url.
+- `-acsEmail`: Support email account which will receive a Flow bot message.
 
 To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
 
 ```
-.\DeployWebAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
+.\DeployWebAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod -acsResource <my-acs> -acsConnectionString <acs-connection-string> -acsEmail <acs-email> -logicAppUrl <logic-app-url>
 ```
+
+# How to use the customer support chat and audio/video call
+
+To use the customer support chat/call experience click on the chat bubble on the homepage and select the type of interaction.
+
+![Homepage chat bubble](Documents/Images/Docs/homepage-chat-bubble.png)
+
+After being redirected to the call/chat page as per your selection enter your name and then click on Done once the chat/join meeting option is enabled click to join the conversation.
+
+![Enter name](Documents/Images/Docs/meeting-enter-name.png)
+
+![Join meeting](Documents/Images/Docs/meeting-join.png)
+
+At this moment you're in the lobby once the meeting organizer lets you in the chat/call is accessible.
+
+![Meeting](Documents/Images/Docs/meeting-in-call.png)
+
+![Meeting](Documents/Images/Docs/chat.png)
+
+
+After joining in via chat/call the user is also provided with the option to switch from chat-to-call and vice-versa.
+
+![Switch to chat](Documents/Images/Docs/call-switch.png)![Switch to call](Documents/Images/Docs/chat-switch.png)
+
+
+
 
 # How to use the product search by photo
 

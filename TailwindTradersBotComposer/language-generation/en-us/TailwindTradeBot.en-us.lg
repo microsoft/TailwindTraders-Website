@@ -1,0 +1,29 @@
+[import](common.lg)
+
+
+# TextInput_Prompt_wU4CwR()
+- Hello, and welcome to Tailwind Traders. I’m a support bot here to help you. Am I speaking with Anthony?
+# TextInput_Prompt_tCykta()
+- What kind of tools?
+# ChoiceInput_Prompt_e1s7BY()
+- Ok, let me connect you to a representative. Would you like to continue on a voice call, video call, or chat?
+# SendActivity_lbo5po()
+- Great, I will sent a direct link to join the video call with a Tailwind Traders associate.Please enter phone number followed by #.
+# TextInput_Prompt_aK6VcM()
+- Hi Anthony, how can we help you today?
+# TextInput_Prompt_47klg3()
+- 
+# SendActivity_TDW66F()
+- The meeting invite has been send. Thank you.
+# SendActivity_kX3jUj()
+- Could not send meeting invite to ${user.finalnumber}
+# TextInput_Prompt_tbTbrs()
+- May I know your name?
+# TextInput_Prompt_e5sloY()
+- Hi ${user.name},how can we help you today?
+# SendActivity_Wy7Slg()
+- The meeting invite has been send. Thank you.
+# SendActivity_NYQSvD()
+- Could not send meeting invite.
+# SendActivity_fzVZDQ()
+- Please wait while we send you the meeting request.

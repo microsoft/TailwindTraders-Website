@@ -10,6 +10,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'TailwindTraders.Website/**'
 
 jobs:
   buildpush:
@@ -23,7 +25,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Docker build and push
-      working-directory: Source/Tailwind.Traders.Web
+      working-directory: TailwindTraders.Website/Source/Tailwind.Traders.Web
       run: |
         docker build . --build-arg sdkTag=5.0 --build-arg runtimeTag=5.0 -t tailwindtraders/web:gh-${{ github.sha }} -t latest
         docker push tailwindtraders/web:gh-${{ github.sha }}
@@ -48,4 +50,4 @@ jobs:
 
     - name: Install Helm Chart
       run: |
-        helm upgrade --install tailwindtraders-web ./Deploy/helm/web -f ./Deploy/helm/gvalues.yaml -f ./Deploy/helm/values.b2c.yaml  --set ingress.hosts={${{ secrets.AKS_HOST_NAME }}}  --set ingress.protocol=https --set ingress.tls[0].hosts={${{ secrets.AKS_HOST_NAME }}}  --set ingress.tls[0].secretName=${{ secrets.AKS_TLS_SECRET_NAME }} --set image.repository=tailwindtraders/web --set image.tag=gh-${{ github.sha }}
+        helm upgrade --install tailwindtraders-web ./TailwindTraders.Website/Deploy/helm/web -f ./TailwindTraders.Website/Deploy/helm/gvalues.yaml -f ./TailwindTraders.Website/Deploy/helm/values.b2c.yaml  --set ingress.hosts={${{ secrets.AKS_HOST_NAME }}}  --set ingress.protocol=https --set ingress.tls[0].hosts={${{ secrets.AKS_HOST_NAME }}}  --set ingress.tls[0].secretName=${{ secrets.AKS_TLS_SECRET_NAME }} --set image.repository=tailwindtraders/web --set image.tag=gh-${{ github.sha }} --set acsResource=${{ secrets.ACS_RESOURCE }} --set acsConnectionString=${{ secrets.ACS_CONNECTION_STRING }} --email=${{ secrets.ACS_EMAIL }} --set logicAppUrl=${{ secrets.LOGIC_APP_URL }}

@@ -1,0 +1,315 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "teams_1_Connection_Name": {
+            "type": "string",
+            "defaultValue": "teams"
+        },
+        "teams_1_Connection_DisplayName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "teams_1_token:TenantId": {
+            "type": "string",
+            "metadata": {
+                "description": "The tenant ID of for the Azure Active Directory application"
+            }
+        },
+        "azurecommunicationservicessms_1_Connection_Name": {
+            "type": "string",
+            "defaultValue": "azurecommunicationservicessms-2"
+        },
+        "azurecommunicationservicessms_1_Connection_DisplayName": {
+            "type": "string",
+            "defaultValue": "ContosoCRDemo"
+        },
+        "azurecommunicationservicessms_1_connectionString": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Azure Communication Services Connection String"
+            }
+        },
+        "LogicAppLocation": {
+            "type": "string",
+            "minLength": 1,
+            "allowedValues": [
+                "[resourceGroup().location]",
+                "eastasia",
+                "southeastasia",
+                "centralus",
+                "eastus",
+                "eastus2",
+                "westus",
+                "northcentralus",
+                "southcentralus",
+                "northeurope",
+                "westeurope",
+                "japanwest",
+                "japaneast",
+                "brazilsouth",
+                "australiaeast",
+                "australiasoutheast",
+                "southindia",
+                "centralindia",
+                "westindia",
+                "canadacentral",
+                "canadaeast",
+                "uksouth",
+                "ukwest",
+                "westcentralus",
+                "westus2",
+                "koreacentral",
+                "koreasouth",
+                "francecentral",
+                "francesouth",
+                "uaecentral",
+                "uaenorth",
+                "southafricanorth",
+                "southafricawest",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "germanynorth",
+                "germanywestcentral",
+                "norwayeast",
+                "brazilsoutheast"
+            ],
+            "defaultValue": "westus"
+        },
+        "LogicAppName": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "ContosoCRDemo"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "actions": {
+                        "Condition": {
+                            "type": "If",
+                            "expression": {
+                                "and": [
+                                    {
+                                        "not": {
+                                            "equals": [
+                                                "@triggerBody()?['userPhone']",
+                                                ""
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "actions": {
+                                "Send_SMS_2": {
+                                    "runAfter": {},
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "body": {
+                                            "from": "+18445772393",
+                                            "message": "Join: https://@{triggerBody()?['webAppMeetingDomain']}/meeting?threadId=@{replace(substring(decodeUriComponent(uriPath(body('Create_a_Teams_meeting_2')?['onlineMeeting']?['joinUrl'])), 15), '/0', '')}&@{substring(decodeUriComponent(uriQuery(body('Create_a_Teams_meeting_2')?['onlineMeeting']?['joinUrl'])), 1)}&isVideoCall=@{triggerBody()?['isVideoCall']}",
+                                            "sendSmsOptions": {
+                                                "enableDeliveryReport": false
+                                            },
+                                            "to": [
+                                                "@triggerBody()?['userPhone']"
+                                            ]
+                                        },
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['azurecommunicationservicessms']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "path": "/sms"
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "Post_your_own_adaptive_card_as_the_Flow_bot_to_a_user": [
+                                    "Succeeded"
+                                ]
+                            }
+                        },
+                        "Create_a_Teams_meeting_2": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "body": {
+                                        "content": "@triggerBody()?['summary']",
+                                        "contentType": "html"
+                                    },
+                                    "end": {
+                                        "dateTime": "@{addMinutes(utcNow(), 30)}"
+                                    },
+                                    "isOnlineMeeting": true,
+                                    "onlineMeetingProvider": "teamsForBusiness",
+                                    "requiredAttendees": "@triggerBody()?['email']",
+                                    "responseRequested": true,
+                                    "start": {
+                                        "dateTime": "@{utcNow()}"
+                                    },
+                                    "subject": "@triggerBody()?['headline']",
+                                    "timeZone": "Pacific Standard Time"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['teams']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/v1.0/me/calendars/@{encodeURIComponent('Calendar')}/events"
+                            }
+                        },
+                        "Post_your_own_adaptive_card_as_the_Flow_bot_to_a_user": {
+                            "runAfter": {
+                                "Create_a_Teams_meeting_2": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "messageBody": "{\n  \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n  \"type\": \"AdaptiveCard\",\n  \"version\": \"1.0\",\n  \"body\": [\n    {\n      \"type\": \"TextBlock\",\n      \"text\": \"@{triggerBody()?['headline']}\",\n\"size\": \"large\",\n            \"weight\": \"bolder\"\n    },\n{\n      \"type\": \"TextBlock\",\n      \"text\": \"Meeting info\",\n\"weight\": \"bolder\"\n    },\n\n        {\n            \"type\": \"RichTextBlock\",\n            \"inlines\": [\n                {\n                    \"type\": \"TextRun\",\n                    \"text\": \"@{triggerBody()?['text']}\"\n                }\n            ]\n        },\n\n        {\n            \"type\": \"RichTextBlock\",\n            \"inlines\": [\n                {\n                    \"type\": \"TextRun\",\n                    \"text\": \"*Video Call: @{triggerBody()?['isVideoCall']}*\"\n                }\n            ]\n        }\n  ],\n  \"actions\": [\n    {\n      \"type\": \"Action.OpenUrl\",\n      \"title\": \"Join Meeting\",\n      \"url\": \"@{body('Create_a_Teams_meeting_2')?['onlineMeeting']?['joinUrl']}\"\n    }\n  ]\n}\n",
+                                    "messageTitle": "@triggerBody()?['headline']",
+                                    "recipient": {
+                                        "isAlert": true,
+                                        "summary": "@triggerBody()?['summary']",
+                                        "to": "@triggerBody()?['email']"
+                                    }
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['teams']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/flowbot/actions/adaptivecard/recipienttypes/user"
+                            }
+                        },
+                        "Response": {
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "statusCode": 200,
+                                "body": {
+                                    "joinUrl": "?threadId=@{replace(substring(decodeUriComponent(uriPath(body('Create_a_Teams_meeting_2')?['onlineMeeting']?['joinUrl'])), 15), '/0', '')}&@{substring(decodeUriComponent(uriQuery(body('Create_a_Teams_meeting_2')?['onlineMeeting']?['joinUrl'])), 1)}&isVideoCall=@{triggerBody()?['isVideoCall']}"
+                                }
+                            },
+                            "runAfter": {
+                                "Condition": [
+                                    "Succeeded"
+                                ]
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "headline": {
+                                            "type": "string"
+                                        },
+                                        "isVideoCall": {
+                                            "type": "string"
+                                        },
+                                        "summary": {
+                                            "type": "string"
+                                        },
+                                        "text": {
+                                            "type": "string"
+                                        },
+                                        "userPhone": {
+                                            "type": "string"
+                                        },
+                                        "webAppMeetingDomain": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "contentVersion": "1.0.0.0",
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "azurecommunicationservicessms": {
+                                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azurecommunicationservicessms')]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurecommunicationservicessms_1_Connection_Name'))]",
+                                "connectionName": "[parameters('azurecommunicationservicessms_1_Connection_Name')]"
+                            },
+                            "teams": {
+                                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'teams')]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('teams_1_Connection_Name'))]",
+                                "connectionName": "[parameters('teams_1_Connection_Name')]"
+                            }
+                        }
+                    }
+                }
+            },
+            "name": "[parameters('LogicAppName')]",
+            "type": "Microsoft.Logic/workflows",
+            "location": "[parameters('LogicAppLocation')]",
+            "tags": {
+                "displayName": "LogicApp"
+            },
+            "apiVersion": "2016-06-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', parameters('azurecommunicationservicessms_1_Connection_Name'))]",
+                "[resourceId('Microsoft.Web/connections', parameters('teams_1_Connection_Name'))]"
+            ]
+        },
+        {
+            "type": "MICROSOFT.WEB/CONNECTIONS",
+            "apiVersion": "2018-07-01-preview",
+            "name": "[parameters('teams_1_Connection_Name')]",
+            "location": "[parameters('LogicAppLocation')]",
+            "properties": {
+                "api": {
+                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'teams')]"
+                },
+                "displayName": "[parameters('teams_1_Connection_DisplayName')]",
+                "nonSecretParameterValues": {
+                    "token:TenantId": "[parameters('teams_1_token:TenantId')]"
+                }
+            }
+        },
+        {
+            "type": "MICROSOFT.WEB/CONNECTIONS",
+            "apiVersion": "2018-07-01-preview",
+            "name": "[parameters('azurecommunicationservicessms_1_Connection_Name')]",
+            "location": "[parameters('LogicAppLocation')]",
+            "properties": {
+                "api": {
+                    "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azurecommunicationservicessms')]"
+                },
+                "displayName": "[parameters('azurecommunicationservicessms_1_Connection_DisplayName')]",
+                "parameterValues": {
+                    "connectionString": "[parameters('azurecommunicationservicessms_1_connectionString')]"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}

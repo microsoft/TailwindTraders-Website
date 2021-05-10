@@ -1,0 +1,11 @@
+.send-message-btn {
+  width: 10%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.send-message-icon {
+  height: 19px;
+  vertical-align: top;
+}
