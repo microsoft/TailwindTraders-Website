@@ -3,6 +3,8 @@ name: Build check on PR
 on:
   pull_request:
     branches: [ main ]
+    paths:
+      - 'TailwindTraders.Website/**'
 
 jobs:
   build:

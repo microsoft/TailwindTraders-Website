@@ -2,6 +2,8 @@ name: TailwindTraders Website Pipelines
 on:
   push:
     branches: [main, ]
+    paths:
+      - 'TailwindTraders.Website/**'
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [main]
