@@ -14,6 +14,11 @@ jobs:
 
     - uses: actions/checkout@master
 
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.16.3    
+
     - name: Install dependencies in client app
       working-directory: TailwindTraders.Website/Source/Tailwind.Traders.Web/ClientApp
       run: npm install

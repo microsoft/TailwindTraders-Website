@@ -1,13 +1,7 @@
 import React from "react";
-import { DefaultButton } from "office-ui-fabric-react";
 import StreamMedia from "./StreamMedia";
-import RemoteParticipantCard from "./RemoteParticipantCard";
-import { Panel, PanelType } from "office-ui-fabric-react/lib/Panel";
-import { Icon } from "@fluentui/react/lib/Icon";
 import LocalVideoPreviewCard from "./LocalVideoPreviewCard";
-import { Dropdown } from "office-ui-fabric-react/lib/Dropdown";
 import { LocalVideoStream } from "@azure/communication-calling";
-import queryString from "query-string";
 import chatIcon from "../../../../assets/images/icon-chat.svg";
 import hangupIcon from "../../../../assets/images/icon-hangup.svg";
 import videoOnIcon from "../../../../assets/images/icon-video-on.svg";
@@ -58,19 +52,19 @@ export default class CallCard extends React.Component {
       const microphoneDevices = this.deviceManager.getMicrophoneList();
 
       cameraDevices.map((cameraDevice) => {
-        this.state.cameraDeviceOptions.push({
+        return this.state.cameraDeviceOptions.push({
           key: cameraDevice.id,
           text: cameraDevice.name,
         });
       });
       speakerDevices.map((speakerDevice) => {
-        this.state.speakerDeviceOptions.push({
+        return this.state.speakerDeviceOptions.push({
           key: speakerDevice.id,
           text: speakerDevice.name,
         });
       });
       microphoneDevices.map((microphoneDevice) => {
-        this.state.microphoneDeviceOptions.push({
+        return this.state.microphoneDeviceOptions.push({
           key: microphoneDevice.id,
           text: microphoneDevice.name,
         });

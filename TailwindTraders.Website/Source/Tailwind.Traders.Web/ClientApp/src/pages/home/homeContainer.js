@@ -96,6 +96,7 @@ class HomeContainer extends Component {
         newRecommend.map((category, index) => {
             category.cssClass = cssEnum[index];
             category.eventId = data.eventId;
+            return category;
         })
 
         return newRecommend;

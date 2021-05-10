@@ -1,5 +1,4 @@
-import React, { useEffect, createRef } from "react";
-// import { utils } from '../Utils/Utils';
+import React from "react";
 import { Renderer } from "@azure/communication-calling";
 export default class StreamMedia extends React.Component {
     constructor(props) {

@@ -61,19 +61,19 @@ export default class Meeting extends React.Component {
     });
 
     cameraDevices.map((cameraDevice) => {
-      this.state.cameraDeviceOptions.push({
+      return this.state.cameraDeviceOptions.push({
         key: cameraDevice.id,
         text: cameraDevice.name,
       });
     });
     speakerDevices.map((speakerDevice) => {
-      this.state.speakerDeviceOptions.push({
+      return this.state.speakerDeviceOptions.push({
         key: speakerDevice.id,
         text: speakerDevice.name,
       });
     });
     microphoneDevices.map((microphoneDevice) => {
-      this.state.microphoneDeviceOptions.push({
+      return this.state.microphoneDeviceOptions.push({
         key: microphoneDevice.id,
         text: microphoneDevice.name,
       });
