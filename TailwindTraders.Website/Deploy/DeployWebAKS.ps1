@@ -12,7 +12,11 @@ Param(
     [parameter(Mandatory = $false)][string]$tlsSecretName = "",
     [parameter(Mandatory = $false)][string]$appInsightsName = "",    
     [parameter(Mandatory = $false)][string]$build = $false,
-    [parameter(Mandatory = $false)][string]$subscription = ""
+    [parameter(Mandatory = $false)][string]$subscription = "",
+    [parameter(Mandatory = $false)][string]$acsConnectionString = "",
+    [parameter(Mandatory = $false)][string]$acsResource = "",
+    [parameter(Mandatory = $false)][string]$acsEmail = "",
+    [parameter(Mandatory = $false)][string]$logicAppUrl = ""
 )
 
 function validate {
@@ -141,7 +145,7 @@ if (-not [string]::IsNullOrEmpty($appInsightsName)) {
 Push-Location helm
 
 Write-Host "Deploying web chart" -ForegroundColor Yellow
-$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts='{$aksHost}' --set image.repository=$acrLogin/web --set image.tag=$tag" "web" 
+$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts='{$aksHost}' --set image.repository=$acrLogin/web --set image.tag=$tag --set acsResource=$acsResource --set acsConnectionString=$acsConnectionString --email=$email --set logicAppUrl=$logicAppUrl" "web" 
 Invoke-Expression "$command"
 
 Pop-Location
