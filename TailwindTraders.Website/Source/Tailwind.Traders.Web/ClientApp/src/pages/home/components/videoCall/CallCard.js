@@ -40,16 +40,16 @@ export default class CallCard extends React.Component {
   }
 
   // Get Devices list
-  componentWillMount() {
+  async componentWillMount() {
     if (this.props.isVideoCall !== "true") {
       this.setState({ chatView: true });
       this.handleMicOnOff();
       this.handleVideoOnOff();
     }
     if (this.call) {
-      const cameraDevices = this.deviceManager.getCameraList();
-      const speakerDevices = this.deviceManager.getSpeakerList();
-      const microphoneDevices = this.deviceManager.getMicrophoneList();
+      const cameraDevices = await this.deviceManager.getCameras();
+      const speakerDevices = await this.deviceManager.getSpeakers();
+      const microphoneDevices = await this.deviceManager.getMicrophones();
 
       cameraDevices.map((cameraDevice) => {
         return this.state.cameraDeviceOptions.push({
@@ -79,13 +79,11 @@ export default class CallCard extends React.Component {
         });
 
         e.removed.forEach((removedCameraDevice) => {
-          this.state.cameraDeviceOptions.forEach((value, index) => {
+          this.state.cameraDeviceOptions.forEach(async (value, index) => {
             if (value.key === removedCameraDevice.id) {
               this.state.cameraDeviceOptions.splice(index, 1);
-              if (
-                removedCameraDevice.id === this.state.selectedCameraDeviceId
-              ) {
-                const cameraDevice = this.deviceManager.getCameraList()[0];
+              if (removedCameraDevice.id === this.state.selectedCameraDeviceId) {
+                const cameraDevice = await this.deviceManager.getCameras()[0];
                 this.setState({ selectedCameraDeviceId: cameraDevice.id });
               }
             }
@@ -110,27 +108,27 @@ export default class CallCard extends React.Component {
 
         e.removed.forEach((removedAudioDevice) => {
           if (removedAudioDevice.deviceType === "Speaker") {
-            this.state.speakerDeviceOptions.forEach((value, index) => {
+            this.state.speakerDeviceOptions.forEach(async (value, index) => {
               if (value.key === removedAudioDevice.id) {
                 this.state.speakerDeviceOptions.splice(index, 1);
                 if (
                   removedAudioDevice.id === this.state.selectedSpeakerDeviceId
                 ) {
-                  const speakerDevice = this.deviceManager.getSpeakerList()[0];
+                  const speakerDevice = await this.deviceManager.getSpeakers()[0];
                   this.deviceManager.setSpeaker(speakerDevice);
                   this.setState({ selectedSpeakerDeviceId: speakerDevice.id });
                 }
               }
             });
           } else if (removedAudioDevice.deviceType === "Microphone") {
-            this.state.microphoneDeviceOptions.forEach((value, index) => {
+            this.state.microphoneDeviceOptions.forEach(async (value, index) => {
               if (value.key === removedAudioDevice.id) {
                 this.state.microphoneDeviceOptions.splice(index, 1);
                 if (
                   removedAudioDevice.id ===
                   this.state.selectedMicrophoneDeviceId
                 ) {
-                  const microphoneDevice = this.deviceManager.getMicrophoneList()[0];
+                  const microphoneDevice = await this.deviceManager.getMicrophones()[0];
                   this.deviceManager.setMicrophone(microphoneDevice);
                   this.setState({
                     selectedMicrophoneDeviceId: microphoneDevice.id,
@@ -276,8 +274,8 @@ export default class CallCard extends React.Component {
         }
         await this.watchForCallFinishConnecting();
         if (this.state.videoOn) {
-          const cameraDeviceInfo = this.deviceManager
-            .getCameraList()
+          const cameraDeviceInfo = await this.deviceManager
+            .getCameras()
             .find((cameraDeviceInfo) => {
               return cameraDeviceInfo.id === this.state.selectedCameraDeviceId;
             });
@@ -293,8 +291,8 @@ export default class CallCard extends React.Component {
         if (this.call.localVideoStreams[0]) {
           await this.call.stopVideo(this.call.localVideoStreams[0]);
         } else {
-          const cameraDeviceInfo = this.deviceManager
-            .getCameraList()
+          const cameraDeviceInfo = await this.deviceManager
+            .getCameras()
             .find((cameraDeviceInfo) => {
               return cameraDeviceInfo.id === this.state.selectedCameraDeviceId;
             });
@@ -337,9 +335,9 @@ export default class CallCard extends React.Component {
     }
   };
 
-  cameraDeviceSelectionChanged = (event, item) => {
-    const cameraDeviceInfo = this.deviceManager
-      .getCameraList()
+  cameraDeviceSelectionChanged = async (event, item) => {
+    const cameraDeviceInfo = await this.deviceManager
+      .getCameras()
       .find((cameraDeviceInfo) => {
         return cameraDeviceInfo.id === item.key;
       });
@@ -348,9 +346,9 @@ export default class CallCard extends React.Component {
     this.setState({ selectedCameraDeviceId: cameraDeviceInfo.id });
   };
 
-  speakerDeviceSelectionChanged = (event, item) => {
-    const speakerDeviceInfo = this.deviceManager
-      .getSpeakerList()
+  speakerDeviceSelectionChanged = async (event, item) => {
+    const speakerDeviceInfo = await this.deviceManager
+      .getSpeakers()
       .find((speakerDeviceInfo) => {
         return speakerDeviceInfo.id === item.key;
       });
@@ -358,9 +356,9 @@ export default class CallCard extends React.Component {
     this.setState({ selectedSpeakerDeviceId: speakerDeviceInfo.id });
   };
 
-  microphoneDeviceSelectionChanged = (event, item) => {
-    const microphoneDeviceInfo = this.deviceManager
-      .getMicrophoneList()
+  microphoneDeviceSelectionChanged = async (event, item) => {
+    const microphoneDeviceInfo = await this.deviceManager
+      .getMicrophones()
       .find((microphoneDeviceInfo) => {
         return microphoneDeviceInfo.id === item.key;
       });

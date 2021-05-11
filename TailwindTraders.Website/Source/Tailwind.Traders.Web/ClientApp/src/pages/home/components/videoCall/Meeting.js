@@ -49,10 +49,10 @@ export default class Meeting extends React.Component {
   }
 
   // Get device list
-  getDevicesList = () => {
-    const cameraDevices = this.deviceManager?.getCameras();
-    const speakerDevices = this.deviceManager?.getSpeakers();
-    const microphoneDevices = this.deviceManager?.getMicrophones();
+  getDevicesList = async () => {
+    const cameraDevices = await this.deviceManager?.getCameras();
+    const speakerDevices = await this.deviceManager?.getSpeakers();
+    const microphoneDevices = await this.deviceManager?.getMicrophones();
     console.log(cameraDevices[0]);
     this.setState({
       selectedCameraDeviceId: cameraDevices[0]?.id,
@@ -80,8 +80,8 @@ export default class Meeting extends React.Component {
     });
   };
 
-  componentDidMount() {
-    this.provisionNewuser();
+  async componentDidMount() {
+    await this.provisionNewuser();
     let queries = queryString.parse(
       decodeURIComponent(this.props.location.search)
     );
@@ -92,8 +92,8 @@ export default class Meeting extends React.Component {
     this.setState({ userName: e.target.value });
   };
 
-  handleJoinCall = () => {
-    this.joinTeamsMeeting();
+  handleJoinCall = async () => {
+    await this.joinTeamsMeeting();
   };
 
   // Provisioning new ACS user
@@ -178,7 +178,7 @@ export default class Meeting extends React.Component {
 
 
   // Join teams meeting
-  joinTeamsMeeting = () => {
+  joinTeamsMeeting = async () => {
     try {
       let queries = queryString.parse(
         decodeURIComponent(this.props.location.search)
@@ -195,7 +195,7 @@ export default class Meeting extends React.Component {
           {
             meetingLink: this.meetingLink,
           },
-          this.getCallOptions()
+          await this.getCallOptions()
         );
       } else if (
         !this.meetingLink &&
@@ -212,7 +212,7 @@ export default class Meeting extends React.Component {
             tenantId: this.tenantId,
             organizerId: this.organizerId,
           },
-          this.getCallOptions()
+          await this.getCallOptions()
         );
       } else {
         throw new Error(
@@ -225,7 +225,7 @@ export default class Meeting extends React.Component {
     }
   };
 
-  getCallOptions = () => {
+  getCallOptions = async () => {
     let queries = queryString.parse(
       decodeURIComponent(this.props.location.search)
     );
@@ -238,7 +238,7 @@ export default class Meeting extends React.Component {
       },
     };
 
-    const cameraDevice = this.deviceManager.getCameraList()[0];
+    const cameraDevice = await this.deviceManager.getCameras()[0];
     if (!cameraDevice || cameraDevice.id === "camera:") {
       this.setState({ showCameraNotFoundWarning: true });
     } else if (cameraDevice) {
@@ -247,7 +247,7 @@ export default class Meeting extends React.Component {
       callOptions.videoOptions = { localVideoStreams: [localVideoStream] };
     }
 
-    const speakerDevice = this.deviceManager.getSpeakerList()[0];
+    const speakerDevice = await this.deviceManager.getSpeakers()[0];
     if (!speakerDevice || speakerDevice.id === "speaker:") {
       this.setState({ showSpeakerNotFoundWarning: true });
     } else if (speakerDevice) {
@@ -255,7 +255,7 @@ export default class Meeting extends React.Component {
       this.deviceManager.setSpeaker(speakerDevice);
     }
 
-    const microphoneDevice = this.deviceManager.getMicrophoneList()[0];
+    const microphoneDevice = await this.deviceManager.getMicrophones()[0];
     if (!microphoneDevice || microphoneDevice.id === "microphone:") {
       this.setState({ showMicrophoneNotFoundWarning: true });
     } else {
@@ -266,9 +266,9 @@ export default class Meeting extends React.Component {
     return callOptions;
   }
 
-  cameraDeviceSelectionChanged = (event, item) => {
-    const cameraDeviceInfo = this.deviceManager
-      .getCameraList()
+  cameraDeviceSelectionChanged = async (event, item) => {
+    const cameraDeviceInfo = await this.deviceManager
+      .getCameras()
       .find((cameraDeviceInfo) => {
         return cameraDeviceInfo.id === item.key;
       });
@@ -277,9 +277,9 @@ export default class Meeting extends React.Component {
     this.setState({ selectedCameraDeviceId: cameraDeviceInfo.id });
   };
 
-  speakerDeviceSelectionChanged = (event, item) => {
-    const speakerDeviceInfo = this.deviceManager
-      .getSpeakerList()
+  speakerDeviceSelectionChanged = async (event, item) => {
+    const speakerDeviceInfo = await this.deviceManager
+      .getSpeakers()
       .find((speakerDeviceInfo) => {
         return speakerDeviceInfo.id === item.key;
       });
@@ -287,9 +287,9 @@ export default class Meeting extends React.Component {
     this.setState({ selectedSpeakerDeviceId: speakerDeviceInfo.id });
   };
 
-  microphoneDeviceSelectionChanged = (event, item) => {
-    const microphoneDeviceInfo = this.deviceManager
-      .getMicrophoneList()
+  microphoneDeviceSelectionChanged = async (event, item) => {
+    const microphoneDeviceInfo = await this.deviceManager
+      .getMicrophones()
       .find((microphoneDeviceInfo) => {
         return microphoneDeviceInfo.id === item.key;
       });
@@ -312,16 +312,16 @@ export default class Meeting extends React.Component {
             />
             <button
               className="btn btn-small btn-success mb-4 mx-auto w-50"
-              onClick={() => {
-                this.handleLogIn(
+              onClick={async () => {
+                await this.handleLogIn(
                   this.state.userDetails,
                   this.state.userName
-                ).then(() => {
-                  setTimeout(() => {
-                    this.getDevicesList();
+                )
+                
+                setTimeout(async () => {
+                    await this.getDevicesList();
                     this.setState({ userNameEntered: true });
                   }, 2000);
-                });
               }}
             >
               Done
@@ -332,12 +332,12 @@ export default class Meeting extends React.Component {
               <div className="mx-4 mb-4">
                 <Dropdown
                   selectedKey={this.state.selectedCameraDeviceId}
-                  onChange={this.cameraDeviceSelectionChanged}
+                  onChange={ async () => await this.cameraDeviceSelectionChanged}
                   label={"Camera"}
                   options={this.state.cameraDeviceOptions}
-                  disabled={this.deviceManager?.getCameraList().length === 0}
-                  placeHolder={
-                    this.deviceManager?.getCameraList().length === 0
+                  disabled={async ()=> await this.deviceManager?.getCameras().length === 0}
+                  placeHolder={ async ()=> await 
+                    this.deviceManager?.getCameras().length === 0
                       ? "No camera devices found"
                       : this.state.selectedCameraDeviceId
                       ? ""
@@ -346,14 +346,14 @@ export default class Meeting extends React.Component {
                 />
                 <Dropdown
                   selectedKey={this.state.selectedMicrophoneDeviceId}
-                  onChange={this.microphoneDeviceSelectionChanged}
+                  onChange={ async () => await this.microphoneDeviceSelectionChanged}
                   options={this.state.microphoneDeviceOptions}
                   label={"Microphone"}
-                  disabled={
-                    this.deviceManager?.getMicrophoneList().length === 0
+                  disabled={async () => 
+                    await this.deviceManager?.getMicrophones().length === 0
                   }
-                  placeHolder={
-                    this.deviceManager?.getMicrophoneList().length === 0
+                  placeHolder={async () =>
+                    await this.deviceManager?.getMicrophones().length === 0
                       ? "No microphone devices found"
                       : this.state.selectedMicrophoneDeviceId
                       ? ""
@@ -365,9 +365,9 @@ export default class Meeting extends React.Component {
                   onChange={this.speakerDeviceSelectionChanged}
                   options={this.state.speakerDeviceOptions}
                   label={"Speaker"}
-                  disabled={this.deviceManager?.getSpeakerList().length === 0}
-                  placeHolder={
-                    this.deviceManager?.getSpeakerList().length === 0
+                  disabled={ async ()=> await this.deviceManager?.getSpeakers().length === 0}
+                  placeHolder={async ()=> await 
+                    this.deviceManager?.getSpeakers().length === 0
                       ? "No speaker devices found"
                       : this.state.selectedSpeakerDeviceId
                       ? ""
@@ -386,7 +386,7 @@ export default class Meeting extends React.Component {
                 style: { verticalAlign: "middle", fontSize: "large" },
               }}
               text={this.isVideoCall === "true" ? "Join meeting" : "Chat"}
-              onClick={this.joinTeamsMeeting}
+              onClick={async () => await this.joinTeamsMeeting() }
             ></PrimaryButton>
           </div>
         ) : (
