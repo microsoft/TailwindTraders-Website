@@ -2,6 +2,7 @@
 using Microsoft.Azure.CognitiveServices.Personalizer;
 using Microsoft.Azure.CognitiveServices.Personalizer.Models;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace Tailwind.Traders.Web.Controllers
         }
 
         [HttpPost("Rank")]
-        public IActionResult PostRank([FromBody]RankCategories rankCategories)
+        public IActionResult PostRank([FromBody] RankCategories rankCategories)
         {
             RankRequest request = CreateRankRequest(rankCategories);
             RankResponse response;
@@ -75,7 +76,7 @@ namespace Tailwind.Traders.Web.Controllers
         }
 
         [HttpPost("Reward/{eventId}")]
-        public IActionResult PostReward([FromRoute]string eventId, [FromBody]RewardRequest reward)
+        public IActionResult PostReward([FromRoute] string eventId, [FromBody] RewardRequest reward)
         {
             try
             {
@@ -127,6 +128,8 @@ namespace Tailwind.Traders.Web.Controllers
 
     public class RankCategories
     {
-        public IList<string> Categories;
+        [JsonProperty("categories")]
+        public string[] Categories { get; set; }
     }
+
 }
