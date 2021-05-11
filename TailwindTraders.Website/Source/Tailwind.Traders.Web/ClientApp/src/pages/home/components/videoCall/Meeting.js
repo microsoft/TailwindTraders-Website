@@ -50,9 +50,9 @@ export default class Meeting extends React.Component {
 
   // Get device list
   getDevicesList = () => {
-    const cameraDevices = this.deviceManager?.getCameraList();
-    const speakerDevices = this.deviceManager?.getSpeakerList();
-    const microphoneDevices = this.deviceManager?.getMicrophoneList();
+    const cameraDevices = this.deviceManager?.getCameras();
+    const speakerDevices = this.deviceManager?.getSpeakers();
+    const microphoneDevices = this.deviceManager?.getMicrophones();
     console.log(cameraDevices[0]);
     this.setState({
       selectedCameraDeviceId: cameraDevices[0]?.id,
