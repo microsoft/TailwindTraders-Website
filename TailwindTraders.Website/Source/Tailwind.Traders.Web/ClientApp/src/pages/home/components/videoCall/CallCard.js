@@ -43,8 +43,8 @@ export default class CallCard extends React.Component {
   async componentWillMount() {
     if (this.props.isVideoCall !== "true") {
       this.setState({ chatView: true });
-      this.handleMicOnOff();
-      this.handleVideoOnOff();
+      await this.handleMicOnOff();
+      await this.handleVideoOnOff();
     }
     if (this.call) {
       const cameraDevices = await this.deviceManager.getCameras();
@@ -141,7 +141,7 @@ export default class CallCard extends React.Component {
       });
 
       const onCallStateChanged = () => {
-        console.log("callStateChanged ", this.state.callState);
+        console.log("stateChanged ", this.state.callState);
         this.setState({ callState: this.call.state });
 
         if (
@@ -160,18 +160,18 @@ export default class CallCard extends React.Component {
         }
       };
       onCallStateChanged();
-      this.call.on("callStateChanged", onCallStateChanged);
+      this.call.on("stateChanged", onCallStateChanged);
 
-      this.call.on("callIdChanged", () => {
-        console.log("callIdChanged ", this.call.id);
+      this.call.on("idChanged", () => {
+        console.log("idChanged ", this.call.id);
         this.setState({ callId: this.call.id });
       });
 
-      this.call.on("isRecordingActiveChanged", () => {
-        console.log("isRecordingActiveChanged ", this.call.isRecordingActive);
-      });
+      // this.call.on("isRecordingActiveChanged", () => {
+      //   console.log("isRecordingActiveChanged ", this.call.isRecordingActive);
+      // });
 
-      this.call.on("isMicrophoneMutedChanged", () => {
+      this.call.on("isMutedChanged", () => {
         this.setState({ micMuted: this.call.isMicrophoneMuted });
       });
 
@@ -449,7 +449,7 @@ export default class CallCard extends React.Component {
               </button>
               <button
                 className="call-option-btn d-block mb-3 p-3 bg-dark border-0 rounded-circle"
-                onClick={this.handleVideoOnOff}
+                onClick={async () => await this.handleVideoOnOff}
               >
                 <img
                   src={this.state.videoOn ? videoOnIcon : videoOffIcon}
@@ -458,7 +458,7 @@ export default class CallCard extends React.Component {
               </button>
               <button
                 className="call-option-btn call-option-btn-ex d-block mb-3 py-3 bg-dark border-0 rounded-circle"
-                onClick={this.handleMicOnOff}
+                onClick={async () => await this.handleMicOnOff}
               >
                 <img
                   src={this.state.micMuted ? micOffIcon : micIcon}
