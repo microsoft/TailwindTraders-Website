@@ -33,6 +33,7 @@ const ConfigService = {
   _acsResource: "",
   _logicAppUrl: "",
   _email: "",
+  _customerSupportEnabled: false,
 
   async loadSettings() {
     if (this._needLoadSettings) {
@@ -77,6 +78,11 @@ const ConfigService = {
       this._acsResource = settingsResponse.data.acs.resource;
       this._logicAppUrl = settingsResponse.data.logicAppUrl;
       this._email = settingsResponse.data.email;
+      this._customerSupportEnabled = 
+            settingsResponse.data.email
+            && settingsResponse.data.acs.resource
+            && settingsResponse.data.acs.connectionString
+            && settingsResponse.data.logicAppUrl;
     }
   },
 

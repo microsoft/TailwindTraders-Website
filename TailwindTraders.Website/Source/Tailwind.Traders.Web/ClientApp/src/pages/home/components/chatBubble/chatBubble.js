@@ -33,7 +33,7 @@ class ChatBubble extends Component {
           summary: "Customer support",
           text: "Customer support",
           userPhone: "",
-          webAppMeetingDomain: "tailwindtradersacs.azurewebsites.net",
+          webAppMeetingDomain: new URL(window.location.href).host,
           isVideoCall: isVideo.toString(),
         }
       )
