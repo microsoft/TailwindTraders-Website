@@ -5,8 +5,12 @@
 ## Build Status
 
 ![Web regular AppService](https://github.com/microsoft/TailwindTraders-Website/workflows/Web%20regular%20AppService/badge.svg)
-![Web in AKS](https://github.com/microsoft/TailwindTraders-Website/workflows/Web%20in%20AKS/badge.svg)
-![Deploy in a containerized App Service](https://github.com/microsoft/TailwindTraders-Website/workflows/Deploy%20in%20a%20containerized%20App%20Service/badge.svg)
+
+[![TailwindTraders Website Pipelines](https://github.com/az400aa01/TailwindTraders-Website/actions/workflows/tt-website.cicd.yml/badge.svg)](https://github.com/az400aa01/TailwindTraders-Website/actions/workflows/tt-website.cicd.yml)
+
+[![Web in AKS](https://github.com/az400aa01/TailwindTraders-Website/actions/workflows/aks.yaml/badge.svg)](https://github.com/az400aa01/TailwindTraders-Website/actions/workflows/aks.yaml)
+
+[![Deploy in a containerized App Service](https://github.com/az400aa01/TailwindTraders-Website/actions/workflows/container_appservice.yaml/badge.svg)](https://github.com/az400aa01/TailwindTraders-Website/actions/workflows/container_appservice.yaml)
 
 You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com)
 
