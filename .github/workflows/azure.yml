@@ -1,14 +1,9 @@
-name: .NET Core
+name: Web regular AppService
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'TailwindTraders.Website/**'
-
-env:
-  AZURE_WEBAPP_NAME: jagordtailwindstaging
 
 jobs:
   build-and-deploy:
@@ -17,34 +12,24 @@ jobs:
 
     - uses: actions/checkout@master
 
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.16.3    
-
     - name: Install dependencies in client app
-      working-directory: TailwindTraders.Website/Source/Tailwind.Traders.Web/ClientApp
+      working-directory: Source/Tailwind.Traders.Web/ClientApp
       run: npm install
 
     - name: Build and publish with dotnet
-      working-directory: TailwindTraders.Website/Source/Tailwind.Traders.Web
+      working-directory: Source/Tailwind.Traders.Web
       run: |
-        dotnet build ./Source/*.sln --configuration Release --no-restore
-      publish: |
-        dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'   
-             
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
+        dotnet build --configuration Release
+        dotnet publish -c Release -o publish
+    # - uses: azure/appservice-settings@v1
+    #   with:
+    #     app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+    #     app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
+
 
     - name: Run Azure webapp deploy action
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME_STAGING }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING  }}
-        package: './Source/Tailwind.Traders.Web/staging'
-        
-    - name: Azure logout
-      run: |
-        az logout
+        package: /Source/Tailwind.Traders.Web/publish
