@@ -2,7 +2,7 @@ name: deploytojagordtailwindstaging
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   AZURE_WEBAPP_NAME: jagordtailwindstaging
