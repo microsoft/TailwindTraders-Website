@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -31,10 +30,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
 
-  #  - uses: azure/appservice-settings@v1
-  #    with:
-  #      app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME_STAGING }}
-  #      app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME_STAGING }}
+        app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
 
     - name: Run Azure webapp deploy action
       uses: azure/webapps-deploy@v2
