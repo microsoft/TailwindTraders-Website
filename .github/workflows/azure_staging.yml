@@ -25,10 +25,16 @@ jobs:
       run: |
         dotnet build --configuration Release
         dotnet publish -c Release -o publish
-    - name: 'Login via Azure CLI'
+   
+   - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
+        
+        - uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME }}
+        app-settings-json: '${{ secrets.WEBAPP_APP_SETTINGS }}'
 
     - name: Run Azure webapp deploy action
       uses: azure/webapps-deploy@v2
