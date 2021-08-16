@@ -12,8 +12,6 @@ jobs:
 
     runs-on: ubuntu-18.04
     env:
-      CI: ""
-      baseRunUrl: "https://github.com/jaydestro/TailwindTraders-Website/actions/runs/"
 
     steps:
     - uses: actions/checkout@v2
