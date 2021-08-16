@@ -1,0 +1,49 @@
+name: deploytojagordtailwindstaging
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  AZURE_WEBAPP_NAME: jagordtailwindstaging
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    env:
+      CI: ""
+      baseRunUrl: "https://github.com/jaydestro/TailwindTraders-Website/actions/runs/"
+
+    steps:
+    - uses: actions/checkout@v2
+   
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x  
+
+    - name: Setup Node 10
+      uses: actions/setup-node@v1
+      with:
+       node-version: '10'
+
+    - name: Install dependencies
+      run: dotnet restore ./Source/*.sln
+   
+    - name: Build
+      run: dotnet build ./Source/*.sln --configuration Release --no-restore
+   
+    - name: Test
+      run: dotnet test ./Source/*.sln --no-restore --verbosity normal
+   
+    - name: Publish
+      run: dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'
+   
+    - name: Deploy to Staging Website
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME_STAGING }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING }}
+        package: './Source/Tailwind.Traders.Web/staging'
+    
