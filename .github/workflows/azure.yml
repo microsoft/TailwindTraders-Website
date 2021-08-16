@@ -29,8 +29,10 @@ jobs:
     - name: Build and publish with dotnet
       working-directory: TailwindTraders.Website/Source/Tailwind.Traders.Web
       run: |
-        dotnet build --configuration Release
-        dotnet publish -c Release -o publish
+        dotnet build ./Source/*.sln --configuration Release --no-restore
+      publish: |
+        dotnet publish ./Source/Tailwind.Traders.Web/Tailwind.Traders.Web.csproj -c Release -o './staging'   
+             
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
@@ -41,7 +43,7 @@ jobs:
       with:
         app-name: ${{ secrets.WEBAPP_APPSERVICE_NAME_STAGING }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING  }}
-        package: TailwindTraders.Website/Source/Tailwind.Traders.Web/publish
+        package: './Source/Tailwind.Traders.Web/staging'
         
     - name: Azure logout
       run: |
