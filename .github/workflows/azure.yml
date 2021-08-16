@@ -1,8 +1,11 @@
-name: deploytojagordtailwindstaging
+name: .NET Core
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+    paths:
+      - 'TailwindTraders.Website/**'
 
 env:
   AZURE_WEBAPP_NAME: jagordtailwindstaging
