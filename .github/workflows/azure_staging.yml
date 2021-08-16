@@ -1,4 +1,6 @@
-name: DEPLOY_WEBAPP_PROD_STAGING
+#Staging build
+
+name: DEPLOY_WEBAPP_STAGING
 
 on:
   push:
