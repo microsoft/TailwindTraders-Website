@@ -80,3 +80,5 @@ az acr build --subscription  "Ignite The Tour" --registry $acrName --image $weba
 # Configure environment variables for our webapp to work properly
 
 `az webapp config appsettings set --resource-group $resourceGroup --name $webappName --settings apiUrl=/api/v1 ApiUrlShoppingCart=/api/v1 productImagesUrl=https://raw.githubusercontent.com/microsoft/TailwindTraders-Backend/master/Deploy/tailwindtraders-images/product-detail SqlConnectionString="sqlConnectionString" MongoConnectionString="$cosmosConnectionString"`
+
+## old data
