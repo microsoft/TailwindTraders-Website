@@ -12,6 +12,10 @@ currently being supported with security updates.
 | 4.0.x   | :white_check_mark: |
 | < 4.0   | :x:                |
 
+# Ensuring scans
+
+If creating containers, ensure you're running a scan that they contain no vulnerabilities
+
 ## Reporting a Vulnerability
 
 Use this section to tell people how to report a vulnerability.
