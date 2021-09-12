@@ -1,0 +1,134 @@
+name: Tailwind Traders PR Workflow
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+    - master
+  workflow_dispatch:
+    inputs:
+      deployEnvironment:
+        description: 'Deployment Environment'     
+        required: true
+        default: 'dev'
+      logLevel:
+        description: 'The Logging Level'  
+        required: false
+        default: 'low'
+
+jobs:
+  createPRWorkItemInAzD:
+    if: (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: windows-latest
+    steps:
+    - name: Create PR Work Item
+      uses: abelsquidhead/ADOELPCustomAction-CreateAzDWorkItem@master
+      with:
+        myInput: "This is my input!!!"
+        myToken: ${{ secrets.GITHUB_TOKEN }}
+  
+  build:
+    if: (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: windows-latest
+    steps:
+      
+    # checkout code from repo
+    - name: Checkout code
+      uses: actions/checkout@v1
+        
+    # copy zip to staging
+    - name: Build solution
+      run: |
+        mkdir staging
+        copy .\Deploy\Tailwind.Traders.web.zip .\staging
+        copy .\Deploy\AzCLI\deployWebApp.ps1 .\staging
+
+    - name: show staging
+      run: |
+        echo cd staging
+        cd staging
+        echo pwd
+        pwd
+        echo ls
+        ls
+
+    # upload build artifact
+    - name: Publish build artifacts back to GitHub
+      uses: actions/upload-artifact@master
+      with:
+        name: webapp
+        path: staging
+
+  deployToStaging:
+    needs: [build]
+    if: (github.event_name == 'pull_request' && github.event.action != 'closed') 
+    runs-on: ubuntu-latest
+    steps:
+      
+      # download build artifacts
+      - name: Download build artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: webapp
+
+      # display web app directory for debugging
+      - name: show webapp directory
+        run: |
+          echo ls
+          ls
+
+      # get values of the PR and store in env var
+      - name: Get PR values
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        uses: abelsquidhead/GetPRInfoAction@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        id: getPRValuesStep
+
+      # deploy web app
+      - name: Deploy web app to correct slot
+        env:
+          SERVICE_PRINCIPAL: http://DemosSubscriptionSP
+          SERVICE_PRINCIPAL_TENANT: 72f988bf-86f1-41af-91ab-2d7cd011db47
+          RESOURCE_GROUP: TailwindTraders-Web-Ignite-RG
+          WEB_APP_NAME: abeltailwindstraders
+          PATH_TO_WEBSITE_ZIP: ./Tailwind.Traders.web.zip
+        run: |
+          az login --service-principal --username ${SERVICE_PRINCIPAL} --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant ${SERVICE_PRINCIPAL_TENANT}
+          az webapp deployment slot create --name ${WEB_APP_NAME} --resource-group ${RESOURCE_GROUP} --slot TailwindsTraders-pr-${PR_NUMBER}
+          az webapp deployment source config-zip -g ${RESOURCE_GROUP} -n ${WEB_APP_NAME} --src ${PATH_TO_WEBSITE_ZIP} --slot TailwindsTraders-pr-${{ steps.getPRValuesStep.outputs.number}}
+
+      # comment url of staging environment back to PR
+      - name: Comment Pull Request
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          # Message that should be printed in the pull request
+          message: Created staging environment - https://abeltailwindstraders-tailwindstraders-pr-${{ steps.getPRValuesStep.outputs.number}}.azurewebsites.net/
+          # Github token of the repository (automatically created by Github)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  closePullRequestJob:
+    if: (github.event_name == 'pull_request' && github.event.action == 'closed')
+    runs-on: windows-latest
+    steps:
+      
+      # get values of the PR and store in env var
+      - name: Get PR values
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        uses: abelsquidhead/GetPRInfoAction@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        id: getPRValuesStep
+
+      # delete staging slot
+      - name: Delete staging slot
+        env:
+          SERVICE_PRINCIPAL: http://DemosSubscriptionSP
+          SERVICE_PRINCIPAL_TENANT: 72f988bf-86f1-41af-91ab-2d7cd011db47
+          RESOURCE_GROUP: TailwindTraders-Web-Ignite-RG
+          WEB_APP_NAME: abeltailwindstraders
+        run: |
+          az login --service-principal --username %SERVICE_PRINCIPAL% --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} --tenant %SERVICE_PRINCIPAL_TENANT%
+          az webapp deployment slot delete --name %WEB_APP_NAME% --resource-group %RESOURCE_GROUP% --slot TailwindsTraders-pr-${{ steps.getPRValuesStep.outputs.number}}
+
