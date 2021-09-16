@@ -1,0 +1,35 @@
+name: CI Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  buildImage:
+    name: Build and Push Docker Image
+    runs-on: self-hosted
+
+    steps:
+
+    # checkout code
+    - name: checkout branch
+      uses: actions/checkout@v2
+
+    # authenticate into Azure Container Registry
+    - name: "docker login"
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.CONTAINER_REGISTRY }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    # Build and push container image
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: ${{ secrets.CONTAINER_REGISTRY }}/tailwindtraders-ado40:${{ github.sha }}
+        context: ./TailwindTraders.Website/Source/Tailwind.Traders.Web/
