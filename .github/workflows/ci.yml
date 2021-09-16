@@ -39,9 +39,48 @@ jobs:
         tags: ${{ secrets.CONTAINER_REGISTRY }}/tailwindtraders-ado40:${{ github.sha }}
         context: ./TailwindTraders.Website/Source/Tailwind.Traders.Web/
 
-  deployToProduction:
+  deployToUserAcceptanceTesting:
     runs-on: self-hosted
     needs: buildImage
+    environment:
+      name: User Acceptance Testing
+      url: 'https://${{ env.WEBAPP_NAME }}-uat.azurewebsites.net'
+
+    steps:
+      # checkout branch
+      - name: git checkout main branch
+        uses: actions/checkout@v2
+
+      # log into Azure
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy website to Azure
+      - name: "Deploy Website"
+        run: |
+          az deployment sub create --name ${{ env.RG_NAME }} \
+          --location ${{ env.LOCATION }} \
+          --template-file ./main.bicep \
+          --parameters location=${{ env.LOCATION }} \
+          --parameters rgName=${{ env.RG_NAME }} \
+          --parameters webAppName=${{ env.WEBAPP_NAME }}-uat \
+          --parameters dockerRegistryHost=${{ secrets.CONTAINER_REGISTRY }} \
+          --parameters dockerRegistryServerUsername=${{ secrets.REGISTRY_USERNAME }} \
+          --parameters dockerRegistryServerPassword=${{ secrets.REGISTRY_PASSWORD }} \
+          --parameters dockerImage='DOCKER|${{ secrets.CONTAINER_REGISTRY }}/tailwindtraders-ado40:${{ github.sha }}'
+        working-directory: ./TailwindTraders.Website/Deploy
+
+      - name: Azure Logout
+        run: |
+          az logout
+          az cache purge
+          az account clear
+
+  deployToProduction:
+    runs-on: self-hosted
+    needs: deployToUserAcceptanceTesting
     environment:
       name: Production
       url: 'https://${{ env.WEBAPP_NAME }}.azurewebsites.net'
