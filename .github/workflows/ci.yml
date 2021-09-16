@@ -3,7 +3,12 @@ name: CI Build
 on:
   push:
     branches:
-      - main
+      - devbranch
+
+env:
+  RG_NAME: 'twt-website'
+  LOCATION: 'eastus'
+  WEBAPP_NAME: 'twt-web-main'
 
 env:
   RG_NAME: 'twt-website'
