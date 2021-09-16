@@ -6,7 +6,7 @@ param dockerRegistryHost string = 'yourregistry.azurecr.io'
 param dockerRegistryServerUsername string = 'yourregistry'
 param dockerRegistryServerPassword string = 'somepassword'
 param dockerImage string = 'DOCKER|yourregistry.azurecr.io/imagename'
-param stagingDockerImage string = 'DOCKER|yourregistry.azurecr.io/imagename'
+
 
 var appServicePlanName = toLower('appsvc-${webAppName}')
 var webSiteName = toLower('${webAppName}')
@@ -59,44 +59,6 @@ resource appService 'Microsoft.Web/sites@2020-06-01' = {
         }
       ]
       linuxFxVersion: dockerImage
-    }
-  }
-}
-
-resource stagingSlot 'Microsoft.Web/sites/slots@2020-12-01' = {
-  name: '${appService.name}/staging'
-  kind: 'app'
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id
-    siteConfig: {
-      linuxFxVersion: stagingDockerImage
-      appSettings: [
-        {
-          name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
-          value: 'false'
-        }
-        {
-          name: 'ApiUrl'
-          value: '${apiBaseUrl}/webbff/v1'
-        }
-        {
-          name: 'ApiUrlShoppingCart'
-          value: '${apiBaseUrl}/cart-api'
-        }
-        {
-          name: 'DOCKER_REGISTRY_SERVER_URL'
-          value: 'https://${dockerRegistryHost}'
-        }
-        {
-          name: 'DOCKER_REGISTRY_SERVER_USERNAME'
-          value: dockerRegistryServerUsername
-        }
-        {
-          name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
-          value: dockerRegistryServerPassword
-        }
-      ]
     }
   }
 }

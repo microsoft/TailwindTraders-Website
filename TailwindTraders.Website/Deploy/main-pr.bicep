@@ -9,7 +9,7 @@ param dockerRegistryHost string = 'yourregistry.azurecr.io'
 param dockerRegistryServerUsername string = 'yourregistry'
 param dockerRegistryServerPassword string = 'somepassword'
 param dockerImage string = 'DOCKER|yourregistry.azurecr.io/imagename'
-param stagingDockerImage string = 'DOCKER|yourregistry.azurecr.io/imagename'
+
 
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: rgName
@@ -28,7 +28,6 @@ module WebApp './webapp.bicep' = {
     dockerRegistryServerUsername: dockerRegistryServerUsername
     dockerRegistryServerPassword: dockerRegistryServerPassword
     dockerImage: dockerImage
-    stagingDockerImage: stagingDockerImage
   }
 }
 
