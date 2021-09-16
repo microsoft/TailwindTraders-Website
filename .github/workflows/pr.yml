@@ -1,14 +1,13 @@
-name: CI Build
+name: PR Build
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 env:
-  RG_NAME: 'twt-website'
+  RG_NAME: 'twt-website-${{ github.event.pull_request.number}}'
   LOCATION: 'eastus'
-  WEBAPP_NAME: 'twt-web-main'
+  WEBAPP_NAME: 'twt-ado40-pr-${{ github.event.pull_request.number}}'
 
 jobs:
 
@@ -39,11 +38,11 @@ jobs:
         tags: ${{ secrets.CONTAINER_REGISTRY }}/tailwindtraders-ado40:${{ github.sha }}
         context: ./TailwindTraders.Website/Source/Tailwind.Traders.Web/
 
-  deployToProduction:
+  deployPrEnvironment:
     runs-on: self-hosted
     needs: buildImage
     environment:
-      name: Production
+      name: PR
       url: 'https://${{ env.WEBAPP_NAME }}.azurewebsites.net'
 
     steps:

@@ -1,0 +1,27 @@
+name: PR Close
+
+on:
+  pull_request:
+    types: [closed]
+
+env:
+  RG_NAME: 'twt-web-${{ github.event.pull_request.number}}'
+
+jobs:
+  removeInfra:
+    runs-on: self-hosted
+    steps:
+      # log into Azure
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Remove ${{ env.RG_NAME }}
+        run: |
+          az group delete --name ${{ env.RG_NAME }} --yes
+      
+      - name: Azure Logout
+        run: |
+          az logout
+          az cache purge
+          az account clear
