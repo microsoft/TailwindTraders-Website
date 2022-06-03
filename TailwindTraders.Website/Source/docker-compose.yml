@@ -12,7 +12,7 @@ services:
       - B2CAuth:ClientId=
       - B2CAuth:Authority=
       - B2CAuth:Scopes=
-      - Acs__ConnectionString=
+      - Acs__ConnectionString=endpoint=
       - Acs__Resource=
       - Email=
       - LogicAppUrl=
