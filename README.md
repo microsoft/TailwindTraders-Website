@@ -20,7 +20,7 @@ For this demo reference, we built several consumer and line-of-business applicat
 - [Rewards (ASP.NET Framework)](https://github.com/Microsoft/TailwindTraders-Rewards)
 - [Mobile (Xamarin Forms 4.0)](https://github.com/Microsoft/TailwindTraders-Mobile)
 
-# Deploy to Azure
+# Deploy to Azure Web Apps
 
 With the following ARM template you can automate the creation of the resources for this website.
 
