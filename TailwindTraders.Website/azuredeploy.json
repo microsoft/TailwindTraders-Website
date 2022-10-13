@@ -277,7 +277,7 @@
           "location": "[variables('locationCode')]",
           "name": "AllowAllWindowsAzureIps",
           "properties": {
-            "endIpAddress": "1.1.1.1",
+            "endIpAddress": "0.0.0.0",
             "startIpAddress": "0.0.0.0"
           },
           "type": "firewallrules"
