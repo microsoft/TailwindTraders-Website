@@ -24,7 +24,7 @@
     "node-sass": "^4.14.1",
     "office-ui-fabric-react": "^7.170.0",
     "prop-types": "^15.6.2",
-    "qs": "^6.10.1",
+    "qs": "^6.10.3",
     "react": "^16.14.0",
     "react-a11y-dialog": "^4.2.0",
     "react-dom": "^16.14.0",
