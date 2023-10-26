@@ -33,7 +33,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-s-alert": "^1.4.1",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
     "react-scroll": "^1.8.2",
     "recompose": "^0.30.0",
     "redux": "^4.1.0",
